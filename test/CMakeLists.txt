@@ -1,4 +1,4 @@
-find_package(Catch2 CONFIG REQUIRED)
+find_package(GTest CONFIG REQUIRED)
 
 add_executable(test test.cpp)
-target_link_libraries(test PUBLIC Catch2::Catch2 Catch2::Catch2WithMain)
+target_link_libraries(test PUBLIC GTest::gtest_main)
