@@ -2,3 +2,5 @@
 .vscode
 build/
 vcpkg-configuration.json
+log/
+lib/
