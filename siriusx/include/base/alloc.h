@@ -4,7 +4,7 @@
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-01-04 17:35:17
  * @FilePath: /SiriusX-infer/siriusx/include/base/alloc.h
- * @Description:
+ * @Description: 设备资源管理器
  */
 #ifndef ALLOC_H_
 #define ALLOC_H_
@@ -48,7 +48,7 @@ class DeviceAllocator {
      * @param {size_t} byte_size 字节数
      * @param {MemcpyKind} memcpy_kind 拷贝类型
      * @param {void*} stream 流
-     * @param {bool} need_sync CUDA是否需要同步
+     * @param {bool} need_sync 显存拷贝后进行同步，额外调用cudaDeviceSynchronize()
      */
     // const表示函数不会修改成员变量
     // 虚函数被声明为const时，任何派生类的实现也必须遵守这个约定。

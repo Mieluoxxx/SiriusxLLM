@@ -2,7 +2,7 @@
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-01-02 16:44:41
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-01-06 13:30:02
+ * @LastEditTime: 2025-01-06 13:37:49
  * @FilePath: /SiriusX-infer/README.md
  * @Description: 
 -->
@@ -30,6 +30,7 @@ ctrl+alt+t 快速生成函数注释
 
 ## 注意事项
 CMakeLists.txt中需要添加`set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")`
+
 vcpkg x-update-baseline --add-initial-baseline 
 
 ## 碎碎念

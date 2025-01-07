@@ -1,49 +1,45 @@
-/***
+/*** 
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-01-04 17:27:16
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-01-04 17:30:30
+ * @LastEditTime: 2025-01-07 16:25:06
  * @FilePath: /SiriusX-infer/siriusx/src/base/buffer.cpp
- * @Description:
+ * @Description: 
  */
 #include "base/buffer.h"
 
 #include <glog/logging.h>
 
 namespace base {
-Buffer::Buffer(size_t byte_size, std::shared_ptr<DeviceAllocator> allocator, void* ptr,
-               bool use_external)
+Buffer::Buffer(size_t byte_size, std::shared_ptr<DeviceAllocator> allocator,
+               void* ptr, bool use_external)
     : byte_size_(byte_size),
       allocator_(allocator),
       ptr_(ptr),
       use_external_(use_external) {
-  if (!ptr_ && allocator_) {
-    device_type_ = allocator_->device_type();
-    use_external_ = false;
-    ptr_ = allocator_->allocate(byte_size);
-  }
+    // 不具备指针所属权，Buffer不对其进行管理，不会调用接下来的资源申请流程
+    if (!ptr_ && allocator_) {
+        device_type_ = allocator_->device_type();
+        use_external_ = false;
+        ptr_ = allocator_->allocate(byte_size);
+    }
 }
 
 Buffer::~Buffer() {
-  if (!use_external_) {
-    if (ptr_ && allocator_) {
-      allocator_->release(ptr_);
-      ptr_ = nullptr;
+    // 如果不是外部指针，且存在内存分配器，则释放内存
+    if (!use_external_) {
+        if (ptr_ && allocator_) {
+            allocator_->release(ptr_);
+            ptr_ = nullptr;
+        }
     }
-  }
 }
 
-void* Buffer::ptr() {
-  return ptr_;
-}
+void* Buffer::ptr() { return ptr_; }
 
-const void* Buffer::ptr() const {
-  return ptr_;
-}
+const void* Buffer::ptr() const { return ptr_; }
 
-size_t Buffer::byte_size() const {
-  return byte_size_;
-}
+size_t Buffer::byte_size() const { return byte_size_; }
 
 std::shared_ptr<DeviceAllocator> Buffer::allocator() const {
     return allocator_;
