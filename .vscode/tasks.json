@@ -1,0 +1,36 @@
+{
+    "version": "2.0.0",
+    "options": {
+        "cwd": "${workspaceFolder}/build"
+    },
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "cmake",
+            "command": "cmake",
+            "args": [
+                "..",
+                "-DCMAKE_TOOLCHAIN_FILE=/Users/moguw/.vcpkg/scripts/buildsystems/vcpkg.cmake"
+            ]
+        },
+        {
+            "label": "ninja",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "command": "ninja", 
+            "args":[
+
+            ]
+        },
+        {
+            "label": "Build",
+            "dependsOrder": "sequence",
+            "dependsOn":[
+                "cmake",
+                "ninja"
+            ]
+        }
+    ]
+}

@@ -1,6 +1,7 @@
 .DS_STORE
-.vscode
 build/
 vcpkg-configuration.json
 log/
 lib/
+.cache/
+tmp/
