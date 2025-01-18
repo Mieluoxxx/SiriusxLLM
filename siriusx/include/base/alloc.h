@@ -1,13 +1,14 @@
-/***
+/*** 
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-01-02 17:34:31
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-01-04 17:35:17
+ * @LastEditTime: 2025-01-18 23:08:24
  * @FilePath: /SiriusX-infer/siriusx/include/base/alloc.h
- * @Description: 设备资源管理器
+ * @Description: 
  */
-#ifndef ALLOC_H_
-#define ALLOC_H_
+
+#ifndef BASE_ALLOC_H_
+#define BASE_ALLOC_H_
 
 #include <glog/logging.h>
 
@@ -48,7 +49,8 @@ class DeviceAllocator {
      * @param {size_t} byte_size 字节数
      * @param {MemcpyKind} memcpy_kind 拷贝类型
      * @param {void*} stream 流
-     * @param {bool} need_sync 显存拷贝后进行同步，额外调用cudaDeviceSynchronize()
+     * @param {bool} need_sync
+     * 显存拷贝后进行同步，额外调用cudaDeviceSynchronize()
      */
     // const表示函数不会修改成员变量
     // 虚函数被声明为const时，任何派生类的实现也必须遵守这个约定。
@@ -73,7 +75,7 @@ class CPUDeviceAllocator : public DeviceAllocator {
     void release(void* ptr) const override;
 };
 
-// CPU设备资源管理器工厂类
+// CPU设备资源管理器专有工厂类
 class CPUDeviceAllocatorFactory {
    public:
     // 获取CPU设备资源管理器实例
@@ -86,24 +88,6 @@ class CPUDeviceAllocatorFactory {
 
    private:
     static std::shared_ptr<CPUDeviceAllocator> instance;
-};
-
-// 设备资源管理器工厂类
-class DeviceAllocatorFactory {
-   public:
-    // 获取设备资源管理器实例
-    static std::shared_ptr<DeviceAllocator> get_instance(
-        DeviceType device_type) {
-        if (device_type == DeviceType::CPU) {
-            return CPUDeviceAllocatorFactory::get_instance();
-        } else if (device_type == DeviceType::CUDA) {
-            LOG(WARNING) << "Not implemented yet.";
-            return nullptr;
-        } else {
-            // LOG(FATAL) << "This device type of allocator is not supported!";
-            return nullptr;
-        }
-    }
 };
 
 }  // namespace base

@@ -2,7 +2,7 @@
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-01-04 17:27:16
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-01-07 16:25:06
+ * @LastEditTime: 2025-01-18 23:04:57
  * @FilePath: /SiriusX-infer/siriusx/src/base/buffer.cpp
  * @Description: 
  */
@@ -67,8 +67,8 @@ void Buffer::copy_from(const Buffer* buffer) const {
     CHECK(allocator_ != nullptr);
     CHECK(buffer != nullptr || buffer->ptr_ != nullptr);
 
-    size_t src_size = byte_size_;
-    size_t dest_size = buffer->byte_size_;
+    size_t dest_size = byte_size_;
+    size_t src_size = buffer->byte_size_;
     size_t byte_size = src_size < dest_size ? src_size : dest_size;
     const DeviceType& buffer_device = buffer->device_type();
     const DeviceType& current_device = this->device_type();
