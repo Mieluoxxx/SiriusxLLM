@@ -2,12 +2,13 @@
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-01-04 17:05:31
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-01-04 17:12:15
+ * @LastEditTime: 2025-01-15 20:45:11
  * @FilePath: /SiriusX-infer/siriusx/src/base/alloc_cpu.cpp
  * @Description:
  */
 #include <glog/logging.h>
-#include <cstdlib>
+
+
 #include "base/alloc.h"
 
 #if (defined(_POSIX_ADVISORY_INFO) && (_POSIX_ADVISORY_INFO >= 200112L))
