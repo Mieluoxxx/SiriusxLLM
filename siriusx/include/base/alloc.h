@@ -90,6 +90,8 @@ class CPUDeviceAllocatorFactory {
     static std::shared_ptr<CPUDeviceAllocator> instance;
 };
 
+// TODO : GPU设备资源管理器
+
 }  // namespace base
 
 #endif

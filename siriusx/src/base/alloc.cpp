@@ -19,7 +19,7 @@ void DeviceAllocator::memcpy(const void* src_ptr, void* dest_ptr,
 
     if (memcpy_kind == MemcpyKind::CPU2CPU) {
         std::memcpy(dest_ptr, src_ptr, byte_size);
-    } else {
+    } else { // TODO 对于其他三种拷贝类型的实现
         LOG(FATAL) << "Unknown memcpy kind: " << int(memcpy_kind);
     }
 }
@@ -29,7 +29,7 @@ void DeviceAllocator::memset_zero(void* ptr, size_t byte_size, void* stream,
     CHECK(device_type_ != DeviceType::Unknown);
     if (device_type_ == base::DeviceType::CPU) {
         std::memset(ptr, 0, byte_size);
-    } else {
+    } else { // TODO 对于CUDA设备的置零操作的实现
         LOG(WARNING) << "Not implemented yet.";
         std::abort();
     }

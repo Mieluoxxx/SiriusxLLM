@@ -2,7 +2,7 @@
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-01-04 17:27:16
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-01-18 23:04:57
+ * @LastEditTime: 2025-01-19 20:31:56
  * @FilePath: /SiriusX-infer/siriusx/src/base/buffer.cpp
  * @Description: 
  */
@@ -57,7 +57,7 @@ void Buffer::copy_from(const Buffer& buffer) const {
           current_device != DeviceType::Unknown);
     if (buffer_device == DeviceType::CPU && current_device == DeviceType::CPU) {
         return allocator_->memcpy(buffer.ptr(), this->ptr_, byte_size);
-    } else {
+    } else { // TODO 对于其他类型的设备的实现，如需要使用cuda流进行异步拷贝
         LOG(WARNING) << "Not implemented yet.";
         std::abort();
     }
@@ -76,7 +76,7 @@ void Buffer::copy_from(const Buffer* buffer) const {
           current_device != DeviceType::Unknown);
     if (buffer_device == DeviceType::CPU && current_device == DeviceType::CPU) {
         return allocator_->memcpy(buffer->ptr_, this->ptr_, byte_size);
-    } else {
+    } else { // TODO 对于其他类型的设备的实现，如需要使用cuda流进行异步拷贝
         LOG(WARNING) << "Not implemented yet.";
         std::abort();
     }
