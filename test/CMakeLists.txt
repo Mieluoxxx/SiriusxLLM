@@ -14,6 +14,7 @@ add_executable(my_test
     ${DIR_TEST_TENSOR}
     ${DIR_TEST_OP}
 )
+
 target_link_libraries(my_test PUBLIC GTest::gtest_main GTest::gtest glog::glog llama)
 target_include_directories(my_test PUBLIC
     ${glog_INCLUDE_DIR}
