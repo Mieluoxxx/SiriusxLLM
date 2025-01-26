@@ -18,14 +18,14 @@ find_package(glog CONFIG REQUIRED)
 # ------------------------------------
 aux_source_directory(siriusx/src/base/ DIR_BASE)
 aux_source_directory(siriusx/src/tensor/ DIR_TENSOR)
+aux_source_directory(siriusx/src/op/ DIR_OP)
 
 # ------------------------------------
-# 设置cmake动态库
 # set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 
 # ------------------------------------
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
-add_library(llama STATIC ${DIR_BASE} ${DIR_TENSOR})
+add_library(llama STATIC ${DIR_BASE} ${DIR_TENSOR} ${DIR_OP})
 target_link_libraries(llama PUBLIC GTest::gtest_main GTest::gtest glog::glog)
 target_include_directories(llama PUBLIC ${glog_INCLUDE_DIR})
 target_include_directories(llama PUBLIC ${PROJECT_SOURCE_DIR}/siriusx/include)
