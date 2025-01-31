@@ -1,11 +1,8 @@
 {
-    // C++ 配置
-    "C_Cpp.default.cppStandard": "c++17",
-    // cmake 配置
-    "cmake.configureArgs": [
-        "-DCMAKE_TOOLCHAIN_FILE=/Users/moguw/.vcpkg/scripts/buildsystems/vcpkg.cmake",
-    ],
-    "cmake.generator": "Ninja",
-    // CMake 配置
-    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
+  "C_Cpp.default.cppStandard": "c++17",
+  "cmake.configureArgs": [
+    "-DCMAKE_TOOLCHAIN_FILE=/Users/moguw/.vcpkg/scripts/buildsystems/vcpkg.cmake"
+  ],
+  "cmake.generator": "Ninja",
+  "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
 }
