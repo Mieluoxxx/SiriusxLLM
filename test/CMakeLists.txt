@@ -1,5 +1,5 @@
+include(../cmake/cuda.cmake)
 find_package(GTest CONFIG REQUIRED)
-
 find_package(glog CONFIG REQUIRED)
 
 aux_source_directory(../test DIR_TEST)
@@ -21,3 +21,5 @@ target_include_directories(my_test PUBLIC
     ${GTest_INCLUDE_DIR}
     ${PROJECT_SOURCE_DIR}/siriusx/include
 )
+
+set_target_properties(my_test PROPERTIES CUDA_SEPARABLE_COMPILATION ON)

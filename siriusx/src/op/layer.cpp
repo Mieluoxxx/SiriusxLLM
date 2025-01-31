@@ -10,7 +10,7 @@
 
 #include <cstddef>
 #include <numeric>
-
+#include <cstdarg>
 #include "base/base.h"
 
 namespace op {
@@ -78,7 +78,7 @@ base::Status Layer::check_tensor(const tensor::Tensor& tensor,
 base::Status Layer::check_tensor_with_dim(const tensor::Tensor& tensor,
                                           base::DeviceType device_type,
                                           base::DataType data_type, ...) const {
-    std::va_list args;
+    va_list args;
     if (tensor.is_empty()) {
         return base::error::InvalidArgument("The tensor parameter is empty.");
     }
