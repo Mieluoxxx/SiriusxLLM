@@ -9,9 +9,11 @@
             "label": "cmake",
             "command": "cmake",
             "args": [
-                "..",
-                "-DCMAKE_TOOLCHAIN_FILE=/home/moguw/.vcpkg/scripts/buildsystems/vcpkg.cmake"
-            ]
+                "--build",
+                "${workspaceFolder}/build",
+                "--config",
+                "Release"
+            ],
         },
         {
             "label": "ninja",

@@ -9,22 +9,31 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 # 设置构建类型
 set(CMAKE_BUILD_TYPE "Debug")
 
-# 设置项目名称和语言
-project(siriusx-infer LANGUAGES CXX CUDA)
-
 # 设置工具链文件（如果使用 vcpkg）
 set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
 
-include(cmake/cuda.cmake)
-# 设置 CUDA 编译器
-set(CMAKE_CUDA_COMPILER "/opt/cuda/bin/nvcc")
-message(STATUS "CMAKE_CUDA_ARCHITECTURES: ${CMAKE_CUDA_ARCHITECTURES}")
+# 设置项目名称和语言
+project(siriusx-infer LANGUAGES CXX)
 
-# 设置 C++ 和 CUDA 标准
+# 添加一个选项来决定是否使用 CUDA
+option(USE_CUDA "Enable CUDA support" OFF)
+
+# 如果用户选择使用 CUDA
+if(USE_CUDA)
+    # 添加 CUDA 语言支持
+    enable_language(CUDA)
+    include(cmake/cuda.cmake)
+    # 设置 CUDA 编译器
+    set(CMAKE_CUDA_COMPILER "/opt/cuda/bin/nvcc")
+    message(STATUS "CMAKE_CUDA_ARCHITECTURES: ${CMAKE_CUDA_ARCHITECTURES}")
+    # 设置 CUDA 标准
+    set(CMAKE_CUDA_STANDARD 17)
+    set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+endif()
+
+# 设置 C++ 标准
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CUDA_STANDARD 17)
-set(CMAKE_CUDA_STANDARD_REQUIRED ON)
 
 # 查找依赖包
 find_package(GTest CONFIG REQUIRED)
@@ -51,22 +60,28 @@ target_link_libraries(llama PUBLIC
     glog::glog
     armadillo
     pthread
-    cudart
 )
 
-# 设置库的链接目录
-target_link_directories(llama PUBLIC ${CMAKE_CUDA_COMPILER_LIBRARY_ROOT}/lib64)
+# 如果使用 CUDA，添加 CUDA 相关的链接依赖
+if(USE_CUDA)
+    target_link_libraries(llama PUBLIC cudart)
+    # 设置库的链接目录
+    target_link_directories(llama PUBLIC ${CMAKE_CUDA_COMPILER_LIBRARY_ROOT}/lib64)
+    # 设置 CUDA 可分离编译
+    set_target_properties(llama PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+endif()
 
 # 设置库的包含目录
 target_include_directories(llama PUBLIC
     ${glog_INCLUDE_DIR}
     ${PROJECT_SOURCE_DIR}/siriusx/include
     ${Armadillo_INCLUDE_DIR}
-    ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES}
 )
 
-# 设置 CUDA 可分离编译
-set_target_properties(llama PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+# 如果使用 CUDA，添加 CUDA 相关的包含目录
+if(USE_CUDA)
+    target_include_directories(llama PUBLIC ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
+endif()
 
 # 添加子目录（例如测试目录）
 add_subdirectory(test)
