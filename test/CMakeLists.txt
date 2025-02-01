@@ -1,8 +1,3 @@
-# 包含 CUDA 配置文件（如果 USE_CUDA 为 ON）
-if(USE_CUDA)
-    include(../cmake/cuda.cmake)
-endif()
-
 # 查找依赖包
 find_package(GTest CONFIG REQUIRED)
 find_package(glog CONFIG REQUIRED)

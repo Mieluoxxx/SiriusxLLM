@@ -12,16 +12,17 @@ cmake(v3.20)、vcpkg、g++/clang++(支持C++17)、ninja
 ## 启动命令
 
 ```bash
+# 选择CUDA对应的gcc版本
+export CXX=/usr/bin/g++-13
+
 vcpkg new --application
 vcpkg add port xxx
 vcpkg x-update-baseline --add-initial-baseline 
 ```
 
 
-## 额外插件
-`C++ TestMate`
-
-`koroFileHeader`
+## 好用的插件
+`C++ TestMate`、`koroFileHeader`
 ```bash
 # macos
 ctrl+cmd+i 快速生成头部注释
@@ -30,7 +31,6 @@ ctrl+cmd+t 快速生成函数注释
 ctrl+alt+i 快速生成头部注释
 ctrl+alt+t 快速生成函数注释
 ```
-
 `Todo Tree`
 
 
@@ -39,9 +39,13 @@ CMakeLists.txt中需要添加`set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts
 
 vcpkg x-update-baseline --add-initial-baseline 
 
+CUDA需要对应的gcc版本（ArchLinux需要注意）
+
+
 ## 碎碎念
 `include/base/alloc.h`中蕴含的设计模式思想值得学习
 `vcpkg`的glog默认是**静态库**，
+
 
 ## NVIDIA-Docker
 ```bash
