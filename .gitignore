@@ -5,3 +5,5 @@ log/
 lib/
 .cache/
 tmp/
+vcpkg_installed/
+.vscode/settings.json

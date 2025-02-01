@@ -8,13 +8,12 @@ case $current_platform in
     "Linux")
         settings='{
             "C_Cpp.default.cppStandard": "c++17",
+            "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
             "cmake.configureArgs": [
-                "-DCMAKE_TOOLCHAIN_FILE=/home/moguw/.vcpkg/scripts/buildsystems/vcpkg.cmake",
-                "-DCMAKE_MAKE_PROGRAM=/usr/bin/ninja",
-                "-DCMAKE_CUDA_COMPILER=/opt/cuda/bin/nvcc"
+                "-DVCPKG_INSTALLED_DIR=/home/moguw/workspace/siriusx-infer/vcpkg_installed",
+                "-DUSE_CUDA=ON"
             ],
             "cmake.generator": "Ninja",
-            "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
         }'
         ;;
     "Darwin")

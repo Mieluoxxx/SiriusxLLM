@@ -1,8 +1,0 @@
-{
-  "C_Cpp.default.cppStandard": "c++17",
-  "cmake.configureArgs": [
-    "-DCMAKE_TOOLCHAIN_FILE=/Users/moguw/.vcpkg/scripts/buildsystems/vcpkg.cmake"
-  ],
-  "cmake.generator": "Ninja",
-  "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
-}

@@ -9,31 +9,38 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 # 设置构建类型
 set(CMAKE_BUILD_TYPE "Debug")
 
-# 设置工具链文件（如果使用 vcpkg）
-set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
-
-# 设置项目名称和语言
-project(siriusx-infer LANGUAGES CXX)
-
-# 添加一个选项来决定是否使用 CUDA
+# 添加 USE_CUDA 选项，默认值为 ON
 option(USE_CUDA "Enable CUDA support" OFF)
 
-# 如果用户选择使用 CUDA
 if(USE_CUDA)
-    # 添加 CUDA 语言支持
-    enable_language(CUDA)
-    include(cmake/cuda.cmake)
-    # 设置 CUDA 编译器
-    set(CMAKE_CUDA_COMPILER "/opt/cuda/bin/nvcc")
-    message(STATUS "CMAKE_CUDA_ARCHITECTURES: ${CMAKE_CUDA_ARCHITECTURES}")
+    if(MSVC)
+        # Setting this to true brakes Visual Studio builds.
+        set(CUDA_ATTACH_VS_BUILD_RULE_TO_CUDA_FILE OFF CACHE BOOL "CUDA_ATTACH_VS_BUILD_RULE_TO_CUDA_FILE")
+    endif()
+    # 符合我设备的 CUDA 版本制定编译期
+    set(CMAKE_CUDA_COMPILER nvcc)
     # 设置 CUDA 标准
+    set(ENV{CXX} g++-13)
     set(CMAKE_CUDA_STANDARD 17)
-    set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+    set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} --expt-relaxed-constexpr --expt-extended-lambda -ccbin ${CMAKE_CXX_COMPILER}")
+    if(NOT DEFINED CMAKE_CUDA_ARCHITECTURES AND CMAKE_VERSION VERSION_GREATER_EQUAL 3.24)
+        set(CMAKE_CUDA_ARCHITECTURES native)
+    endif()
 endif()
+
+set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
 
 # 设置 C++ 标准
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# 设置项目名称和语言
+project(siriusx-infer LANGUAGES CXX)
+
+if(USE_CUDA)
+    enable_language(CUDA)
+    list(APPEND CMAKE_PROJECT_LANGUAGES CUDA)
+endif()
 
 # 查找依赖包
 find_package(GTest CONFIG REQUIRED)
@@ -62,7 +69,6 @@ target_link_libraries(llama PUBLIC
     pthread
 )
 
-# 如果使用 CUDA，添加 CUDA 相关的链接依赖
 if(USE_CUDA)
     target_link_libraries(llama PUBLIC cudart)
     # 设置库的链接目录
@@ -78,9 +84,9 @@ target_include_directories(llama PUBLIC
     ${Armadillo_INCLUDE_DIR}
 )
 
-# 如果使用 CUDA，添加 CUDA 相关的包含目录
 if(USE_CUDA)
     target_include_directories(llama PUBLIC ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
+    add_definitions(-DUSE_CUDA)
 endif()
 
 # 添加子目录（例如测试目录）
