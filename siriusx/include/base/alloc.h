@@ -7,8 +7,8 @@
  * @Description:
  */
 
-#ifndef BASE_ALLOC_H_
-#define BASE_ALLOC_H_
+#ifndef BASE_ALLOC_H
+#define BASE_ALLOC_H
 
 #include <glog/logging.h>
 
@@ -129,4 +129,4 @@ class CUDADeviceAllocatorFactory {
 #endif  // USE_CUDA
 }  // namespace base
 
-#endif
+#endif // SIRIUSX_BASE_ALLOC_H

@@ -1,13 +1,13 @@
-/***
+/*
  * @Author: Morgan Woods weiyiding0@gmail.com
- * @Date: 2025-01-04 17:18:08
+ * @Date: 2025-01-31 03:08:29
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-01-15 21:13:34
- * @FilePath: /SiriusX-infer/siriusx/include/base/buffer.h
- * @Description:
+ * @LastEditTime: 2025-02-07 21:43:15
+ * @FilePath: /siriusx-infer/siriusx/include/base/buffer.h
+ * @Description: 
  */
-#ifndef BASE_BUFFER_H_
-#define BASE_BUFFER_H_
+#ifndef BASE_BUFFER_H
+#define BASE_BUFFER_H
 
 #include <memory>
 
@@ -59,4 +59,4 @@ class Buffer : public NoCopyable, std::enable_shared_from_this<Buffer> {
 };
 }  // namespace base
 
-#endif
+#endif // BASE_BUFFER_H
