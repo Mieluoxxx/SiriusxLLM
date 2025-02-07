@@ -1,10 +1,10 @@
-/*** 
+/***
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-01-02 17:34:31
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-01-18 23:08:24
  * @FilePath: /SiriusX-infer/siriusx/include/base/alloc.h
- * @Description: 
+ * @Description:
  */
 
 #ifndef BASE_ALLOC_H_
@@ -12,6 +12,7 @@
 
 #include <glog/logging.h>
 
+#include <map>
 #include <memory>
 
 #include "base.h"
@@ -90,8 +91,42 @@ class CPUDeviceAllocatorFactory {
     static std::shared_ptr<CPUDeviceAllocator> instance;
 };
 
-// TODO : GPU设备资源管理器
+#ifdef USE_CUDA
+// GPU设备资源管理器
+struct CudaMemoryBuffer {
+    void* data;
+    size_t byte_size;
+    bool busy;
+    CudaMemoryBuffer() = default;
+    CudaMemoryBuffer(void* data, size_t byte_size, bool busy)
+        : data(data), byte_size(byte_size), busy(busy) {}
+};
 
+class CUDADeviceAllocator : public DeviceAllocator {
+   public:
+    explicit CUDADeviceAllocator();
+    void* allocate(size_t byte_size) const override;
+    void release(void* ptr) const override;
+
+   private:
+    mutable std::map<int, size_t> no_busy_cnt_;
+    mutable std::map<int, std::vector<CudaMemoryBuffer>> big_buffers_map_;
+    mutable std::map<int, std::vector<CudaMemoryBuffer>> cuda_buffers_map_;
+};
+
+class CUDADeviceAllocatorFactory {
+   public:
+    static std::shared_ptr<CUDADeviceAllocator> get_instance() {
+        if (instance == nullptr) {
+            instance = std::make_shared<CUDADeviceAllocator>();
+        }
+        return instance;
+    }
+
+   private:
+    static std::shared_ptr<CUDADeviceAllocator> instance;
+};
+#endif  // USE_CUDA
 }  // namespace base
 
 #endif

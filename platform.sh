@@ -1,4 +1,12 @@
 #!/usr/bin/env sh
+###
+ # @Author: Morgan Woods weiyiding0@gmail.com
+ # @Date: 2025-02-01 06:47:05
+ # @LastEditors: Morgan Woods weiyiding0@gmail.com
+ # @LastEditTime: 2025-02-07 21:41:56
+ # @FilePath: /siriusx-infer/platform.sh
+ # @Description: 
+### 
 
 # 获取当前平台
 current_platform=$(uname -s)
@@ -10,20 +18,23 @@ case $current_platform in
             "C_Cpp.default.cppStandard": "c++17",
             "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
             "cmake.configureArgs": [
+                "-DCMAKE_TOOLCHAIN_FILE=/home/moguw/.vcpkg/scripts/buildsystems/vcpkg.cmake",
                 "-DVCPKG_INSTALLED_DIR=/home/moguw/workspace/siriusx-infer/vcpkg_installed",
                 "-DUSE_CUDA=ON"
             ],
-            "cmake.generator": "Ninja",
+            "cmake.generator": "Ninja"
         }'
         ;;
     "Darwin")
         settings='{
             "C_Cpp.default.cppStandard": "c++17",
+            "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
             "cmake.configureArgs": [
-                "-DCMAKE_TOOLCHAIN_FILE=/Users/moguw/.vcpkg/scripts/buildsystems/vcpkg.cmake"
+                "-DVCPKG_INSTALLED_DIR=/Users/moguw/workspace/SiriusX-infer/vcpkg_installed",
+                "-DCMAKE_MAKE_PROGRAM=/opt/homebrew/bin/ninja",
+                "-DCMAKE_CXX_COMPILER=/usr/bin/c++"
             ],
-            "cmake.generator": "Ninja",
-            "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
+            "cmake.generator": "Ninja"
         }'
         ;;
     "Windows"|"CYGWIN"*|"MINGW"*|"MSYS"*)
