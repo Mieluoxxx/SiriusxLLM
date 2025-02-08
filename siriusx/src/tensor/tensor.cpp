@@ -123,6 +123,7 @@ Tensor::Tensor(base::DataType data_type, std::vector<int32_t> dims,
     }
 }
 
+#ifdef USE_CUDA
 void Tensor::to_cuda(cudaStream_t stream) {
     CHECK_NE(buffer_, nullptr);
     const base::DeviceType device_type = this->device_type();
@@ -139,6 +140,19 @@ void Tensor::to_cuda(cudaStream_t stream) {
         LOG(INFO) << "The device type of the tensor is already cuda.";
     }
 }
+#else 
+void Tensor::to_cuda(cudaStream_t stream) {
+    CHECK_NE(buffer_, nullptr);
+    const base::DeviceType device_type = this->device_type();
+    if (device_type == base::DeviceType::Unknown) {
+        LOG(ERROR) << "The device type of the tensor is unknown.";
+    } else if (device_type == base::DeviceType::CPU) {
+        LOG(ERROR) << "The device type of the tensor is cpu.";
+    } else {
+        LOG(INFO) << "The device type of the tensor is already cuda.";
+    }
+}
+#endif
 
 void Tensor::to_cpu() {
     CHECK_NE(buffer_, nullptr);

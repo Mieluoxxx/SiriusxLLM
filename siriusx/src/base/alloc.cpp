@@ -1,14 +1,12 @@
-/*
+/*** 
  * @Author: Morgan Woods weiyiding0@gmail.com
- * @Date: 2025-01-31 03:08:29
+ * @Date: 2025-02-08 19:16:16
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-02-07 21:26:45
+ * @LastEditTime: 2025-02-08 19:23:05
  * @FilePath: /siriusx-infer/siriusx/src/base/alloc.cpp
- * @Description:
+ * @Description: 
  */
 #include "base/alloc.h"
-
-#include "cuda_runtime_api.h"
 
 namespace base {
 #ifdef USE_CUDA

@@ -3,7 +3,7 @@
  # @Author: Morgan Woods weiyiding0@gmail.com
  # @Date: 2025-02-01 06:47:05
  # @LastEditors: Morgan Woods weiyiding0@gmail.com
- # @LastEditTime: 2025-02-07 21:41:56
+ # @LastEditTime: 2025-02-08 19:17:21
  # @FilePath: /siriusx-infer/platform.sh
  # @Description: 
 ### 
@@ -30,7 +30,7 @@ case $current_platform in
             "C_Cpp.default.cppStandard": "c++17",
             "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
             "cmake.configureArgs": [
-                "-DVCPKG_INSTALLED_DIR=/Users/moguw/workspace/SiriusX-infer/vcpkg_installed",
+                "-DVCPKG_INSTALLED_DIR=/Users/moguw/workspace/siriusx-infer/vcpkg_installed",
                 "-DCMAKE_MAKE_PROGRAM=/opt/homebrew/bin/ninja",
                 "-DCMAKE_CXX_COMPILER=/usr/bin/c++"
             ],

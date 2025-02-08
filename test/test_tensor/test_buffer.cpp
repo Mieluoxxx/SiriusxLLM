@@ -70,6 +70,7 @@ TEST(test_buffer, allocate_time2) {
     ASSERT_NE(buffer->ptr(), nullptr);
 }
 
+#ifdef USE_CUDA
 TEST(test_buffer, CPU2CUDA) {
     using namespace base;
     auto alloc = base::CPUDeviceAllocatorFactory::get_instance();
@@ -143,3 +144,4 @@ TEST(test_buffer, CUDA2CUDA) {
     }
     delete[] ptr2;
   }
+#endif // USE_CUDA

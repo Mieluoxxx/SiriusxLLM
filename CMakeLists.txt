@@ -12,6 +12,8 @@ set(CMAKE_BUILD_TYPE "Debug")
 # 添加 USE_CUDA 选项，默认值为 ON
 option(USE_CUDA "Enable CUDA support" OFF)
 
+set(CMAKE_TOOLCHAIN_FILE $ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
+
 if(USE_CUDA)
     if(MSVC)
         # Setting this to true brakes Visual Studio builds.
