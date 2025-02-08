@@ -14,6 +14,7 @@
 #include <vector>
 
 #include "base/base.h"
+#include "base/cuda_config.h"
 #include "tensor/tensor.h"
 
 namespace op {
@@ -167,9 +168,14 @@ class Layer : public BaseLayer {
     void reset_input_size(size_t size);
     void reset_output_size(size_t size);
 
-   protected:
+    virtual void to_cuda();
+    void set_cuda_config(std::shared_ptr<kernel::CudaConfig> config);
+    std::shared_ptr<kernel::CudaConfig> cuda_config() const;
+
+    protected:
     std::vector<tensor::Tensor> inputs_;
     std::vector<tensor::Tensor> outputs_;
+    std::shared_ptr<kernel::CudaConfig> cuda_config_;
 };
 
 class LayerParam : public Layer {
@@ -190,6 +196,8 @@ class LayerParam : public Layer {
 
     // 获取指定索引的权重（常量）
     const tensor::Tensor& get_weight(int32_t idx) const;
+
+    void to_cuda() override;
 
     // 设置指定索引的权重
     base::Status set_weight(int32_t idx, const tensor::Tensor& weight) override;

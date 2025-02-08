@@ -30,6 +30,7 @@ case $current_platform in
             "C_Cpp.default.cppStandard": "c++17",
             "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
             "cmake.configureArgs": [
+                "-DCMAKE_TOOLCHAIN_FILE=/Users/moguw/.vcpkg/scripts/buildsystems/vcpkg.cmake",
                 "-DVCPKG_INSTALLED_DIR=/Users/moguw/workspace/siriusx-infer/vcpkg_installed",
                 "-DCMAKE_MAKE_PROGRAM=/opt/homebrew/bin/ninja",
                 "-DCMAKE_CXX_COMPILER=/usr/bin/c++"

@@ -8,9 +8,12 @@
  */
 #include "base/alloc.h"
 
-namespace base {
 #ifdef USE_CUDA
 #include <cuda_runtime.h>
+#endif
+
+namespace base {
+#ifdef USE_CUDA
 void DeviceAllocator::memcpy(const void* src_ptr, void* dest_ptr,
                              size_t byte_size, MemcpyKind memcpy_kind,
                              void* stream, bool need_sync) const {
