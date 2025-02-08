@@ -16,5 +16,5 @@ TEST(Example, AdditionTest) {
     int b = 2;
     int c = add(a, b);
     EXPECT_EQ(c, 3);
-    LOG(INFO) << "AdditionTest.BasicTest passed.";
+    LOG(INFO) << "Example.AdditionTest passed.";
 }

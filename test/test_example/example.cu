@@ -1,6 +1,7 @@
 #ifdef USE_CUDA
 #include <cuda_runtime.h>
 #include <gtest/gtest.h>
+#include <glog/logging.h>
 // 简单的 CUDA 核函数，将数组中的每个元素乘以 2
 __global__ void multiplyByTwo(int* data, int size) {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
@@ -36,5 +37,7 @@ TEST(Example, CudaTest) {
 
     // 释放设备端内存
     cudaFree(d_data);
+
+    LOG(INFO) << "Example.CudaTest passed.";
 }
 #endif
