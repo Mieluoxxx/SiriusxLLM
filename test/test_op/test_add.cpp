@@ -1,9 +1,9 @@
-/***
+/*
  * @Author: Morgan Woods weiyiding0@gmail.com
- * @Date: 2025-01-26 18:25:43
+ * @Date: 2025-01-31 03:08:29
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-01-26 18:35:05
- * @FilePath: /SiriusX-infer/test/test_op/test_add.cpp
+ * @LastEditTime: 2025-02-09 00:04:34
+ * @FilePath: /siriusx-infer/test/test_op/test_add.cpp
  * @Description:
  */
 #include <glog/logging.h>
@@ -11,9 +11,14 @@
 
 #include "../src/op/kernels/interface.h"
 #include "base/alloc.h"
-#include "base/buffer.h"
 
-TEST(test_add_cpu, test1) {
+#ifdef USE_CUDA
+#include <cuda_runtime.h>
+
+#include "../utils.cuh"
+#endif
+
+TEST(test_add, cpu_test) {
     auto alloc_cpu = base::CPUDeviceAllocatorFactory::get_instance();
 
     int32_t size = 32 * 151;
@@ -47,5 +52,41 @@ TEST(test_add_cpu, test1) {
     }
 
     // 释放 output 数组
+    delete[] output;
+}
+
+// 测试CUDA设备上的加法操作
+TEST(test_add, cuda_test) {
+    // 获取CUDA设备分配器实例
+    auto alloc_cu = base::CUDADeviceAllocatorFactory::get_instance();
+
+    // 定义张量大小
+    int32_t size = 32 * 151;
+
+    // 创建三个张量，数据类型为FP32，大小为size，使用CUDA设备分配器
+    tensor::Tensor t1(base::DataType::FP32, size, true, alloc_cu);
+    tensor::Tensor t2(base::DataType::FP32, size, true, alloc_cu);
+    tensor::Tensor out(base::DataType::FP32, size, true, alloc_cu);
+
+    // 设置t1张量的值为2.0
+    set_value_cu(static_cast<float*>(t1.get_buffer()->ptr()), size, 2.f);
+    // 设置t2张量的值为3.0
+    set_value_cu(static_cast<float*>(t2.get_buffer()->ptr()), size, 3.f);
+
+    // 调用CUDA加法核函数，将t1和t2相加，结果存储在out张量中
+    kernel::get_add_kernel(base::DeviceType::CUDA)(t1, t2, out, nullptr);
+    // 同步CUDA设备
+    cudaDeviceSynchronize();
+    // 创建一个大小为size的浮点型数组，用于存储out张量的值
+    float* output = new float[size];
+    // 将out张量的值从CUDA设备复制到主机内存
+    cudaMemcpy(output, out.ptr<float>(), size * sizeof(float),
+               cudaMemcpyDeviceToHost);
+    // 遍历output数组，检查每个元素的值是否为5.0
+    for (int i = 0; i < size; ++i) {
+        ASSERT_EQ(output[i], 5.f);
+    }
+
+    // 释放output数组
     delete[] output;
 }

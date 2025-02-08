@@ -1,3 +1,11 @@
+/*
+ * @Author: Morgan Woods weiyiding0@gmail.com
+ * @Date: 2025-01-31 03:08:29
+ * @LastEditors: Morgan Woods weiyiding0@gmail.com
+ * @LastEditTime: 2025-02-08 22:18:19
+ * @FilePath: /siriusx-infer/siriusx/src/op/add.cpp
+ * @Description: 
+ */
 #include "op/add.h"
 
 #include "base/base.h"
@@ -27,8 +35,7 @@ base::Status VecAddLayer::check() const {
         return status;
     }
 
-    status =
-        check_tensor_with_dim(get_output(0), device_type_, data_type_, size);
+    status = check_tensor_with_dim(get_output(0), device_type_, data_type_, size);
     if (!status) {
         LOG(ERROR) << "The output tensor error in the add layer.";
         return status;
@@ -47,8 +54,7 @@ base::Status VecAddLayer::forward() {
     if (device_type_ == base::DeviceType::CUDA) {
         LOG(ERROR) << "CUDA is not supported yet.";
     }
-    kernel::get_add_kernel(device_type_)(in1, in2, out,
-                                         nullptr);  // TODO: add cuda stream
+    kernel::get_add_kernel(device_type_)(in1, in2, out, nullptr);  // TODO: add cuda stream
     return base::error::Success();
 }
 }  // namespace op
