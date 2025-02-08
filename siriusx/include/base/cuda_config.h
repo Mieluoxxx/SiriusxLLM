@@ -4,24 +4,23 @@
 #ifdef USE_CUDA
 #include <cublas_v2.h>
 #include <cuda_runtime_api.h>
-#endif  // USE_CUDA
+#else
+// 如果没有 CUDA，将 cudaStream_t 定义为 void*
+typedef void* cudaStream_t;
+#endif
 
 namespace kernel {
 
-// 定义 CudaConfig 结构体
 struct CudaConfig {
+  cudaStream_t stream = nullptr;
+
+  ~CudaConfig() {
 #ifdef USE_CUDA
-    cudaStream_t stream = nullptr;
-    ~CudaConfig() {
-        if (stream) {
-            cudaStreamDestroy(stream);
-        }
+    if (stream) {
+      cudaStreamDestroy(stream);
     }
-#else
-    // 如果没有 USE_CUDA，提供一个空实现
-    void* stream = nullptr;   // 使用 void* 模拟 cudaStream_t
-    ~CudaConfig() = default;  // 默认析构函数
-#endif  // USE_CUDA
+#endif
+  }
 };
 
 }  // namespace kernel

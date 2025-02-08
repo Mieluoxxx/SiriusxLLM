@@ -13,35 +13,29 @@
 
 #include "base/base.h"
 #include "base/buffer.h"
+#include "base/cuda_config.h"
 
 namespace tensor {
 class Tensor {
    public:
     // 构造函数与析构函数
     explicit Tensor() = default;
-    explicit Tensor(base::DataType data_type, int32_t dim0,
-                    bool need_alloc = false,
-                    std::shared_ptr<base::DeviceAllocator> alloc = nullptr,
-                    void* ptr = nullptr);
-    explicit Tensor(base::DataType data_type, int32_t dim0, int32_t dim1,
-                    bool need_alloc = false,
-                    std::shared_ptr<base::DeviceAllocator> alloc = nullptr,
-                    void* ptr = nullptr);
-    explicit Tensor(base::DataType data_type, int32_t dim0, int32_t dim1,
-                    int32_t dim2, bool need_alloc = false,
-                    std::shared_ptr<base::DeviceAllocator> alloc = nullptr,
-                    void* ptr = nullptr);
-    explicit Tensor(base::DataType data_type, int32_t dim0, int32_t dim1,
-                    int32_t dim2, int32_t dim3, bool need_alloc = false,
-                    std::shared_ptr<base::DeviceAllocator> alloc = nullptr,
-                    void* ptr = nullptr);
-    explicit Tensor(base::DataType data_type, std::vector<int32_t> dims,
-                    bool need_alloc = false,
-                    std::shared_ptr<base::DeviceAllocator> alloc = nullptr,
-                    void* ptr = nullptr);
+    // clang-format off
+    explicit Tensor(base::DataType data_type, int32_t dim0, bool need_alloc = false,
+                    std::shared_ptr<base::DeviceAllocator> alloc = nullptr, void* ptr = nullptr);
+    explicit Tensor(base::DataType data_type, int32_t dim0, int32_t dim1, bool need_alloc = false,
+                    std::shared_ptr<base::DeviceAllocator> alloc = nullptr, void* ptr = nullptr);
+    explicit Tensor(base::DataType data_type, int32_t dim0, int32_t dim1, int32_t dim2, bool need_alloc = false,
+                    std::shared_ptr<base::DeviceAllocator> alloc = nullptr, void* ptr = nullptr);
+    explicit Tensor(base::DataType data_type, int32_t dim0, int32_t dim1, int32_t dim2, int32_t dim3, bool need_alloc = false,
+                    std::shared_ptr<base::DeviceAllocator> alloc = nullptr, void* ptr = nullptr);
+    explicit Tensor(base::DataType data_type, std::vector<int32_t> dims, bool need_alloc = false,
+                    std::shared_ptr<base::DeviceAllocator> alloc = nullptr, void* ptr = nullptr);
+    // clang-format on
 
     // 张量操作
     void to_cpu();
+    void to_cuda(cudaStream_t stream = 0);
     bool is_empty() const;
     void reshape(const std::vector<int32_t>& dims);
     tensor::Tensor clone() const;
