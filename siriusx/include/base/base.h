@@ -6,8 +6,8 @@
  * @FilePath: /SiriusX-infer/siriusx/include/base/base.h
  * @Description:
  */
-#ifndef BASE_H_
-#define BASE_H_
+#ifndef BASE_H
+#define BASE_H
 
 #include <cstdint>
 #include <string>
@@ -118,4 +118,4 @@ Status InvalidArgument(const std::string& err_msg = "");
 
 }  // namespace base
 
-#endif
+#endif  // BASE_H

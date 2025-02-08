@@ -123,16 +123,50 @@ Tensor::Tensor(base::DataType data_type, std::vector<int32_t> dims,
     }
 }
 
+#ifdef USE_CUDA
+void Tensor::to_cuda(cudaStream_t stream) {
+    CHECK_NE(buffer_, nullptr);
+    const base::DeviceType device_type = this->device_type();
+    if (device_type == base::DeviceType::Unknown) {
+        LOG(ERROR) << "The device type of the tensor is unknown.";
+    } else if (device_type == base::DeviceType::CPU) {
+        size_t byte_size = this->byte_size();
+        auto cu_alloc = base::CUDADeviceAllocatorFactory::get_instance();
+        auto cu_buffer = std::make_shared<base::Buffer>(byte_size, cu_alloc);
+        cu_alloc->memcpy(buffer_->ptr(), cu_buffer->ptr(), byte_size,
+                         base::MemcpyKind::CPU2CUDA, stream);
+        this->buffer_ = cu_buffer;
+    } else {
+        LOG(INFO) << "The device type of the tensor is already cuda.";
+    }
+}
+#else 
+void Tensor::to_cuda(cudaStream_t stream) {
+    CHECK_NE(buffer_, nullptr);
+    const base::DeviceType device_type = this->device_type();
+    if (device_type == base::DeviceType::Unknown) {
+        LOG(ERROR) << "The device type of the tensor is unknown.";
+    } else if (device_type == base::DeviceType::CPU) {
+        LOG(ERROR) << "The device type of the tensor is cpu.";
+    } else {
+        LOG(INFO) << "The device type of the tensor is already cuda.";
+    }
+}
+#endif
+
 void Tensor::to_cpu() {
     CHECK_NE(buffer_, nullptr);
     const base::DeviceType device_type = buffer_->device_type();
 
     if (device_type == base::DeviceType::Unknown) {
         LOG(ERROR) << "The device type of the tensor is unknown.";
-    }
-    // TODO to_cpu时CUDA2CPU
-    else if (device_type == base::DeviceType::CUDA) {
-        LOG(ERROR) << "The device type of the tensor is CUDA, which is not ";
+    } else if (device_type == base::DeviceType::CUDA) {
+        size_t byte_size = this->byte_size();
+        auto cpu_alloc = base::CPUDeviceAllocatorFactory::get_instance();
+        auto cpu_buffer = std::make_shared<base::Buffer>(byte_size, cpu_alloc);
+        cpu_alloc->memcpy(buffer_->ptr(), cpu_buffer->ptr(), byte_size,
+                          base::MemcpyKind::CUDA2CPU);
+        this->buffer_ = cpu_buffer;
     } else {
         LOG(INFO) << "The device type of the tensor is already cpu.";
     }

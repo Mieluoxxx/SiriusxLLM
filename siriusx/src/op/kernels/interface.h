@@ -6,8 +6,8 @@
  * @FilePath: /SiriusX-infer/siriusx/src/op/kernels/interface.h
  * @Description: 
  */
-#ifndef KERNELS_INTERFACE_H_
-#define KERNELS_INTERFACE_H_
+#ifndef KERNELS_INTERFACE_H
+#define KERNELS_INTERFACE_H
 
 #include "tensor/tensor.h"
 
@@ -18,4 +18,4 @@ typedef void (*AddKernel)(const tensor::Tensor& in1, const tensor::Tensor& in2,
 AddKernel get_add_kernel(base::DeviceType device_type);
 
 }  // namespace kernel
-#endif  // KERNELS_INTERFACE_H_
+#endif  // KERNELS_INTERFACE_H

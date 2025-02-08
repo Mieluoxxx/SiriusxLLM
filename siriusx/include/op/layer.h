@@ -6,8 +6,8 @@
  * @FilePath: /SiriusX-infer/siriusx/include/op/layer.h
  * @Description:
  */
-#ifndef OP_LAYER_H_
-#define OP_LAYER_H_
+#ifndef OP_LAYER_H
+#define OP_LAYER_H
 
 #include <cstdint>
 #include <string>
@@ -221,4 +221,4 @@ class LayerParam : public Layer {
 
 }  // namespace op
 
-#endif  // OP_LAYER_H_
+#endif  // OP_LAYER_H
