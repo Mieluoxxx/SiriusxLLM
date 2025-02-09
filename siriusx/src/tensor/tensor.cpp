@@ -178,7 +178,7 @@ int32_t Tensor::get_dim(int32_t index) const {
     CHECK_GE(index, 0) << "The index must be greater than or equal to 0.";
     CHECK_LT(index, this->dims_.size());
 
-    return this->dims_.at(size_);  // .at()会进行越界检查
+    return this->dims_.at(index);  // .at()会进行越界检查
 }
 
 base::DeviceType Tensor::device_type() const {
