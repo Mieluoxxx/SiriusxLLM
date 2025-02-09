@@ -2,7 +2,7 @@
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-01-31 03:08:29
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-02-09 00:04:34
+ * @LastEditTime: 2025-02-13 17:15:57
  * @FilePath: /siriusx-infer/test/test_op/test_add.cpp
  * @Description:
  */
@@ -11,6 +11,7 @@
 
 #include "../src/op/kernels/interface.h"
 #include "base/alloc.h"
+#include "cuda_runtime_api.h"
 
 #ifdef USE_CUDA
 #include <cuda_runtime.h>
@@ -91,4 +92,77 @@ TEST(test_add, cuda_test) {
     // 释放output数组
     delete[] output;
 }
+
+TEST(test_add, nostream) {
+    auto alloc_cuda = base::CUDADeviceAllocatorFactory::get_instance();
+
+    int32_t size = 32 * 151;
+
+    tensor::Tensor t1(base::DataType::FP32, size, true, alloc_cuda);
+    tensor::Tensor t2(base::DataType::FP32, size, true, alloc_cuda);
+    tensor::Tensor out(base::DataType::FP32, size, true, alloc_cuda);
+
+    set_value_cu(static_cast<float*>(t1.get_buffer()->ptr()), size, 2.f);
+    set_value_cu(static_cast<float*>(t2.get_buffer()->ptr()), size, 3.f);
+
+    kernel::get_add_kernel(base::DeviceType::CUDA)(t1, t2, out, nullptr);
+    cudaDeviceSynchronize();
+
+    float* output = new float[size];
+    cudaMemcpy(output, out.ptr<float>(), size * sizeof(float), cudaMemcpyDeviceToHost);
+    for(int i = 0; i < size; ++i) {
+        ASSERT_EQ(output[i], 5.f);
+    }
+
+    delete[] output;
+}
+
+TEST(test_add, stream) {
+    auto alloc_cuda = base::CUDADeviceAllocatorFactory::get_instance();
+
+    int32_t size = 32 * 151;
+
+    tensor::Tensor t1(base::DataType::FP32, size, true, alloc_cuda);
+    tensor::Tensor t2(base::DataType::FP32, size, true, alloc_cuda);
+    tensor::Tensor out(base::DataType::FP32, size, true, alloc_cuda);
+
+    set_value_cu(static_cast<float*>(t1.get_buffer()->ptr()), size, 2.f);
+    set_value_cu(static_cast<float*>(t2.get_buffer()->ptr()), size, 3.f);
+
+    cudaStream_t stream;
+    cudaStreamCreate(&stream);
+    kernel::get_add_kernel(base::DeviceType::CUDA)(t1, t2, out, stream);
+    cudaDeviceSynchronize();
+
+    float* output = new float[size];
+    cudaMemcpy(output, out.ptr<float>(), size * sizeof(float), cudaMemcpyDeviceToHost);
+    for(int i = 0; i < size; ++i) {
+        ASSERT_EQ(output[i], 5.f);
+    }
+    cudaStreamDestroy(stream);
+    delete[] output;
+}
+
+TEST(test_add, add_align) {
+    auto alloc_cuda = base::CUDADeviceAllocatorFactory::get_instance();
+  
+    int32_t size = 32 * 151 * 13;
+  
+    tensor::Tensor t1(base::DataType::FP32, size, true, alloc_cuda);
+    tensor::Tensor t2(base::DataType::FP32, size, true, alloc_cuda);
+    tensor::Tensor out(base::DataType::FP32, size, true, alloc_cuda);
+  
+    set_value_cu(static_cast<float*>(t1.get_buffer()->ptr()), size, 2.1f);
+    set_value_cu(static_cast<float*>(t2.get_buffer()->ptr()), size, 3.3f);
+  
+    kernel::get_add_kernel(base::DeviceType::CUDA)( t1, t2, out, nullptr);
+    cudaDeviceSynchronize();
+    float* output = new float[size];
+    cudaMemcpy(output, out.ptr<float>(), size * sizeof(float), cudaMemcpyDeviceToHost);
+    for (int i = 0; i < size; ++i) {
+      ASSERT_NEAR(output[i], 5.4f, 0.1f);
+    }
+  
+    delete[] output;
+  }
 #endif

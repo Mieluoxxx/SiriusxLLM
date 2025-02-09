@@ -1,3 +1,11 @@
+/*
+ * @Author: Morgan Woods weiyiding0@gmail.com
+ * @Date: 2025-02-16 19:52:54
+ * @LastEditors: Morgan Woods weiyiding0@gmail.com
+ * @LastEditTime: 2025-02-16 19:55:36
+ * @FilePath: /siriusx-infer/siriusx/include/op/matmul.h
+ * @Description: 
+ */
 #ifndef MATMUL_H
 #define MATMUL_H
 
@@ -5,7 +13,7 @@
 #include "layer.h"
 
 namespace op {
-class MatmulLayer : public Layer {
+class MatmulLayer : public LayerParam {
    public:
     explicit MatmulLayer(base::DeviceType device_type, int32_t dim0,
                          int32_t dim1, bool is_quant_layer = false,
@@ -14,7 +22,8 @@ class MatmulLayer : public Layer {
     base::Status forward() override;
     base::Status set_bias(int32_t idx, int32_t& dims, const void* bias_ptr,
                           base::DeviceType device_type);
-    tensor::Tensor& get_bias(int32_t idx) const;
+    tensor::Tensor& get_bias(int32_t idx);
+    const tensor::Tensor& get_bias(int32_t idx) const;
     void to_cuda() override;
 
    private:

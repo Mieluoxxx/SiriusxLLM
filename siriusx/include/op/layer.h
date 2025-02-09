@@ -21,6 +21,7 @@ namespace op {
 enum LayerType : uint8_t {
     Unknown = 0,
     LayerAdd = 1,
+    LayerMatmul = 2,
 };
 
 class BaseLayer {
