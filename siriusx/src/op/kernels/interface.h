@@ -1,11 +1,3 @@
-/*** 
- * @Author: Morgan Woods weiyiding0@gmail.com
- * @Date: 2025-01-26 15:34:11
- * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-01-26 18:04:34
- * @FilePath: /SiriusX-infer/siriusx/src/op/kernels/interface.h
- * @Description: 
- */
 #ifndef KERNELS_INTERFACE_H
 #define KERNELS_INTERFACE_H
 
@@ -15,7 +7,13 @@ namespace kernel {
 typedef void (*AddKernel)(const tensor::Tensor& in1, const tensor::Tensor& in2,
                           const tensor::Tensor& out, void* stream);
 
+typedef void (*MatmulKernel)(const tensor::Tensor& input,
+                             const tensor::Tensor& weight,
+                             const tensor::Tensor& output, float scale,
+                             const CudaConfig* config);
+
 AddKernel get_add_kernel(base::DeviceType device_type);
+MatmulKernel get_matmul_kernel(base::DeviceType device_type);
 
 }  // namespace kernel
 #endif  // KERNELS_INTERFACE_H

@@ -55,6 +55,7 @@ TEST(test_add, cpu_test) {
     delete[] output;
 }
 
+#ifdef USE_CUDA
 // 测试CUDA设备上的加法操作
 TEST(test_add, cuda_test) {
     // 获取CUDA设备分配器实例
@@ -90,3 +91,4 @@ TEST(test_add, cuda_test) {
     // 释放output数组
     delete[] output;
 }
+#endif
