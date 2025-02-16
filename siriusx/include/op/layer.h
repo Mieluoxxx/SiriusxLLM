@@ -23,6 +23,7 @@ enum LayerType : uint8_t {
     LayerAdd = 1,
     LayerMatmul = 2,
     LayerRMSNorm = 3,
+    LayerEmbedding = 4,
 };
 
 class BaseLayer {

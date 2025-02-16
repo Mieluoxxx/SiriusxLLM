@@ -2,7 +2,15 @@
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-01-31 03:08:29
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-02-13 19:53:04
+ * @LastEditTime: 2025-02-16 19:40:47
+ * @FilePath: /siriusx-infer/siriusx/src/op/kernels/interface.cpp
+ * @Description: 
+ */
+/*
+ * @Author: Morgan Woods weiyiding0@gmail.com
+ * @Date: 2025-01-31 03:08:29
+ * @LastEditors: Morgan Woods weiyiding0@gmail.com
+ * @LastEditTime: 2025-02-16 19:08:42
  * @FilePath: /siriusx-infer/siriusx/src/op/kernels/interface.cpp
  * @Description: 
  */
@@ -11,6 +19,7 @@
 #include "cpu/add_kernel.h"
 #include "cpu/matmul_kernel.h"
 #include "cpu/rmsnorm_kernel.h"
+#include "cpu/emb_kernel.h"
 
 #ifdef USE_CUDA
 #include "cuda/add_kernel.cuh"
@@ -65,4 +74,19 @@ RMSNormKernel get_rmsnorm_kernel(base::DeviceType device_type) {
     }
 }
 
+
+EmbeddingKernel get_embedding_kernel(base::DeviceType device_type) {
+    if (device_type == base::DeviceType::CPU) {
+        return embedding_kernel_cpu;
+    } 
+// #ifdef USE_CUDA
+//     else if (device_type == base::DeviceType::CUDA) {
+//         return embedding_kernel_cuda;
+//     }
+// #endif
+    else {
+        LOG(FATAL) << "Unknown device type for get a embedding kernel.";
+        return nullptr;
+    }
+}
 }  // namespace kernel
