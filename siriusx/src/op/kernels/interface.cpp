@@ -2,7 +2,7 @@
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-01-31 03:08:29
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-02-16 21:21:13
+ * @LastEditTime: 2025-02-16 22:53:19
  * @FilePath: /siriusx-infer/siriusx/src/op/kernels/interface.cpp
  * @Description:
  */
@@ -20,6 +20,7 @@
 #include "cpu/emb_kernel.h"
 #include "cpu/matmul_kernel.h"
 #include "cpu/rmsnorm_kernel.h"
+#include "cpu/softmax_kernel.h"
 #include "cpu/swiglu_kernel.h"
 
 #ifdef USE_CUDA
@@ -94,14 +95,24 @@ SwiGLUKernel get_swiglu_kernel(base::DeviceType device_type) {
     if (device_type == base::DeviceType::CPU) {
         return swiglu_kernel_cpu;
     }
-// #ifdef USE_CUDA
-//     else if (device_type == base::DeviceType::CUDA) {
-//         return swiglu_kernel_cuda;
-//     }
-// #endif
+    // #ifdef USE_CUDA
+    //     else if (device_type == base::DeviceType::CUDA) {
+    //         return swiglu_kernel_cuda;
+    //     }
+    // #endif
     else {
         LOG(FATAL) << "Unknown device type for get a swiglu kernel.";
         return nullptr;
     }
 }
+
+SoftmaxInplaceKernel get_softmax_kernel(base::DeviceType device_type) {
+    if (device_type == base::DeviceType::CPU) {
+        return softmax_inplace_cpu;
+    } else {
+        LOG(FATAL) << "Unknown device type for get an softmax kernel.";
+        return nullptr;
+    }
+}
+
 }  // namespace kernel
