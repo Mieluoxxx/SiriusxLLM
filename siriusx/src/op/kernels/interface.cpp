@@ -2,7 +2,7 @@
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-01-31 03:08:29
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-02-16 22:53:19
+ * @LastEditTime: 2025-02-17 21:14:32
  * @FilePath: /siriusx-infer/siriusx/src/op/kernels/interface.cpp
  * @Description:
  */
@@ -17,11 +17,12 @@
 #include <base/base.h>
 
 #include "cpu/add_kernel.h"
-#include "cpu/emb_kernel.h"
+#include "cpu/emb_kernel.h" 
 #include "cpu/matmul_kernel.h"
 #include "cpu/rmsnorm_kernel.h"
 #include "cpu/softmax_kernel.h"
 #include "cpu/swiglu_kernel.h"
+#include "cpu/rope_kernel.h"
 
 #ifdef USE_CUDA
 #include "cuda/add_kernel.cuh"
@@ -113,6 +114,22 @@ SoftmaxInplaceKernel get_softmax_kernel(base::DeviceType device_type) {
         LOG(FATAL) << "Unknown device type for get an softmax kernel.";
         return nullptr;
     }
+}
+
+RoPEKernel get_rope_kernel(base::DeviceType device_type) {
+    if (device_type == base::DeviceType::CPU) {
+        return rope_kernel_cpu;
+    }
+    // #ifdef USE_CUDA
+    //     else if (device_type == base::DeviceType::CUDA) {
+    //         return rope_kernel_cuda;
+    //     }
+    // #endif
+    else {
+        LOG(FATAL) << "Unknown device type for get a rope kernel.";
+        return nullptr;
+    }
+    
 }
 
 }  // namespace kernel

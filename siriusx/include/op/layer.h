@@ -25,6 +25,7 @@ enum LayerType : uint8_t {
     LayerRMSNorm = 3,
     LayerEmbedding = 4,
     LayerSwiGLU = 5,
+    LayerRoPE = 6,
 };
 
 class BaseLayer {
