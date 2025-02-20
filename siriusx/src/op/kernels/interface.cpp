@@ -142,7 +142,21 @@ ScaleSumKernel get_scale_sum_kernel(base::DeviceType device_type) {
         LOG(FATAL) << "Unknown device type for get an scale sum kernel.";
         return nullptr;
     }
-    
+}
+
+MHAKernel get_mha_kernel(base::DeviceType device_type) {
+    if (device_type == base::DeviceType::CPU) {
+        return mha_kernel_cpu;
+    }
+#ifdef USE_CUDA
+    else if (device_type == base::DeviceType::CUDA) {
+        return mha_kernel_cuda
+    }
+#endif
+    else {
+        LOG(FATAL) << "Unknown device type for get an mha kernel.";
+        return nullptr;
+    }
 }
 
 }  // namespace kernel
