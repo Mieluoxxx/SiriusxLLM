@@ -1,3 +1,11 @@
+/*** 
+ * @Author: Morgan Woods weiyiding0@gmail.com
+ * @Date: 2025-02-16 21:22:50
+ * @LastEditors: Morgan Woods weiyiding0@gmail.com
+ * @LastEditTime: 2025-02-20 22:51:37
+ * @FilePath: /siriusx-infer/siriusx/src/op/swiglu.cpp
+ * @Description: 
+ */
 #include "op/swiglu.h"
 
 #include "base/base.h"
@@ -8,7 +16,7 @@ namespace op {
 SwiGLULayer::SwiGLULayer(base::DeviceType device_type, int32_t hidden_dim)
     : Layer(device_type, op::LayerType::LayerSwiGLU, "SwiGLU"),
       hidden_dim_(hidden_dim) {
-    reset_input_size(1);
+    reset_input_size(2);
     reset_output_size(1);
 }
 
