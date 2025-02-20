@@ -6,23 +6,18 @@
  * @FilePath: /siriusx-infer/siriusx/src/op/kernels/interface.cpp
  * @Description:
  */
-/*
- * @Author: Morgan Woods weiyiding0@gmail.com
- * @Date: 2025-01-31 03:08:29
- * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-02-16 19:08:42
- * @FilePath: /siriusx-infer/siriusx/src/op/kernels/interface.cpp
- * @Description:
- */
 #include <base/base.h>
 
 #include "cpu/add_kernel.h"
-#include "cpu/emb_kernel.h" 
+#include "cpu/emb_kernel.h"
 #include "cpu/matmul_kernel.h"
+#include "cpu/mha_kernel.h"
 #include "cpu/rmsnorm_kernel.h"
+#include "cpu/rope_kernel.h"
+#include "cpu/scale_kernel.h"
+#include "cpu/scale_sum_kernel.h"
 #include "cpu/softmax_kernel.h"
 #include "cpu/swiglu_kernel.h"
-#include "cpu/rope_kernel.h"
 
 #ifdef USE_CUDA
 #include "cuda/add_kernel.cuh"
@@ -127,6 +122,24 @@ RoPEKernel get_rope_kernel(base::DeviceType device_type) {
     // #endif
     else {
         LOG(FATAL) << "Unknown device type for get a rope kernel.";
+        return nullptr;
+    }
+}
+
+ScaleKernel get_scale_kernel(base::DeviceType device_type) {
+    if (device_type == base::DeviceType::CPU) {
+        return scale_inplace_cpu;
+    } else {
+        LOG(FATAL) << "Unknown device type for get an scale kernel.";
+        return nullptr;
+    }
+}
+
+ScaleSumKernel get_scale_sum_kernel(base::DeviceType device_type) {
+    if (device_type == base::DeviceType::CPU) {
+        return scale_sum_kernel_cpu;
+    } else {
+        LOG(FATAL) << "Unknown device type for get an scale sum kernel.";
         return nullptr;
     }
     
