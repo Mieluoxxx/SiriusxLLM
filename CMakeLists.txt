@@ -20,7 +20,6 @@ if(USE_CUDA)
     # 符合我设备的 CUDA 版本制定编译期
     set(CMAKE_CUDA_COMPILER nvcc)
     # 设置 CUDA 标准
-    # set(ENV{CXX} g++-13)
     set(CMAKE_CUDA_STANDARD 17)
     set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} --expt-relaxed-constexpr --expt-extended-lambda -ccbin ${CMAKE_CXX_COMPILER}")
     if(NOT DEFINED CMAKE_CUDA_ARCHITECTURES AND CMAKE_VERSION VERSION_GREATER_EQUAL 3.24)
@@ -85,6 +84,7 @@ target_include_directories(llama PUBLIC
     ${glog_INCLUDE_DIR}
     ${PROJECT_SOURCE_DIR}/siriusx/include
     ${Armadillo_INCLUDE_DIR}
+    ${sentencepiece_INCLUDE_DIRS}/src
 )
 
 if(USE_CUDA)

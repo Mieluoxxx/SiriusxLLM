@@ -27,6 +27,7 @@ enum LayerType : uint8_t {
     LayerSwiGLU = 5,
     LayerRoPE = 6,
     LayerMHA = 7,
+    LayerEncode = 8,
 };
 
 class BaseLayer {
