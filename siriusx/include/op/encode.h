@@ -2,7 +2,7 @@
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-02-23 21:29:07
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-02-24 12:07:58
+ * @LastEditTime: 2025-02-24 15:30:32
  * @FilePath: /siriusx-infer/siriusx/include/op/encode.h
  * @Description:
  */
@@ -11,13 +11,12 @@
 
 #include <sentencepiece_processor.h>
 
-#include "layer.h"
+#include "op/layer.h"
 
 namespace op {
 class EncodeLayerBase : public Layer {
    public:
-    explicit EncodeLayerBase(std::string token_model_path, bool has_bos,
-                             bool has_eos)
+    explicit EncodeLayerBase(std::string token_model_path, bool has_bos, bool has_eos)
         : Layer(base::DeviceType::CPU, LayerType::LayerEncode, "Encode"),
           has_bos_(has_bos),
           has_eos_(has_eos),
@@ -37,8 +36,7 @@ class EncodeLayerBase : public Layer {
 
 class SpeEncodeLayer : public EncodeLayerBase {
    public:
-    explicit SpeEncodeLayer(std::string token_model_path, bool has_bos,
-                            bool has_eos);
+    explicit SpeEncodeLayer(std::string token_model_path, bool has_bos, bool has_eos);
     std::vector<int32_t> encode(const std::string& sentence) const override;
     std::string decode(int32_t token_id) const override;
     std::string decode(const std::vector<int32_t>& token_ids) const override;
