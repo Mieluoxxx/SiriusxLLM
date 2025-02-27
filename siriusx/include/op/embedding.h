@@ -1,3 +1,11 @@
+/*
+ * @Author: Morgan Woods weiyiding0@gmail.com
+ * @Date: 2025-02-16 19:55:56
+ * @LastEditors: Morgan Woods weiyiding0@gmail.com
+ * @LastEditTime: 2025-02-27 18:15:37
+ * @FilePath: /siriusx-infer/siriusx/include/op/embedding.h
+ * @Description: 
+ */
 #ifndef EMBEDDING_H
 #define EMBEDDING_H
 
@@ -15,6 +23,7 @@ struct EmbeddingOutput {
 };  // struct EmbeddingOutput
 
 class EmbeddingLayer : public LayerParam {
+public:
     explicit EmbeddingLayer(base::DeviceType device_type, int32_t dim, int32_t seq_len, int32_t vocab_size);
     
     base::Status check() const override;

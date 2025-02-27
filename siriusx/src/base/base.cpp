@@ -56,5 +56,21 @@ Status FunctionNotImplemented(const std::string& err_msg) {
 Status InvalidArgument(const std::string& err_msg) {
     return Status{StatusCode::InvalidArgument, err_msg};
 }
+
+Status KeyHasExits(const std::string& err_msg) {
+    return Status{StatusCode::KeyValueHasExist, err_msg};
+}
+
+Status PathNotValid(const std::string& err_msg) {
+    return Status{StatusCode::PathNotValid, err_msg};
+}
+
+Status ModelParseError(const std::string& err_msg) {
+    return Status{StatusCode::ModelParseError, err_msg};
+}
+
+Status InternalError(const std::string& err_msg) {
+    return Status{StatusCode::InternalError, err_msg};
+}
 }  // namespace error
 }  // namespace base

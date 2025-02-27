@@ -51,16 +51,19 @@ aux_source_directory(siriusx/src/op/ DIR_OP)
 aux_source_directory(siriusx/src/op/kernels/ DIR_KERNELS)
 aux_source_directory(siriusx/src/op/kernels/cpu/ DIR_KERNELS_CPU)
 aux_source_directory(siriusx/src/op/kernels/cuda/ DIR_KERNELS_CUDA)
+aux_source_directory(siriusx/src/sampler DIR_SMAPLER)
+aux_source_directory(siriusx/src/model DIR_MODEL)
 
 # 设置输出目录
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 
 # 添加库目标
 if(USE_CUDA)
-add_library(llama STATIC ${DIR_BASE} ${DIR_TENSOR} ${DIR_OP} ${DIR_KERNELS} ${DIR_KERNELS_CPU} ${DIR_KERNELS_CUDA})
+add_library(llama STATIC ${DIR_BASE} ${DIR_TENSOR} ${DIR_OP} ${DIR_KERNELS} ${DIR_SMAPLER} ${DIR_MODEL} ${DIR_KERNELS_CPU} ${DIR_KERNELS_CUDA})
 else()
-add_library(llama STATIC ${DIR_BASE} ${DIR_TENSOR} ${DIR_OP} ${DIR_KERNELS} ${DIR_KERNELS_CPU})
+add_library(llama STATIC ${DIR_BASE} ${DIR_TENSOR} ${DIR_OP} ${DIR_KERNELS} ${DIR_SMAPLER} ${DIR_MODEL} ${DIR_KERNELS_CPU})
 endif()
+
 
 # 设置库的链接依赖
 target_link_libraries(llama PUBLIC
@@ -84,7 +87,7 @@ target_include_directories(llama PUBLIC
     ${glog_INCLUDE_DIR}
     ${PROJECT_SOURCE_DIR}/siriusx/include
     ${Armadillo_INCLUDE_DIR}
-    ${sentencepiece_INCLUDE_DIRS}/src
+    # ${sentencepiece_INCLUDE_DIRS}/src
 )
 
 if(USE_CUDA)
@@ -94,3 +97,4 @@ endif()
 
 # 添加子目录（例如测试目录）
 add_subdirectory(test)
+add_subdirectory(demo)

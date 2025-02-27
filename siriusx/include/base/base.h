@@ -17,6 +17,29 @@
         (void)(expr); \
     } while (0)
 
+namespace model {
+enum class ModelBufferType {
+    InputTokens = 0,
+    InputEmbeddings = 1,
+    OutputRMSNorm = 2,
+    KeyCache = 3,
+    ValueCache = 4,
+    Query = 5,
+    InputPos = 6,
+    ScoreStorage = 7,
+    OutputMHA = 8,
+    AttnOut = 9,
+    W1Output = 10,
+    W2Output = 11,
+    W3Output = 12,
+    FFNRMSNorm = 13,
+    ForwardOutput = 14,
+    ForwardOutputCPU = 15,
+    SinCache = 16,
+    CosCache = 17,
+};
+}  // namespace model
+
 namespace base {
 enum class DeviceType : uint8_t {
     Unknown = 0,
@@ -59,6 +82,21 @@ enum StatusCode {
     Success = 0,
     FunctionUnImplement = 1,
     InvalidArgument = 2,
+    KeyValueHasExist = 3,
+    PathNotValid = 4,
+    ModelParseError = 5,
+    InternalError = 6,
+};
+
+enum class TokenizerType : uint8_t {
+    EncodeUnknown = 0,
+    EncodeSpe = 1,
+    EncodeBpe = 2,
+};
+
+enum class ModelType : uint8_t {
+    ModelTypeUnknown = 0,
+    ModelTypeLLama2 = 1,
 };
 
 class Status {
@@ -113,9 +151,13 @@ namespace error {
 Status Success(const std::string& err_msg = "");
 Status FunctionNotImplemented(const std::string& err_msg = "");
 Status InvalidArgument(const std::string& err_msg = "");
-
+Status KeyHasExits(const std::string& err_msg = "");
+Status PathNotValid(const std::string& err_msg = "");
+Status ModelParseError(const std::string& err_msg = "");
+Status InternalError(const std::string& err_msg = "");
 }  // namespace error
 
+std::ostream& operator<<(std::ostream& os, const Status& x);
 }  // namespace base
 
 #endif  // BASE_H

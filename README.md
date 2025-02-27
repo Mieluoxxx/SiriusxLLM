@@ -2,8 +2,8 @@
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-01-02 16:44:41
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-01-17 19:01:57
- * @FilePath: /SiriusX-infer/README.md
+ * @LastEditTime: 2025-02-27 20:31:09
+ * @FilePath: /siriusx-infer/README.md
  * @Description: 
 -->
 ## 前置要求

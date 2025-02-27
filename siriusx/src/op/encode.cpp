@@ -1,3 +1,11 @@
+/*
+ * @Author: Morgan Woods weiyiding0@gmail.com
+ * @Date: 2025-02-23 22:15:07
+ * @LastEditors: Morgan Woods weiyiding0@gmail.com
+ * @LastEditTime: 2025-02-27 20:00:32
+ * @FilePath: /siriusx-infer/siriusx/src/op/encode.cpp
+ * @Description: 
+ */
 #include "op/encode.h"
 
 #include <sentencepiece_processor.h>
@@ -21,7 +29,7 @@ SpeEncodeLayer::SpeEncodeLayer(std::string token_model_path, bool has_bos,
     using namespace sentencepiece::util;
     spe_ = std::make_unique<sentencepiece::SentencePieceProcessor>();
     auto rc = spe_->Load(token_model_path_);
-    if (rc.code() != StatusCode::kOk) {
+    if (rc.code() != sentencepiece::util::StatusCode::kOk) {
         LOG(FATAL) << "The token model path is not valid, please check the "
                       "path and type of token model.";
     }
