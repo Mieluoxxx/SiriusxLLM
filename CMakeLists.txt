@@ -72,6 +72,7 @@ target_link_libraries(llama PUBLIC
     glog::glog
     armadillo
     pthread
+    sentencepiece
 )
 
 if(USE_CUDA)
