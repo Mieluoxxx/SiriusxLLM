@@ -2,7 +2,7 @@
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-02-23 18:41:52
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-02-24 19:23:21
+ * @LastEditTime: 2025-02-28 21:44:43
  * @FilePath: /siriusx-infer/siriusx/include/model/config.h
  * @Description:
  */
@@ -36,8 +36,7 @@ struct TransformerConfig {
     int32_t seq_len_ = 0;
     bool is_shared_weight_ = false;
 
-    friend std::ostream& operator<<(std::ostream& os,
-                                    const TransformerConfig& obj) {
+    friend std::ostream& operator<<(std::ostream& os, const TransformerConfig& obj) {
         return os << "\nkv_dim: " << obj.kv_dim_ << "\nkv_mul_: " << obj.kv_mul_
                   << "\n"
                   << "head_size: " << obj.head_size_

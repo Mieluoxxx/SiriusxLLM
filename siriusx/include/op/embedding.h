@@ -2,7 +2,7 @@
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-02-16 19:55:56
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-02-27 18:15:37
+ * @LastEditTime: 2025-02-28 21:45:47
  * @FilePath: /siriusx-infer/siriusx/include/op/embedding.h
  * @Description: 
  */
@@ -15,11 +15,11 @@ namespace op {
 struct EmbeddingOutput {
     tensor::Tensor input_tokens;
     tensor::Tensor input_embeddings;
-    tensor::Tensor input_token_nums;
+    tensor::Tensor input_token_num;
     explicit EmbeddingOutput(tensor::Tensor input_tokens, tensor::Tensor input_embeddings, tensor::Tensor input_token_nums)
         : input_tokens(std::move(input_tokens)),
           input_embeddings(std::move(input_embeddings)),
-          input_token_nums(std::move(input_token_nums)) {}
+          input_token_num(std::move(input_token_nums)) {}
 };  // struct EmbeddingOutput
 
 class EmbeddingLayer : public LayerParam {

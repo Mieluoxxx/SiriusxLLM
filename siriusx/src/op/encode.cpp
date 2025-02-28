@@ -2,7 +2,7 @@
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-02-23 22:15:07
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-02-27 20:00:32
+ * @LastEditTime: 2025-02-28 22:00:07
  * @FilePath: /siriusx-infer/siriusx/src/op/encode.cpp
  * @Description: 
  */
@@ -13,18 +13,16 @@
 namespace op {
 std::string SpeEncodeLayer::decode(int32_t token_id) const {
     CHECK(spe_ != nullptr) << "spe_ is null";
-    std::vector<int32_t> token_ids(token_id);
+    std::vector<int32_t> token_ids{token_id};
     return this->spe_->DecodeIds(token_ids);
 }
 
-std::string SpeEncodeLayer::decode(
-    const std::vector<int32_t>& token_ids) const {
+std::string SpeEncodeLayer::decode(const std::vector<int32_t>& token_ids) const {
     CHECK(spe_ != nullptr) << "spe_ is null";
     return this->spe_->DecodeIds(token_ids);
 }
 
-SpeEncodeLayer::SpeEncodeLayer(std::string token_model_path, bool has_bos,
-                               bool has_eos)
+SpeEncodeLayer::SpeEncodeLayer(std::string token_model_path, bool has_bos, bool has_eos)
     : EncodeLayerBase(std::move(token_model_path), has_bos, has_eos) {
     using namespace sentencepiece::util;
     spe_ = std::make_unique<sentencepiece::SentencePieceProcessor>();

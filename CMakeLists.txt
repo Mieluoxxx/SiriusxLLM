@@ -88,7 +88,7 @@ target_include_directories(llama PUBLIC
     ${glog_INCLUDE_DIR}
     ${PROJECT_SOURCE_DIR}/siriusx/include
     ${Armadillo_INCLUDE_DIR}
-    # ${sentencepiece_INCLUDE_DIRS}/src
+    ${sentencepiece_INCLUDE_DIRS}/src
 )
 
 if(USE_CUDA)

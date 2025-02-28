@@ -35,7 +35,7 @@ class Tensor {
 
     // 张量操作
     void to_cpu();
-    void to_cuda(cudaStream_t stream = 0);
+    void to_cuda(cudaStream_t stream = nullptr);
     bool is_empty() const;
     void reshape(const std::vector<int32_t>& dims);
     tensor::Tensor clone() const;

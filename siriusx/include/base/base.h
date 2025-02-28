@@ -88,10 +88,10 @@ enum StatusCode {
     InternalError = 6,
 };
 
-enum class TokenizerType : uint8_t {
-    EncodeUnknown = 0,
-    EncodeSpe = 1,
-    EncodeBpe = 2,
+enum class TokenizerType {
+    EncodeUnknown = -1,
+    EncodeSpe = 0,
+    EncodeBpe = 1,
 };
 
 enum class ModelType : uint8_t {

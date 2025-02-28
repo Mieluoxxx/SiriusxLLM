@@ -1,8 +1,8 @@
-/*** 
+/*
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-02-16 19:55:56
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-02-20 22:50:59
+ * @LastEditTime: 2025-02-28 21:59:32
  * @FilePath: /siriusx-infer/siriusx/src/op/embedding.cpp
  * @Description: 
  */
@@ -19,8 +19,8 @@ EmbeddingLayer::EmbeddingLayer(base::DeviceType device_type, int32_t dim,
       seq_len_(seq_len),
       vocab_size_(vocab_size),
       LayerParam(device_type, LayerType::LayerEmbedding, false, "Embedding") {
-    reset_input_size(1);
-    reset_output_size(2);
+    reset_input_size(2);
+    reset_output_size(1);
     reset_weight_size(1);
 }
 

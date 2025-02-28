@@ -110,7 +110,7 @@ base::Status Layer::check_tensor_with_dim(const tensor::Tensor& tensor,
 void Layer::set_input(int32_t idx, const tensor::Tensor& input) {
     CHECK_GE(idx, 0);
     CHECK_LT(idx, inputs_.size());
-    this->outputs_.at(idx) = input;
+    this->inputs_.at(idx) = input;
 }
 
 void Layer::set_output(int32_t idx, const tensor::Tensor& output) {

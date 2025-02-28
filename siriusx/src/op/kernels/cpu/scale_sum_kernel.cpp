@@ -1,3 +1,11 @@
+/*
+ * @Author: Morgan Woods weiyiding0@gmail.com
+ * @Date: 2025-02-20 22:05:24
+ * @LastEditors: Morgan Woods weiyiding0@gmail.com
+ * @LastEditTime: 2025-02-28 22:01:02
+ * @FilePath: /siriusx-infer/siriusx/src/op/kernels/cpu/scale_sum_kernel.cpp
+ * @Description: 
+ */
 /***
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-02-20 22:05:24
@@ -20,7 +28,7 @@ void scale_sum_kernel_cpu(const tensor::Tensor& value,
     CHECK_EQ(output.is_empty(), false);
 
     CHECK_EQ(size, value.size());
-    CHECK_EQ(size, scale.size());
+    CHECK_EQ(size, output.size());
 
     arma::fvec scale_vec(const_cast<float*>(scale.ptr<float>()), scale.size(),
                          false, true);
