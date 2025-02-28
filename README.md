@@ -64,5 +64,9 @@ docker pull nvidia/cuda:12.3.2-cudnn9-devel-ubuntu22.04
 docker run --gpus all -t -i --name kuiperllama 5d846bce3f98 /bin/bash 
 
 apt update
-apt install -y vim net-tools openssh-server libopenblas-dev liblapack-dev libarpack2-dev libsuperlu-dev wget cmake git gdb rsync
+apt install -y vim net-tools openssh-server libopenblas-dev liblapack-dev libarpack2-dev libsuperlu-dev wget cmake git gdb rsync ninja-build
+
+
 ```
+
+

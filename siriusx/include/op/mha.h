@@ -2,9 +2,9 @@
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-02-20 20:21:01
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-02-27 10:17:48
+ * @LastEditTime: 2025-02-28 17:59:54
  * @FilePath: /siriusx-infer/siriusx/include/op/mha.h
- * @Description: 
+ * @Description: 审查完成 0228
  */
 #ifndef MHA_H
 #define MHA_H

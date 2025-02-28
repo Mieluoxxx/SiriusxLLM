@@ -4,7 +4,7 @@
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-01-24 19:11:26
  * @FilePath: /SiriusX-infer/siriusx/include/op/layer.h
- * @Description:
+ * @Description: 审查完成 0228
  */
 #ifndef OP_LAYER_H
 #define OP_LAYER_H
@@ -20,17 +20,19 @@
 namespace op {
 enum LayerType : uint8_t {
     Unknown = 0,
-    LayerAdd = 1,
-    LayerMatmul = 2,
-    LayerRMSNorm = 3,
-    LayerEmbedding = 4,
-    LayerSwiGLU = 5,
+    LayerLinear = 1,
+    LayerEncode = 2,
+    LayerEmbedding = 3,
+    LayerRMSNorm = 4,
+    LayerMatmul = 5,
     LayerRoPE = 6,
     LayerMHA = 7,
-    LayerEncode = 8,
+    LayerSoftmax = 8,
+    LayerAdd = 9,
+    LayerSwiGLU = 10,
 };
 
-// clang-format off
+
 class BaseLayer {
    public:
     // 构造函数，初始化BaseLayer对象

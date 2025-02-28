@@ -1,3 +1,12 @@
+/*
+ * @Author: Morgan Woods weiyiding0@gmail.com
+ * @Date: 2025-02-27 20:48:55
+ * @LastEditors: Morgan Woods weiyiding0@gmail.com
+ * @LastEditTime: 2025-02-28 17:51:01
+ * @FilePath: /siriusx-infer/siriusx/include/model/raw_model_data.h
+ * @Description: 审查完成
+ */
+
 #ifndef RAW_MODEL_DATA_H
 #define RAW_MODEL_DATA_H
 

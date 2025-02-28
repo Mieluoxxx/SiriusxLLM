@@ -40,9 +40,9 @@ if(USE_CUDA)
 endif()
 
 # 查找依赖包
-find_package(GTest CONFIG REQUIRED)
-find_package(glog CONFIG REQUIRED)
-find_package(Armadillo CONFIG REQUIRED)
+find_package(GTest REQUIRED)
+find_package(glog REQUIRED)
+find_package(Armadillo REQUIRED)
 
 # 收集源代码文件
 aux_source_directory(siriusx/src/base/ DIR_BASE)
@@ -72,6 +72,7 @@ target_link_libraries(llama PUBLIC
     glog::glog
     armadillo
     pthread
+    sentencepiece
 )
 
 if(USE_CUDA)
@@ -87,7 +88,7 @@ target_include_directories(llama PUBLIC
     ${glog_INCLUDE_DIR}
     ${PROJECT_SOURCE_DIR}/siriusx/include
     ${Armadillo_INCLUDE_DIR}
-    # ${sentencepiece_INCLUDE_DIRS}/src
+    ${sentencepiece_INCLUDE_DIRS}/src
 )
 
 if(USE_CUDA)

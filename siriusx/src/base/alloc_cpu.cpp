@@ -4,10 +4,9 @@
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-01-15 20:45:11
  * @FilePath: /SiriusX-infer/siriusx/src/base/alloc_cpu.cpp
- * @Description:
+ * @Description: 审查完成 0228 添加 POSIX_MEALIGN的data定义
  */
 #include <glog/logging.h>
-
 
 #include "base/alloc.h"
 
@@ -21,6 +20,7 @@ CPUDeviceAllocator::CPUDeviceAllocator() : DeviceAllocator(DeviceType::CPU) {}
 void* CPUDeviceAllocator::allocate(size_t byte_size) const {
     if (!byte_size) return nullptr;
 #ifdef SIRIUSX_HAVE_POSIX_MEMALIGN
+    void* data = nullptr;
     const size_t alignment =
         (byte_size >= size_t(1024)) ? size_t(32) : size_t(16);
     int status = posix_memalign(
@@ -42,5 +42,6 @@ void CPUDeviceAllocator::release(void* ptr) const {
     }
 }
 
-std::shared_ptr<CPUDeviceAllocator> CPUDeviceAllocatorFactory::instance = nullptr;
+std::shared_ptr<CPUDeviceAllocator> CPUDeviceAllocatorFactory::instance =
+    nullptr;
 }  // namespace base

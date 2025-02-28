@@ -9,7 +9,10 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/test/my_test",
-            "args": [],
+            "args": [            
+                "/home/moguw/siriusx-infer/tmp/stories42M.bin",
+                "/home/moguw/siriusx-infer/tmp/tokenizer.model"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

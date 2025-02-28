@@ -20,7 +20,7 @@ void scale_sum_kernel_cpu(const tensor::Tensor& value,
     CHECK_EQ(output.is_empty(), false);
 
     CHECK_EQ(size, value.size());
-    CHECK_EQ(size, scale.size());
+    CHECK_EQ(size, output.size());
 
     arma::fvec scale_vec(const_cast<float*>(scale.ptr<float>()), scale.size(),
                          false, true);

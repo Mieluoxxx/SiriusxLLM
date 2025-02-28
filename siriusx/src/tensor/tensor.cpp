@@ -4,7 +4,7 @@
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-01-17 20:14:22
  * @FilePath: /SiriusX-infer/siriusx/src/tensor/tensor.cpp
- * @Description:
+ * @Description: 审查完成 0228 修改buffer为this
  */
 #include "tensor/tensor.h"
 
@@ -13,9 +13,15 @@
 #include <functional>
 #include <memory>
 #include <numeric>
+#include <fstream>
 
 #include "base/alloc.h"
 #include "base/base.h"
+#include "base/buffer.h"
+
+#ifdef USE_CUDA
+#include <cuda_runtime.h>
+#endif
 
 namespace tensor {
 /***
@@ -156,7 +162,7 @@ void Tensor::to_cuda(cudaStream_t stream) {
 
 void Tensor::to_cpu() {
     CHECK_NE(buffer_, nullptr);
-    const base::DeviceType device_type = buffer_->device_type();
+    const base::DeviceType device_type = this->device_type();
 
     if (device_type == base::DeviceType::Unknown) {
         LOG(ERROR) << "The device type of the tensor is unknown.";
@@ -202,7 +208,7 @@ bool Tensor::assign(std::shared_ptr<base::Buffer> buffer) {
         }
     }
 
-    size_t byte_size = buffer->byte_size();
+    size_t byte_size = this->byte_size();
     if (byte_size > buffer->byte_size()) {
         LOG(ERROR) << "The size of buffer is too small for the tensor!";
         return false;
@@ -256,16 +262,21 @@ int32_t Tensor::dims_size() const { return static_cast<int32_t>(dims_.size()); }
 base::DataType Tensor::data_type() const { return data_type_; }
 
 void Tensor::reshape(const std::vector<int32_t>& dims) {
-    size_t size = reduce_dimension(dims_.begin(), dims_.end(), 1);
+    size_t size = reduce_dimension(dims.begin(), dims.end(), 1);
     if (!buffer_) {
         this->dims_ = dims;
         this->size_ = size;
         return;
     }
     if (size > size_) {
-        auto new_buffer = std::make_shared<base::Buffer>(
-            size * base::DataTypeSize(this->data_type_), buffer_->allocator());
+        auto new_buffer = std::make_shared<base::Buffer>(size * base::DataTypeSize(this->data_type_),
+                                                     buffer_->allocator());
+        CHECK(new_buffer->allocate());
+        new_buffer->copy_from(buffer_.get());
+        this->buffer_ = new_buffer;
     }
+    this->dims_ = dims;
+    this->size_ = size; 
 }
 
 std::shared_ptr<base::Buffer> Tensor::get_buffer() const { return buffer_; }
@@ -303,8 +314,7 @@ bool Tensor::is_empty() const {
     return size_ == 0 || buffer_ == nullptr || buffer_->ptr() == nullptr;
 }
 
-void Tensor::init_buffer(std::shared_ptr<base::DeviceAllocator> alloc,
-                         base::DataType data_type, bool need_alloc, void* ptr) {
+void Tensor::init_buffer(std::shared_ptr<base::DeviceAllocator> alloc, base::DataType data_type, bool need_alloc, void* ptr) {
     if (!alloc && !need_alloc) {
         std::shared_ptr<base::Buffer> buffer = std::make_shared<base::Buffer>(
             data_type_size(data_type) * size_, nullptr, ptr, true);

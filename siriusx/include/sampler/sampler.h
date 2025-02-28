@@ -1,3 +1,11 @@
+/*
+ * @Author: Morgan Woods weiyiding0@gmail.com
+ * @Date: 2025-02-27 20:48:55
+ * @LastEditors: Morgan Woods weiyiding0@gmail.com
+ * @LastEditTime: 2025-02-28 18:30:57
+ * @FilePath: /siriusx-infer/siriusx/include/sampler/sampler.h
+ * @Description: 审查完成 0228
+ */
 #ifndef SAMPLER_H
 #define SAMPLER_H
 

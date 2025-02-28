@@ -4,7 +4,7 @@
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-02-24 15:33:15
  * @FilePath: /siriusx-infer/siriusx/include/op/swiglu.h
- * @Description: 
+ * @Description: 审查完成 0228
  */
 #ifndef SWIGLU_H
 #define SWIGLU_H

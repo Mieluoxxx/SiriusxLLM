@@ -1,4 +1,3 @@
-// #include "base/tick.h"
 #include "model/llama2.h"
 
 #include <glog/logging.h>
@@ -22,8 +21,7 @@ int32_t generate(const model::LLama2Model& model, const std::string& sentence,
     while (pos < total_steps) {
         pos_tensor.index<int32_t>(0) = pos;
         if (pos < prompt_len - 1) {
-            tensor::Tensor input =
-                model.fill_input(pos_tensor, prompt_embedding, is_prompt);
+            tensor::Tensor input = model.fill_input(pos_tensor, prompt_embedding, is_prompt);
             model.predict(input, pos_tensor, is_prompt, next);
         } else {
             is_prompt = false;
@@ -60,12 +58,12 @@ int main(int argc, char* argv[]) {
     const char* checkpoint_path = argv[1];  // e.g. out/model.bin
     const char* tokenizer_path = argv[2];
   
-    model::LLama2Model model(base::TokenizerType::EncodeBpe, tokenizer_path, checkpoint_path, false);
+    model::LLama2Model model(base::TokenizerType::EncodeSpe, tokenizer_path, checkpoint_path, false);
     auto init_status = model.init(base::DeviceType::CPU);
     if (!init_status) {
       LOG(FATAL) << "The model init failed, the error code is: " << init_status.get_err_msg();
     }
-    const std::string& sentence = "a";
+    const std::string& sentence = "long long ago, ";
   
     auto start = std::chrono::steady_clock::now();
     printf("Generating...\n");

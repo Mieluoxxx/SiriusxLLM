@@ -4,7 +4,7 @@
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-01-23 07:04:57
  * @FilePath: /SiriusX-infer/siriusx/include/base/base.h
- * @Description:
+ * @Description: 审查完成 0228 错误点：TokenizerType
  */
 #ifndef BASE_H
 #define BASE_H
@@ -33,10 +33,10 @@ enum class ModelBufferType {
     W2Output = 11,
     W3Output = 12,
     FFNRMSNorm = 13,
-    ForwardOutput = 14,
-    ForwardOutputCPU = 15,
-    SinCache = 16,
-    CosCache = 17,
+    ForwardOutput = 15,
+    ForwardOutputCPU = 16,
+    SinCache = 17,
+    CosCache = 18,
 };
 }  // namespace model
 
@@ -88,10 +88,10 @@ enum StatusCode {
     InternalError = 6,
 };
 
-enum class TokenizerType : uint8_t {
-    EncodeUnknown = 0,
-    EncodeSpe = 1,
-    EncodeBpe = 2,
+enum class TokenizerType {
+    EncodeUnknown = -1,
+    EncodeSpe = 0,
+    EncodeBpe = 1,
 };
 
 enum class ModelType : uint8_t {

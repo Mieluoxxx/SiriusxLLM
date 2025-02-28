@@ -2,9 +2,9 @@
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-02-24 15:24:33
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-02-27 19:56:10
+ * @LastEditTime: 2025-02-28 18:53:08
  * @FilePath: /siriusx-infer/siriusx/src/model/model.cpp
- * @Description:
+ * @Description: 审查完成 0228
  */
 #include "model/model.h"
 
@@ -23,8 +23,7 @@
 namespace model {
 // 构造函数，用于初始化Model对象
 Model::Model(base::TokenizerType tokenizer_type, base::ModelType model_type,
-             std::string token_path, std::string model_path,
-             bool is_quant_model)
+             std::string token_path, std::string model_path, bool is_quant_model)
     : tokenizer_type_(tokenizer_type), // 初始化tokenizer_type_成员变量
       model_type_(model_type), // 初始化model_type_成员变量
       token_path_(std::move(token_path)), // 初始化token_path_成员变量，使用std::move将token_path参数移动到token_path_成员变量中
@@ -41,8 +40,7 @@ const std::string& Model::token_path() const { return token_path_; }
 const std::string& Model::model_path() const { return model_path_; }
 
 // 向模型中插入缓冲区
-base::Status Model::insert_buffer(ModelBufferType buffer_idx,
-                                  const tensor::Tensor& tensor) {
+base::Status Model::insert_buffer(ModelBufferType buffer_idx, const tensor::Tensor& tensor) {
     // 如果缓冲区中已经存在该索引，则返回错误
     if (buffers_.count(buffer_idx) > 0) {
         return base::error::KeyHasExits(std::to_string(int(buffer_idx)) + " has exits in the buffer");
@@ -124,9 +122,7 @@ base::Status Model::read_model_file() {
     struct stat st;
     if (fstat(fd, &st) == -1) {
       close(fd);
-      return error::ModelParseError(
-          "Failed to retrieve the file size information from the model "
-          "file.");
+      return error::ModelParseError("Failed to retrieve the file size information from the model file.");
     }
     raw_model_data_->file_size = st.st_size;
     LOG(INFO) << "The tokenizer model path: " << token_path_;

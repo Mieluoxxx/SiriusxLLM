@@ -4,7 +4,7 @@
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-01-15 22:12:47
  * @FilePath: /SiriusX-infer/siriusx/include/tensor/tensor.h
- * @Description:
+ * @Description: 审查完成 0228 cudaStream_t stream默认为nullptr
  */
 #ifndef TENSOR_H
 #define TENSOR_H
@@ -35,7 +35,7 @@ class Tensor {
 
     // 张量操作
     void to_cpu();
-    void to_cuda(cudaStream_t stream = 0);
+    void to_cuda(cudaStream_t stream = nullptr);
     bool is_empty() const;
     void reshape(const std::vector<int32_t>& dims);
     tensor::Tensor clone() const;
@@ -76,9 +76,9 @@ class Tensor {
     void set_device_type(base::DeviceType device_type) const;
 
    private:
-    size_t size_ = 0;                                     // 张量中数据个数
-    std::vector<int32_t> dims_;                           // Tensor的维度
-    std::shared_ptr<base::Buffer> buffer_;                // 实质上数据存放位置
+    size_t size_ = 0;                       // 张量中数据个数
+    std::vector<int32_t> dims_;             // Tensor的维度
+    std::shared_ptr<base::Buffer> buffer_;  // 实质上数据存放位置
     base::DataType data_type_ = base::DataType::Unknown;  // 数据类型
 };
 

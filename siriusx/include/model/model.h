@@ -2,9 +2,9 @@
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-02-23 18:49:51
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-02-27 18:13:35
+ * @LastEditTime: 2025-02-28 17:50:10
  * @FilePath: /siriusx-infer/siriusx/include/model/model.h
- * @Description:
+ * @Description: 审查完成 0228
  */
 #ifndef MODEL_H
 #define MODEL_H
@@ -46,7 +46,8 @@ class Model {
     virtual op::EmbeddingOutput embedding(const std::vector<int>& tokens) const = 0;
     
     virtual tensor::Tensor fill_input(const tensor::Tensor& pos_tensor,
-        const op::EmbeddingOutput& embedding_output, bool is_prompt) const;
+                                    const op::EmbeddingOutput& embedding_output, 
+                                    bool is_prompt) const;
 
    protected:
     virtual base::Status insert_buffer(ModelBufferType buffer_idx, const tensor::Tensor& tensor);

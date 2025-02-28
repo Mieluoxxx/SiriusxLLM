@@ -1,14 +1,15 @@
-/*** 
+/***
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-01-04 17:27:16
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-01-19 20:31:56
  * @FilePath: /SiriusX-infer/siriusx/src/base/buffer.cpp
- * @Description: 
+ * @Description: 审查完成 0228
  */
 #include "base/buffer.h"
 
 #include <glog/logging.h>
+
 #include "base/alloc.h"
 
 namespace base {
@@ -42,6 +43,20 @@ const void* Buffer::ptr() const { return ptr_; }
 
 size_t Buffer::byte_size() const { return byte_size_; }
 
+bool Buffer::allocate() {
+    if (allocator_ && byte_size_ != 0) {
+        use_external_ = false;
+        ptr_ = allocator_->allocate(byte_size_);
+        if (!ptr_) {
+            return false;
+        } else {
+            return true;
+        }
+    } else {
+        return false;
+    }
+}
+
 std::shared_ptr<DeviceAllocator> Buffer::allocator() const {
     return allocator_;
 }
@@ -56,15 +71,22 @@ void Buffer::copy_from(const Buffer& buffer) const {
     const DeviceType& current_device = this->device_type();
     CHECK(buffer_device != DeviceType::Unknown &&
           current_device != DeviceType::Unknown);
+#ifdef USE_CUDA
     if (buffer_device == DeviceType::CPU && current_device == DeviceType::CPU) {
         return allocator_->memcpy(buffer.ptr(), this->ptr_, byte_size);
-    } else if(buffer_device == DeviceType::CUDA && current_device == DeviceType::CPU) {
-        return allocator_->memcpy(buffer.ptr(), this->ptr_, byte_size, MemcpyKind::CUDA2CPU);
-    } else if (buffer_device == DeviceType::CPU && current_device == DeviceType::CUDA) {
-        return allocator_->memcpy(buffer.ptr(), this->ptr_, byte_size, MemcpyKind::CPU2CUDA);
+    } else if (buffer_device == DeviceType::CUDA &&
+               current_device == DeviceType::CPU) {
+        return allocator_->memcpy(buffer.ptr(), this->ptr_, byte_size,
+                                  MemcpyKind::CUDA2CPU);
+    } else if (buffer_device == DeviceType::CPU &&
+               current_device == DeviceType::CUDA) {
+        return allocator_->memcpy(buffer.ptr(), this->ptr_, byte_size,
+                                  MemcpyKind::CPU2CUDA);
     } else {
-        return allocator_->memcpy(buffer.ptr(), this->ptr_, byte_size, MemcpyKind::CUDA2CUDA);
+        return allocator_->memcpy(buffer.ptr(), this->ptr_, byte_size,
+                                  MemcpyKind::CUDA2CUDA);
     }
+#endif
 }
 
 void Buffer::copy_from(const Buffer* buffer) const {
@@ -76,17 +98,26 @@ void Buffer::copy_from(const Buffer* buffer) const {
     size_t byte_size = src_size < dest_size ? src_size : dest_size;
     const DeviceType& buffer_device = buffer->device_type();
     const DeviceType& current_device = this->device_type();
-    CHECK(buffer_device != DeviceType::Unknown && current_device != DeviceType::Unknown);
+    CHECK(buffer_device != DeviceType::Unknown &&
+          current_device != DeviceType::Unknown);
+#ifdef USE_CUDA
     if (buffer_device == DeviceType::CPU && current_device == DeviceType::CPU) {
         return allocator_->memcpy(buffer->ptr_, this->ptr_, byte_size);
-    } else if (buffer_device == DeviceType::CUDA && current_device == DeviceType::CPU) {
-        return allocator_->memcpy(buffer->ptr_, this->ptr_, byte_size, MemcpyKind::CUDA2CPU);
-    } else if (buffer_device == DeviceType::CPU && current_device == DeviceType::CUDA) {
-        return allocator_->memcpy(buffer->ptr_, this->ptr_, byte_size, MemcpyKind::CPU2CUDA);
+    } else if (buffer_device == DeviceType::CUDA &&
+               current_device == DeviceType::CPU) {
+        return allocator_->memcpy(buffer->ptr_, this->ptr_, byte_size,
+                                  MemcpyKind::CUDA2CPU);
+    } else if (buffer_device == DeviceType::CPU &&
+               current_device == DeviceType::CUDA) {
+        return allocator_->memcpy(buffer->ptr_, this->ptr_, byte_size,
+                                  MemcpyKind::CPU2CUDA);
     } else {
-        return allocator_->memcpy(buffer->ptr_, this->ptr_, byte_size, MemcpyKind::CUDA2CUDA);
+        return allocator_->memcpy(buffer->ptr_, this->ptr_, byte_size,
+                                  MemcpyKind::CUDA2CUDA);
     }
+#endif
 }
+
 
 DeviceType Buffer::device_type() const { return device_type_; }
 

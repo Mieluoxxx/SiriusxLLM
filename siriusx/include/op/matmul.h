@@ -2,9 +2,9 @@
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-02-16 19:52:54
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-02-24 15:32:20
+ * @LastEditTime: 2025-02-28 17:58:59
  * @FilePath: /siriusx-infer/siriusx/include/op/matmul.h
- * @Description: 
+ * @Description: 审查完成 0228
  */
 #ifndef MATMUL_H
 #define MATMUL_H
@@ -27,8 +27,8 @@ class MatmulLayer : public LayerParam {
     void to_cuda() override;
 
    private:
-    int32_t dim0_;
-    int32_t dim1_;
+    int32_t dim0_ = 0;
+    int32_t dim1_ = 0;
     bool has_bias_ = false;
     std::vector<tensor::Tensor> bias_;
 };

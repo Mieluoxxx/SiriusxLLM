@@ -2,9 +2,9 @@
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-02-23 21:29:07
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-02-27 19:55:05
+ * @LastEditTime: 2025-02-28 17:53:34
  * @FilePath: /siriusx-infer/siriusx/include/op/encode.h
- * @Description:
+ * @Description: 审查完成 0228
  */
 #ifndef ENCODE_H
 #define ENCODE_H

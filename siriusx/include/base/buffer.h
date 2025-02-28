@@ -4,7 +4,7 @@
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-02-07 21:43:15
  * @FilePath: /siriusx-infer/siriusx/include/base/buffer.h
- * @Description: 
+ * @Description: 审查完成 0228
  */
 #ifndef BASE_BUFFER_H
 #define BASE_BUFFER_H
