@@ -2,8 +2,8 @@
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-01-17 20:21:41
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-01-26 13:09:53
- * @FilePath: /SiriusX-infer/test/test_tensor/test_tensor.cpp
+ * @LastEditTime: 2025-03-02 13:30:33
+ * @FilePath: /siriusx-infer/test/test_tensor/test_tensor.cpp
  * @Description: 
  */
 #include <glog/logging.h>
@@ -86,7 +86,7 @@ TEST(test_tensor, clone_cpu) {
 
     tensor::Tensor t2_cpu = t1_cpu.clone();
     float* p2 = new float[32 * 32];
-    std::memcpy(p2, t2_cpu.ptr<float>(), sizeof(float) * 32 * 32);
+    alloc_cpu->memcpy(t2_cpu.ptr<float>(), p2, sizeof(float) * 32 * 32);
     for (int i = 0; i < 32 * 32; ++i) {
         ASSERT_EQ(p2[i], 1.f);
     }
