@@ -84,6 +84,7 @@
          }
      }
  #endif
+     // 使用mmap读取模型文件
      Status read_status = gen_model_from_file();
      if (!read_status) {
          return read_status;
@@ -98,19 +99,19 @@
              get_buffer(ModelBufferType::CosCache).ptr<float>());
      }
  #ifdef USE_CUDA
-     else {
-         CHECK_NE(cuda_config_, nullptr);
-         kernel::sin_cos_cache_calc_cu(config_->head_size_, config_->seq_len_,
-                                       get_buffer(ModelBufferType::kSinCache),
-                                       get_buffer(ModelBufferType::kCosCache),
-                                       cuda_config_->stream);
-     }
+    //  else {
+    //      CHECK_NE(cuda_config_, nullptr);
+    //      kernel::sin_cos_cache_calc_cu(config_->head_size_, config_->seq_len_,
+    //                                    get_buffer(ModelBufferType::SinCache),
+    //                                    get_buffer(ModelBufferType::CosCache),
+    //                                    cuda_config_->stream);
+    //  }
  #endif
      sampler_ = std::make_unique<sampler::ArgmaxSampler>(device_type_);
      return error::Success();
  }
  
- base::Status LLama2Model::forward(const tensor::Tensor& input, const tensor::Tensor& pos_tensor, int& next) const {
+base::Status LLama2Model::forward(const tensor::Tensor& input, const tensor::Tensor& pos_tensor, int& next) const {
      if (input.is_empty()) {
          return base::error::InvalidArgument("The input tensor is empty.");
      }
@@ -275,7 +276,7 @@
    llama2_layers_->rmsnorm_layers_.push_back(rms_final_layer);
  }
  
- void LLama2Model::init_mem() {
+void LLama2Model::init_mem() {
      std::shared_ptr<base::DeviceAllocator> alloc;
      if (device_type_ == base::DeviceType::CPU) {
          alloc = base::CPUDeviceAllocatorFactory::get_instance();

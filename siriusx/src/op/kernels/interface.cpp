@@ -21,6 +21,7 @@
 
 #ifdef USE_CUDA
 #include "cuda/add_kernel.cuh"
+#include "cuda/rmsnorm_kernel.cuh"
 #endif
 
 #include "interface.h"
@@ -61,11 +62,11 @@ RMSNormKernel get_rmsnorm_kernel(base::DeviceType device_type) {
     if (device_type == base::DeviceType::CPU) {
         return rmsnorm_kernel_cpu;
     }
-    // #ifdef USE_CUDA
-    //     else if (device_type == base::DeviceType::CUDA) {
-    //         return rmsnorm_kernel_cuda;
-    //     }
-    // #endif
+    #ifdef USE_CUDA
+    else if (device_type == base::DeviceType::CUDA) {
+        return rmsnorm_kernel_cuda;
+    }
+    #endif
     else {
         LOG(FATAL) << "Unknown device type for get a rmsnorm kernel.";
         return nullptr;
@@ -148,11 +149,11 @@ MHAKernel get_mha_kernel(base::DeviceType device_type) {
     if (device_type == base::DeviceType::CPU) {
         return mha_kernel_cpu;
     }
-#ifdef USE_CUDA
-    else if (device_type == base::DeviceType::CUDA) {
-        return mha_kernel_cuda
-    }
-#endif
+// #ifdef USE_CUDA
+//     else if (device_type == base::DeviceType::CUDA) {
+//         return mha_kernel_cuda
+//     }
+// #endif
     else {
         LOG(FATAL) << "Unknown device type for get an mha kernel.";
         return nullptr;

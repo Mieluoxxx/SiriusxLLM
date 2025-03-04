@@ -1,13 +1,14 @@
-/*** 
+/***
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-01-17 20:21:41
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-03-02 13:30:33
+ * @LastEditTime: 2025-03-02 14:25:27
  * @FilePath: /siriusx-infer/test/test_tensor/test_tensor.cpp
- * @Description: 
+ * @Description:
  */
 #include <glog/logging.h>
 #include <gtest/gtest.h>
+
 #include <vector>
 
 #include "base/alloc.h"
@@ -95,4 +96,35 @@ TEST(test_tensor, clone_cpu) {
         ASSERT_EQ(p2[i], 1.f);
     }
     delete[] p2;
+}
+
+// TEST(test_tensor, index) {
+//     using namespace base;
+//     float* ptr = new float[32];
+//     auto alloc_cu = base::CPUDeviceAllocatorFactory::get_instance();
+//     ptr[0] = 31;
+//     tensor::Tensor t1(base::DataType::FP32, 32, false, nullptr, ptr);
+//     void* p1 = t1.ptr<void>();
+//     p1 += 1;
+
+//     float* f1 = t1.ptr<float>();
+//     f1 += 1;
+//     ASSERT_NE(f1, p1);
+//     delete[] ptr;
+// }
+
+TEST(test_tensor, dims_strides) {
+    using namespace base;
+    auto alloc = base::CPUDeviceAllocatorFactory::get_instance();
+
+    tensor::Tensor t1(DataType::FP32, 32, 32, 3, true, alloc);
+    ASSERT_EQ(t1.is_empty(), false);
+    ASSERT_EQ(t1.get_dim(0), 32);
+    ASSERT_EQ(t1.get_dim(1), 32);
+    ASSERT_EQ(t1.get_dim(2), 3);
+
+    const auto& strides = t1.strides();
+    ASSERT_EQ(strides.at(0), 32 * 3);
+    ASSERT_EQ(strides.at(1), 3);
+    ASSERT_EQ(strides.at(2), 1);
 }

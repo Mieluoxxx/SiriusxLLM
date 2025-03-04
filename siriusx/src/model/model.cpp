@@ -219,7 +219,7 @@
      return error::Success();
  }
  
- base::Status Model::gen_model_from_file() {
+base::Status Model::gen_model_from_file() {
      // 使用命名空间base
      using namespace base;
      // 创建TransformerConfig对象

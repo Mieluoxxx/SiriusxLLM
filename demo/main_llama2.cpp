@@ -34,7 +34,8 @@ int32_t generate(const model::LLama2Model& model, const std::string& sentence,
         pos_tensor.index<int32_t>(0) = pos;
         // 如果pos小于prompt_len - 1，则填充input
         if (pos < prompt_len - 1) {
-            tensor::Tensor input = model.fill_input(pos_tensor, prompt_embedding, is_prompt);
+            tensor::Tensor input =
+                model.fill_input(pos_tensor, prompt_embedding, is_prompt);
             // 进行预测
             model.predict(input, pos_tensor, is_prompt, next);
         } else {
@@ -91,7 +92,7 @@ int main(int argc, char* argv[]) {
     LOG(INFO) << "Start Test...\n";
 
     printf("number of argc: %d\n", argc);
-    if (argc != 3) {
+    if (argc != 3 and argc != 4) {
         LOG(INFO) << "Usage: ./demo checkpoint_path tokenizer_path";
         return -1;
     }
@@ -99,16 +100,25 @@ int main(int argc, char* argv[]) {
     const char* tokenizer_path = argv[2];
 
     model::LLama2Model model(base::TokenizerType::EncodeSpe, tokenizer_path, checkpoint_path, false);
+    /*
+     * 初始化模型状态
+     * 使用mmap加载模型权重
+     * 分配内存，初始化权重
+     * 加载采样器
+     */
     auto init_status = model.init(base::DeviceType::CPU);
     if (!init_status) {
-        LOG(FATAL) << "The model init failed, the error code is: " << init_status.get_err_msg();
+        LOG(FATAL) << "The model init failed, the error code is: "
+                   << init_status.get_err_msg();
     }
-    const std::string& sentence = "long long ago,";
 
+    // 用户级prompt
+    const std::string& sentence = (argc == 3) ? "long long ago," : argv[3];
     auto start = std::chrono::steady_clock::now();
     printf("Generating...\n");
     fflush(stdout);
-    int steps = generate(model, sentence, 128, true);
+    // total_steps: 生成步数
+    int steps = generate(model, sentence, 256, true);
     auto end = std::chrono::steady_clock::now();
     auto duration = std::chrono::duration<double>(end - start).count();
     printf("\nsteps/s:%lf\n", static_cast<double>(steps) / duration);
