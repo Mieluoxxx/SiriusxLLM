@@ -50,6 +50,7 @@ TEST(test_rmsnorm, test_cpu) {
     }
 }
 
+#ifdef USE_CUDA
 TEST(test_rmsnorm, nostream) {
     auto alloc_cpu = base::CPUDeviceAllocatorFactory::get_instance();
     auto alloc_cuda = base::CUDADeviceAllocatorFactory::get_instance();
@@ -123,3 +124,4 @@ TEST(test_rmsnorm, stream) {
     }
     cudaStreamDestroy(stream);
 }
+#endif

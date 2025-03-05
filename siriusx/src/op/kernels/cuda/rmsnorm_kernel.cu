@@ -5,7 +5,7 @@
 namespace kernel {
 
 template <int32_t BLOCK_DIM>
-static __global__ void row_rmsnorm(float* in, float* wei, float* out,
+static __global__ void row_rmsnorm_fp32(float* in, float* wei, float* out,
                                         int size, float eps) {
     // 获取当前线程的索引
     const int tid = threadIdx.x;
@@ -106,11 +106,11 @@ void rmsnorm_kernel_cuda(const tensor::Tensor& input,
     if (stream) {
         cudaStream_t stream_ = static_cast<cudaStream_t>(stream);
         // 调用row_rmsnorm函数进行计算，指定CUDA流
-        row_rmsnorm<128><<<1, threads_num, 0, stream_>>>(
+        row_rmsnorm_fp32<128><<<1, threads_num, 0, stream_>>>(
             in_ptr, wei_ptr, out_ptr, size, eps);
     } else {
         // 否则使用默认的CUDA流进行计算
-        row_rmsnorm<128>
+        row_rmsnorm_fp32<128>
             <<<1, threads_num>>>(in_ptr, wei_ptr, out_ptr, size, eps);
     }
 }

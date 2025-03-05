@@ -21,7 +21,9 @@
 
 #ifdef USE_CUDA
 #include "cuda/add_kernel.cuh"
+#include "cuda/emb_kernel.cuh"
 #include "cuda/rmsnorm_kernel.cuh"
+#include "cuda/swiglu_kernel.cuh"
 #endif
 
 #include "interface.h"
@@ -62,11 +64,11 @@ RMSNormKernel get_rmsnorm_kernel(base::DeviceType device_type) {
     if (device_type == base::DeviceType::CPU) {
         return rmsnorm_kernel_cpu;
     }
-    #ifdef USE_CUDA
+#ifdef USE_CUDA
     else if (device_type == base::DeviceType::CUDA) {
         return rmsnorm_kernel_cuda;
     }
-    #endif
+#endif
     else {
         LOG(FATAL) << "Unknown device type for get a rmsnorm kernel.";
         return nullptr;
@@ -77,11 +79,11 @@ EmbeddingKernel get_embedding_kernel(base::DeviceType device_type) {
     if (device_type == base::DeviceType::CPU) {
         return embedding_kernel_cpu;
     }
-    // #ifdef USE_CUDA
-    //     else if (device_type == base::DeviceType::CUDA) {
-    //         return embedding_kernel_cuda;
-    //     }
-    // #endif
+#ifdef USE_CUDA
+    else if (device_type == base::DeviceType::CUDA) {
+        return embedding_kernel_cuda;
+    }
+#endif
     else {
         LOG(FATAL) << "Unknown device type for get a embedding kernel.";
         return nullptr;
@@ -92,11 +94,11 @@ SwiGLUKernel get_swiglu_kernel(base::DeviceType device_type) {
     if (device_type == base::DeviceType::CPU) {
         return swiglu_kernel_cpu;
     }
-    // #ifdef USE_CUDA
-    //     else if (device_type == base::DeviceType::CUDA) {
-    //         return swiglu_kernel_cuda;
-    //     }
-    // #endif
+#ifdef USE_CUDA
+    else if (device_type == base::DeviceType::CUDA) {
+        return swiglu_kernel_cuda;
+    }
+#endif
     else {
         LOG(FATAL) << "Unknown device type for get a swiglu kernel.";
         return nullptr;
@@ -149,11 +151,11 @@ MHAKernel get_mha_kernel(base::DeviceType device_type) {
     if (device_type == base::DeviceType::CPU) {
         return mha_kernel_cpu;
     }
-// #ifdef USE_CUDA
-//     else if (device_type == base::DeviceType::CUDA) {
-//         return mha_kernel_cuda
-//     }
-// #endif
+    // #ifdef USE_CUDA
+    //     else if (device_type == base::DeviceType::CUDA) {
+    //         return mha_kernel_cuda
+    //     }
+    // #endif
     else {
         LOG(FATAL) << "Unknown device type for get an mha kernel.";
         return nullptr;
