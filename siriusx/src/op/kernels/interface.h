@@ -2,12 +2,18 @@
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-02-16 19:55:56
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-02-20 22:02:52
+ * @LastEditTime: 2025-03-07 14:36:55
  * @FilePath: /siriusx-infer/siriusx/src/op/kernels/interface.h
  * @Description:
  */
 #ifndef KERNELS_INTERFACE_H
 #define KERNELS_INTERFACE_H
+
+#ifndef USE_CUDA
+using cudaStream_t = void*;
+#else
+#include <cuda_runtime.h>
+#endif
 
 #include "tensor/tensor.h"
 
@@ -19,6 +25,13 @@ typedef void (*MatmulKernel)(const tensor::Tensor& input,
                              const tensor::Tensor& weight,
                              const tensor::Tensor& output, float scale,
                              const CudaConfig* config);
+
+typedef void (*MatmulKernelQuant)(const tensor::Tensor& input,
+                                  const tensor::Tensor& weight,
+                                  const tensor::Tensor& output,
+                                  int32_t group_size,
+                                  const tensor::Tensor& scale,
+                                  const CudaConfig* config);
 
 typedef void (*RMSNormKernel)(const tensor::Tensor& input,
                               const tensor::Tensor& weight,
@@ -61,6 +74,7 @@ typedef void (*MHAKernel)(int32_t pos, int32_t head_num, int32_t layer_index,
 
 AddKernel get_add_kernel(base::DeviceType device_type);
 MatmulKernel get_matmul_kernel(base::DeviceType device_type);
+MatmulKernelQuant get_matmul_quant_kernel(base::DeviceType device_type);
 RMSNormKernel get_rmsnorm_kernel(base::DeviceType device_type);
 EmbeddingKernel get_embedding_kernel(base::DeviceType device_type);
 SwiGLUKernel get_swiglu_kernel(base::DeviceType device_type);
