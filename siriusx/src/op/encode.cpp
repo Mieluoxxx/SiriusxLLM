@@ -3,7 +3,7 @@
  * @Date: 2025-02-23 22:15:07
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-02-28 22:00:07
- * @FilePath: /siriusx-infer/siriusx/src/op/encode.cpp
+ * @FilePath: /SiriusxLLM/siriusx/src/op/encode.cpp
  * @Description: 
  */
 #include "op/encode.h"

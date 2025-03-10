@@ -3,7 +3,7 @@
  * @Date: 2025-02-16 19:55:56
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-03-05 20:58:33
- * @FilePath: /siriusx-infer/test/test_op/test_emb.cpp
+ * @FilePath: /SiriusxLLM/test/test_op/test_emb.cpp
  * @Description: 
  */
 #include "../src/op/kernels/interface.h"

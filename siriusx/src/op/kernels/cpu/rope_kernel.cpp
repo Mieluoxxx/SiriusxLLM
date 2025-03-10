@@ -3,7 +3,7 @@
  * @Date: 2025-02-17 19:11:51
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-03-07 14:41:45
- * @FilePath: /siriusx-infer/siriusx/src/op/kernels/cpu/rope_kernel.cpp
+ * @FilePath: /SiriusxLLM/siriusx/src/op/kernels/cpu/rope_kernel.cpp
  * @Description: 
  */
 #include "rope_kernel.h"

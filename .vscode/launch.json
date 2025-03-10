@@ -10,8 +10,8 @@
             "request": "launch",
             "program": "${workspaceFolder}/build/demo/llama2",
             "args": [
-                "/home/moguw/workspace/siriusx-infer/tmp/stories42M.bin",
-                "/home/moguw/workspace/siriusx-infer/tmp/tokenizer.model"
+                "/home/moguw/workspace/SiriusxLLM/tmp/stories42M.bin",
+                "/home/moguw/workspace/SiriusxLLM/tmp/tokenizer.model"
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

@@ -3,7 +3,7 @@
  * @Date: 2025-01-31 03:08:29
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-02-28 21:50:10
- * @FilePath: /siriusx-infer/siriusx/src/base/alloc_cpu.cpp
+ * @FilePath: /SiriusxLLM/siriusx/src/base/alloc_cpu.cpp
  * @Description: 
  */
 #include <glog/logging.h>

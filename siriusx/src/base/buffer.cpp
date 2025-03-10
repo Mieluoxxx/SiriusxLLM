@@ -3,7 +3,7 @@
  * @Date: 2025-01-04 17:27:16
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-01-19 20:31:56
- * @FilePath: /SiriusX-infer/siriusx/src/base/buffer.cpp
+ * @FilePath: /SiriusxLLM/siriusx/src/base/buffer.cpp
  * @Description:
  */
 #include "base/buffer.h"

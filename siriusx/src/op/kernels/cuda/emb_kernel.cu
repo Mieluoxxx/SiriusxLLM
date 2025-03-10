@@ -3,7 +3,7 @@
  * @Date: 2025-03-05 09:06:31
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-03-05 12:20:19
- * @FilePath: /siriusx-infer/siriusx/src/op/kernels/cuda/emb_kernel.cu
+ * @FilePath: /SiriusxLLM/siriusx/src/op/kernels/cuda/emb_kernel.cu
  * @Description: 
  */
 #include "base/base.h"

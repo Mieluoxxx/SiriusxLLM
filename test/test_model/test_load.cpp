@@ -3,7 +3,7 @@
  * @Date: 2025-03-02 15:59:34
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-03-02 16:47:09
- * @FilePath: /siriusx-infer/test/test_model/test_load.cpp
+ * @FilePath: /SiriusxLLM/test/test_model/test_load.cpp
  * @Description:
  */
 #include <fcntl.h>
@@ -14,7 +14,7 @@
 #include "model/config.h"
 
 TEST(test_load, load_model_config) {
-    std::string model_path = "/home/moguw/workspace/siriusx-infer/tmp/test.bin";
+    std::string model_path = "/home/moguw/workspace/SiriusxLLM/tmp/test.bin";
     int32_t fd = open(model_path.data(), O_RDONLY);
     ASSERT_NE(fd, -1);
 
@@ -29,7 +29,7 @@ TEST(test_load, load_model_config) {
 }
 
 TEST(test_load, load_model_weight) {
-    std::string model_path = "/home/moguw/workspace/siriusx-infer/tmp/test.bin";
+    std::string model_path = "/home/moguw/workspace/SiriusxLLM/tmp/test.bin";
     int32_t fd = open(model_path.data(), O_RDONLY);
     ASSERT_NE(fd, -1);
 

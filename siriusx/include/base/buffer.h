@@ -3,7 +3,7 @@
  * @Date: 2025-01-31 03:08:29
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-02-07 21:43:15
- * @FilePath: /siriusx-infer/siriusx/include/base/buffer.h
+ * @FilePath: /SiriusxLLM/siriusx/include/base/buffer.h
  * @Description: 
  */
 #ifndef BASE_BUFFER_H

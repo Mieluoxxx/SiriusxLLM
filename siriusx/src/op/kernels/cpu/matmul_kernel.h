@@ -3,7 +3,7 @@
  * @Date: 2025-02-09 02:18:19
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-02-10 00:09:08
- * @FilePath: /siriusx-infer/siriusx/src/op/kernels/cpu/matmul_kernel.h
+ * @FilePath: /SiriusxLLM/siriusx/src/op/kernels/cpu/matmul_kernel.h
  * @Description:
  */
 #ifndef MATMUL_KERNEL_H

@@ -3,7 +3,7 @@
  * @Date: 2025-02-20 22:55:05
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-02-20 22:56:36
- * @FilePath: /siriusx-infer/test/test_op/test_scale.cpp
+ * @FilePath: /SiriusxLLM/test/test_op/test_scale.cpp
  * @Description: 
  */
 #include "base/alloc.h"

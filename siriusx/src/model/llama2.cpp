@@ -3,7 +3,7 @@
  * @Date: 2025-01-04 17:27:16
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-01-19 20:31:56
- * @FilePath: /SiriusX-infer/siriusx/src/model/llama2.cpp
+ * @FilePath: /SiriusxLLM/siriusx/src/model/llama2.cpp
  * @Description: 审查完成 0228
  */
 #include "model/llama2.h"

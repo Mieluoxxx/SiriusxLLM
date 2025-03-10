@@ -3,7 +3,7 @@
  * @Date: 2025-02-16 19:52:54
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-02-28 21:46:11
- * @FilePath: /siriusx-infer/siriusx/include/op/matmul.h
+ * @FilePath: /SiriusxLLM/siriusx/include/op/matmul.h
  * @Description: 
  */
 #ifndef MATMUL_H

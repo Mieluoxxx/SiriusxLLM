@@ -3,7 +3,7 @@
  * @Date: 2025-02-24 20:42:42
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-03-05 19:40:22
- * @FilePath: /siriusx-infer/siriusx/src/sampler/argmax_sampler.cpp
+ * @FilePath: /SiriusxLLM/siriusx/src/sampler/argmax_sampler.cpp
  * @Description: 
  */
 #include "sampler/argmax_sampler.h"

@@ -3,7 +3,7 @@
  * @Date: 2025-02-23 18:41:52
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-02-28 21:44:43
- * @FilePath: /siriusx-infer/siriusx/include/model/config.h
+ * @FilePath: /SiriusxLLM/siriusx/include/model/config.h
  * @Description:
  */
 #ifndef MODEL_CONFIG_H

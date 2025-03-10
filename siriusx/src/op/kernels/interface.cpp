@@ -3,7 +3,7 @@
  * @Date: 2025-01-31 03:08:29
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-03-09 17:29:10
- * @FilePath: /siriusx-infer/siriusx/src/op/kernels/interface.cpp
+ * @FilePath: /SiriusxLLM/siriusx/src/op/kernels/interface.cpp
  * @Description:
  */
 #include <base/base.h>

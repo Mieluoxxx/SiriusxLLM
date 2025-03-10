@@ -3,7 +3,7 @@
  * @Date: 2025-01-15 21:36:02
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-01-17 20:14:22
- * @FilePath: /SiriusX-infer/siriusx/src/tensor/tensor.cpp
+ * @FilePath: /SiriusxLLM/siriusx/src/tensor/tensor.cpp
  * @Description:
  */
 #include "tensor/tensor.h"

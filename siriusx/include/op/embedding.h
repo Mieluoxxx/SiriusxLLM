@@ -3,7 +3,7 @@
  * @Date: 2025-02-16 19:55:56
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-02-28 21:45:47
- * @FilePath: /siriusx-infer/siriusx/include/op/embedding.h
+ * @FilePath: /SiriusxLLM/siriusx/include/op/embedding.h
  * @Description: 
  */
 #ifndef EMBEDDING_H

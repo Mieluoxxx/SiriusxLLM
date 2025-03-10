@@ -3,7 +3,7 @@
  * @Date: 2025-01-31 03:08:29
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-02-24 15:34:00
- * @FilePath: /siriusx-infer/siriusx/include/op/add.h
+ * @FilePath: /SiriusxLLM/siriusx/include/op/add.h
  * @Description: 
  */
 #ifndef OP_ADD_H

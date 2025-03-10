@@ -3,7 +3,7 @@
  * @Date: 2025-02-16 21:44:59
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-03-05 20:57:12
- * @FilePath: /siriusx-infer/test/test_op/test_swiglu.cpp
+ * @FilePath: /SiriusxLLM/test/test_op/test_swiglu.cpp
  * @Description: 
  */
 #include <gtest/gtest.h>

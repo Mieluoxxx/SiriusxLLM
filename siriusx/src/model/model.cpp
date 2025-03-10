@@ -3,7 +3,7 @@
  * @Date: 2025-02-24 15:24:33
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-02-28 21:58:10
- * @FilePath: /siriusx-infer/siriusx/src/model/model.cpp
+ * @FilePath: /SiriusxLLM/siriusx/src/model/model.cpp
  * @Description: 审查完成 0228
  */
  #include "model/model.h"

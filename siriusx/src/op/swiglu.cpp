@@ -3,7 +3,7 @@
  * @Date: 2025-02-16 21:22:50
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-02-20 22:51:37
- * @FilePath: /siriusx-infer/siriusx/src/op/swiglu.cpp
+ * @FilePath: /SiriusxLLM/siriusx/src/op/swiglu.cpp
  * @Description: 
  */
 #include "op/swiglu.h"

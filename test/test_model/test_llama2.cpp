@@ -3,7 +3,7 @@
  * @Date: 2025-03-02 13:39:26
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-03-02 13:51:56
- * @FilePath: /siriusx-infer/test/test_model/test_llama2.cpp
+ * @FilePath: /SiriusxLLM/test/test_model/test_llama2.cpp
  * @Description: 
  */
 #include <glog/logging.h>
@@ -16,8 +16,8 @@ TEST(test_llama_model, cpu1) {
   using namespace base;
   std::shared_ptr<base::CPUDeviceAllocator> alloc = std::make_shared<base::CPUDeviceAllocator>();
 
-  const char* checkpoint_path = "/home/moguw/workspace/siriusx-infer/tmp/stories42M.bin";
-  const char* tokenizer_path = "/home/moguw/workspace/siriusx-infer/tmp/tokenizer.model";
+  const char* checkpoint_path = "/home/moguw/workspace/SiriusxLLM/tmp/stories42M.bin";
+  const char* tokenizer_path = "/home/moguw/workspace/SiriusxLLM/tmp/tokenizer.model";
   model::LLama2Model model(base::TokenizerType::EncodeSpe, tokenizer_path, checkpoint_path, false);
   auto status = model.init(base::DeviceType::CPU);
 

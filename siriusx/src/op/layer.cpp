@@ -3,7 +3,7 @@
  * @Date: 2025-01-23 17:46:57
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-01-24 19:37:42
- * @FilePath: /SiriusX-infer/siriusx/src/op/layer.cpp
+ * @FilePath: /SiriusxLLM/siriusx/src/op/layer.cpp
  * @Description:
  */
 #include "op/layer.h"

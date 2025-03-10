@@ -3,7 +3,7 @@
  * @Date: 2025-01-02 17:34:31
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-01-18 23:08:24
- * @FilePath: /SiriusX-infer/siriusx/include/base/alloc.h
+ * @FilePath: /SiriusxLLM/siriusx/include/base/alloc.h
  * @Description:
  */
 

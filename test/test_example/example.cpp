@@ -3,7 +3,7 @@
  * @Date: 2025-01-04 19:09:35
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-02-01 02:25:17
- * @FilePath: /SiriusX-infer/test/test_example/example.cpp
+ * @FilePath: /SiriusxLLM/test/test_example/example.cpp
  * @Description:
  */
 #include <glog/logging.h>

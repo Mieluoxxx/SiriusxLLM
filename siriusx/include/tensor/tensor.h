@@ -3,7 +3,7 @@
  * @Date: 2025-01-15 21:35:50
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-01-15 22:12:47
- * @FilePath: /SiriusX-infer/siriusx/include/tensor/tensor.h
+ * @FilePath: /SiriusxLLM/siriusx/include/tensor/tensor.h
  * @Description:
  */
 #ifndef TENSOR_H

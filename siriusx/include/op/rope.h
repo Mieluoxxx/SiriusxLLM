@@ -3,7 +3,7 @@
  * @Date: 2025-02-17 19:02:51
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-02-24 15:33:09
- * @FilePath: /siriusx-infer/siriusx/include/op/rope.h
+ * @FilePath: /SiriusxLLM/siriusx/include/op/rope.h
  * @Description:
  */
 #ifndef ROPE_H

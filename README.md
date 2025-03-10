@@ -3,7 +3,7 @@
  * @Date: 2025-01-02 16:44:41
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-03-10 09:19:18
- * @FilePath: /siriusx-infer/README.md
+ * @FilePath: /SiriusxLLM/README.md
  * @Description: 
 -->
 ## 前置要求

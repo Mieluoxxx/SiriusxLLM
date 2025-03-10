@@ -3,7 +3,7 @@
  * @Date: 2025-02-20 20:21:01
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-02-27 10:17:48
- * @FilePath: /siriusx-infer/siriusx/include/op/mha.h
+ * @FilePath: /SiriusxLLM/siriusx/include/op/mha.h
  * @Description: 
  */
 #ifndef MHA_H

@@ -3,7 +3,7 @@
  * @Date: 2025-02-20 20:29:29
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-02-20 22:45:07
- * @FilePath: /siriusx-infer/siriusx/src/op/kernels/cpu/mha_kernel.h
+ * @FilePath: /SiriusxLLM/siriusx/src/op/kernels/cpu/mha_kernel.h
  * @Description: 
  */
 #ifndef MHA_KERNEL_H

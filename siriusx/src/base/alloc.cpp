@@ -3,7 +3,7 @@
  * @Date: 2025-02-08 19:16:16
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-02-08 19:23:05
- * @FilePath: /siriusx-infer/siriusx/src/base/alloc.cpp
+ * @FilePath: /SiriusxLLM/siriusx/src/base/alloc.cpp
  * @Description: 审查完成 0228 简化代码逻辑
  */
 #include "base/alloc.h"

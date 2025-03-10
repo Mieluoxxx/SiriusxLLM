@@ -3,7 +3,7 @@
  * @Date: 2025-02-20 22:05:24
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-02-28 22:01:02
- * @FilePath: /siriusx-infer/siriusx/src/op/kernels/cpu/scale_sum_kernel.cpp
+ * @FilePath: /SiriusxLLM/siriusx/src/op/kernels/cpu/scale_sum_kernel.cpp
  * @Description: 
  */
 /***
@@ -11,7 +11,7 @@
  * @Date: 2025-02-20 22:05:24
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-02-20 22:07:18
- * @FilePath: /siriusx-infer/siriusx/src/op/kernels/cpu/scale_sum_kernel.cpp
+ * @FilePath: /SiriusxLLM/siriusx/src/op/kernels/cpu/scale_sum_kernel.cpp
  * @Description:
  */
 #include "scale_sum_kernel.h"

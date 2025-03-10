@@ -3,7 +3,7 @@
  * @Date: 2025-03-06 10:32:12
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-03-07 14:40:25
- * @FilePath: /siriusx-infer/siriusx/src/op/kernels/cuda/rope_kernel.cu
+ * @FilePath: /SiriusxLLM/siriusx/src/op/kernels/cuda/rope_kernel.cu
  * @Description:
  */
 #include "rope_kernel.cuh"

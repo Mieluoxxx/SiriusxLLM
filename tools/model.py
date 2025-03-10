@@ -3,7 +3,7 @@ Author: Morgan Woods weiyiding0@gmail.com
 Date: 2025-03-02 16:58:34
 LastEditors: Morgan Woods weiyiding0@gmail.com
 LastEditTime: 2025-03-02 17:18:15
-FilePath: /siriusx-infer/tools/model.py
+FilePath: /SiriusxLLM/tools/model.py
 Description:
 """
 

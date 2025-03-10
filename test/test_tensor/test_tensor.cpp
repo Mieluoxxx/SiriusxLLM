@@ -3,7 +3,7 @@
  * @Date: 2025-01-17 20:21:41
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-03-02 14:25:27
- * @FilePath: /siriusx-infer/test/test_tensor/test_tensor.cpp
+ * @FilePath: /SiriusxLLM/test/test_tensor/test_tensor.cpp
  * @Description:
  */
 #include <glog/logging.h>

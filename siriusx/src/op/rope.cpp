@@ -3,7 +3,7 @@
  * @Date: 2025-02-17 21:16:03
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-02-20 22:51:22
- * @FilePath: /siriusx-infer/siriusx/src/op/rope.cpp
+ * @FilePath: /SiriusxLLM/siriusx/src/op/rope.cpp
  * @Description: 
  */
 

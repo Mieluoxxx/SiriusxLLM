@@ -3,7 +3,7 @@
  * @Date: 2025-02-13 18:34:55
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-02-14 22:28:04
- * @FilePath: /siriusx-infer/siriusx/src/op/rmsnorm.cpp
+ * @FilePath: /SiriusxLLM/siriusx/src/op/rmsnorm.cpp
  * @Description:
  */
 #include "op/rmsnorm.h"

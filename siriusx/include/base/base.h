@@ -3,7 +3,7 @@
  * @Date: 2025-01-02 17:26:24
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-01-23 07:04:57
- * @FilePath: /SiriusX-infer/siriusx/include/base/base.h
+ * @FilePath: /SiriusxLLM/siriusx/include/base/base.h
  * @Description:
  */
 #ifndef BASE_H

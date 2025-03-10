@@ -3,7 +3,7 @@
  * @Date: 2025-02-16 19:55:56
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-02-28 21:59:32
- * @FilePath: /siriusx-infer/siriusx/src/op/embedding.cpp
+ * @FilePath: /SiriusxLLM/siriusx/src/op/embedding.cpp
  * @Description: 
  */
 #include "op/embedding.h"
