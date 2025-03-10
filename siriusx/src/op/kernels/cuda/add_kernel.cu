@@ -2,7 +2,7 @@
 
 namespace kernel {
 __global__ void add_kernel_cuda_fp32(int32_t size, const float* in1,
-                                   const float* in2, float* out) {
+                                     const float* in2, float* out) {
     int32_t tid = threadIdx.x + blockDim.x * blockIdx.x;
     if (tid >= size) {
         return;
@@ -13,7 +13,7 @@ __global__ void add_kernel_cuda_fp32(int32_t size, const float* in1,
 }
 
 void add_kernel_cuda(const tensor::Tensor& input1, const tensor::Tensor& input2,
-                   const tensor::Tensor& output, void* stream) {
+                     const tensor::Tensor& output, void* stream) {
     CHECK_EQ(input1.is_empty(), false);
     CHECK_EQ(input2.is_empty(), false);
     CHECK_EQ(output.is_empty(), false);

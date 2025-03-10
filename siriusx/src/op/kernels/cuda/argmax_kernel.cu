@@ -2,13 +2,13 @@
 #include "base/alloc.h"
 
 namespace kernel {
-__forceinline__ __device__ void warp_reduce_argmax(float& val, size_t ptr) {
+__forceinline__ __device__ void warp_reduce_argmax(float& val, size_t& ptr) {
     float tmp_val;
     size_t tmp_ptr;
     unsigned int mask = __ballot_sync(0xFFFFFFFF, true);
     for (unsigned int k = (warpSize >> 1); k > 0; k >>= 1) {
-        tmp_val = __shfl_down_sync(mask, val, k);
-        tmp_ptr = __shfl_down_sync(mask, ptr, k);
+        tmp_val = __shfl_down_sync(mask, val, k, warpSize);
+        tmp_ptr = __shfl_down_sync(mask, ptr, k, warpSize);
         if (ptr == SIZE_MAX || tmp_ptr == SIZE_MAX) continue;
         if (tmp_val > val) {
             val = tmp_val;
@@ -26,11 +26,13 @@ __forceinline__ __device__ void block_reduce_argmax(float& val, size_t& ptr,
     int warp_id = threadIdx.x / warpSize;
 
     warp_reduce_argmax(val, ptr);
+
     __syncthreads();
     if (lane_id == 0) {
         shared_value[warp_id] = val;
         shared_ptr[warp_id] = ptr;
     }
+
     __syncthreads();
     if (threadIdx.x < blockDim.x / warpSize) {
         val = shared_value[lane_id];
@@ -39,6 +41,7 @@ __forceinline__ __device__ void block_reduce_argmax(float& val, size_t& ptr,
         val = 0;
         ptr = SIZE_MAX;
     }
+
     if (warp_id == 0) {
         warp_reduce_argmax(val, ptr);
     }
@@ -49,13 +52,15 @@ __global__ void argmax_kernel_fp32(const float* input_ptr, size_t size,
     __shared__ size_t shared_max_ptr[32];
     __shared__ float shared_max_value[32];
     uint32_t tid = threadIdx.x;
-    if (tid >= size) return;
+    if (tid >= size) {
+        return;
+    }
 
     size_t max_index = threadIdx.x;
     float max_value = input_ptr[max_index];
     for (size_t i = tid; i < size; i += blockDim.x) {
         if (input_ptr[i] > max_value) {
-            max_value = i;
+            max_index = i;
             max_value = input_ptr[i];
         }
     }

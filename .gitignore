@@ -6,3 +6,4 @@ lib/
 .cache/
 tmp/
 vcpkg_installed/
+archive/

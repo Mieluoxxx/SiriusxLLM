@@ -10,8 +10,7 @@
 
 namespace base {
 // 构造函数，初始化CUDADeviceAllocator对象
-CUDADeviceAllocator::CUDADeviceAllocator()
-    : DeviceAllocator(DeviceType::CUDA) {
+CUDADeviceAllocator::CUDADeviceAllocator() : DeviceAllocator(DeviceType::CUDA) {
 }  // 调用父类DeviceAllocator的构造函数，传入设备类型为CUDA
 
 void* CUDADeviceAllocator::allocate(size_t byte_size) const {
@@ -19,8 +18,7 @@ void* CUDADeviceAllocator::allocate(size_t byte_size) const {
     int id = -1;
     cudaError_t state = cudaGetDevice(&id);
     // 检查获取设备ID是否成功
-    CHECK(state == cudaSuccess)
-        << "Failed to get device id: " << cudaGetErrorString(state);
+    CHECK(state == cudaSuccess) << "Failed to get device id: " << cudaGetErrorString(state);
 
     // 如果需要分配的内存大于1MB
     if (byte_size > 1024 * 1024) {
@@ -31,8 +29,7 @@ void* CUDADeviceAllocator::allocate(size_t byte_size) const {
         for (int i = 0; i < big_buffers.size(); ++i) {
             if (big_buffers[i].byte_size >= byte_size && !big_buffers[i].busy &&
                 big_buffers[i].byte_size - byte_size < 1 * 1024 * 1024) {
-                if (sel_id == -1 ||
-                    big_buffers[sel_id].byte_size > big_buffers[i].byte_size) {
+                if (sel_id == -1 || big_buffers[sel_id].byte_size > big_buffers[i].byte_size) {
                     sel_id = i;
                 }
             }

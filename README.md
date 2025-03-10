@@ -65,7 +65,7 @@ docker run --gpus all -t -i --name kuiperllama -v "/home/moguw/workspace/kuiperl
 sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.list
 
 apt update
-apt install -y build-essential wget cmake git gdb clangd
+apt install -y build-essential wget cmake git gdb clangd clang-format
 apt install -y libopenblas-dev liblapack-dev libarpack2-dev libsuperlu-dev
 
 

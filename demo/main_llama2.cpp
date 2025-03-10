@@ -1,4 +1,3 @@
-// #include "base/tick.h"
 #include <glog/logging.h>
 
 #include <filesystem>
@@ -6,6 +5,60 @@
 
 #include "base/base.h"
 #include "model/llama2.h"
+
+bool parse_args(int argc, char* argv[], std::string& checkpoint_path,
+                std::string& tokenizer_path, bool& is_quantized,
+                std::string& prompt, bool& use_cuda);
+
+int32_t generate(const model::LLama2Model& model, const std::string& sentence,
+                 int total_steps, bool need_output);
+
+int main(int argc, char* argv[]) {
+    google::InitGoogleLogging("SiriusX");
+    std::string log_dir = "./log/";
+
+    if (!std::filesystem::exists(log_dir)) {
+        std::filesystem::create_directory(log_dir);
+    }
+
+    FLAGS_log_dir = log_dir;
+    FLAGS_alsologtostderr = true;
+
+    LOG(INFO) << "Start Test...\n";
+
+    // 解析命令行参数
+    std::string checkpoint_path, tokenizer_path, prompt = "long long ago,";
+    bool is_quantized = false;
+    bool use_cuda = false;
+
+    if (!parse_args(argc, argv, checkpoint_path, tokenizer_path, is_quantized,
+                    prompt, use_cuda)) {
+        return -1;
+    }
+
+    // 初始化模型
+    model::LLama2Model model(base::TokenizerType::EncodeSpe, tokenizer_path,
+                             checkpoint_path, is_quantized);
+    auto init_status =
+        model.init(use_cuda ? base::DeviceType::CUDA : base::DeviceType::CPU);
+
+    if (!init_status) {
+        LOG(FATAL) << "The model init failed, the error code is: "
+                   << init_status.get_err_msg();
+    }
+
+    // 生成文本
+    auto start = std::chrono::steady_clock::now();
+    printf("Generating...\n");
+    fflush(stdout);
+    int steps = generate(model, prompt, 256, true);
+    auto end = std::chrono::steady_clock::now();
+    auto duration = std::chrono::duration<double>(end - start).count();
+    printf("\nsteps/s:%lf\n", static_cast<double>(steps) / duration);
+    fflush(stdout);
+
+    return 0;
+}
 
 int32_t generate(const model::LLama2Model& model, const std::string& sentence,
                  int total_steps, bool need_output = false) {
@@ -76,14 +129,6 @@ int32_t generate(const model::LLama2Model& model, const std::string& sentence,
     return std::min(pos, total_steps);
 }
 
-// 去掉字符串开头和结尾的双引号
-std::string strip_quotes(const std::string& str) {
-    if (str.size() >= 2 && str.front() == '"' && str.back() == '"') {
-        return str.substr(1, str.size() - 2);
-    }
-    return str;
-}
-
 // 打印帮助信息
 void print_help(const std::string& program_name) {
     std::cout
@@ -101,6 +146,14 @@ void print_help(const std::string& program_name) {
            "default: false)\n"
 #endif
         << "  --help                   Show this help message\n";
+}
+
+// 去掉字符串开头和结尾的双引号
+std::string strip_quotes(const std::string& str) {
+    if (str.size() >= 2 && str.front() == '"' && str.back() == '"') {
+        return str.substr(1, str.size() - 2);
+    }
+    return str;
 }
 
 // 解析命令行参数
@@ -142,50 +195,4 @@ bool parse_args(int argc, char* argv[], std::string& checkpoint_path,
     }
 
     return true;
-}
-
-int main(int argc, char* argv[]) {
-    google::InitGoogleLogging("SiriusX");
-    std::string log_dir = "./log/";
-
-    if (!std::filesystem::exists(log_dir)) {
-        std::filesystem::create_directory(log_dir);
-    }
-
-    FLAGS_log_dir = log_dir;
-    FLAGS_alsologtostderr = true;
-
-    LOG(INFO) << "Start Test...\n";
-
-    // 解析命令行参数
-    std::string checkpoint_path, tokenizer_path, prompt = "long long ago,";
-    bool is_quantized = false;
-    bool use_cuda = false;
-
-    if (!parse_args(argc, argv, checkpoint_path, tokenizer_path, is_quantized,
-                    prompt, use_cuda)) {
-        return -1;
-    }
-
-    // 初始化模型
-    model::LLama2Model model(base::TokenizerType::EncodeSpe, tokenizer_path,
-                             checkpoint_path, is_quantized);
-    auto init_status =
-        model.init(use_cuda ? base::DeviceType::CUDA : base::DeviceType::CPU);
-    if (!init_status) {
-        LOG(FATAL) << "The model init failed, the error code is: "
-                   << init_status.get_err_msg();
-    }
-
-    // 生成文本
-    auto start = std::chrono::steady_clock::now();
-    printf("Generating...\n");
-    fflush(stdout);
-    int steps = generate(model, prompt, 256, true);
-    auto end = std::chrono::steady_clock::now();
-    auto duration = std::chrono::duration<double>(end - start).count();
-    printf("\nsteps/s:%lf\n", static_cast<double>(steps) / duration);
-    fflush(stdout);
-
-    return 0;
 }

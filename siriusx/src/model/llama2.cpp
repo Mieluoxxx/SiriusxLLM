@@ -24,6 +24,10 @@
 #include "op/swiglu.h"
 #include "sampler/argmax_sampler.h"
 
+#ifdef USE_CUDA
+#include "../src/op/kernels/cuda/rope_kernel.cuh"
+#endif
+
 namespace model {
 void LLama2Layers::to_cuda(std::shared_ptr<kernel::CudaConfig> config) {
     auto move_to_cuda = [&config](auto& layer) {
@@ -99,14 +103,13 @@ base::Status LLama2Model::init(base::DeviceType device_type) {
             get_buffer(ModelBufferType::CosCache).ptr<float>());
     }
 #ifdef USE_CUDA
-    //  else {
-    //      CHECK_NE(cuda_config_, nullptr);
-    //      kernel::sin_cos_cache_calc_cu(config_->head_size_,
-    //      config_->seq_len_,
-    //                                    get_buffer(ModelBufferType::SinCache),
-    //                                    get_buffer(ModelBufferType::CosCache),
-    //                                    cuda_config_->stream);
-    //  }
+    else {
+        CHECK_NE(cuda_config_, nullptr);
+        kernel::sin_cos_cache_calc_cuda(config_->head_size_, config_->seq_len_,
+                                        get_buffer(ModelBufferType::SinCache),
+                                        get_buffer(ModelBufferType::CosCache),
+                                        cuda_config_->stream);
+    }
 #endif
     sampler_ = std::make_unique<sampler::ArgmaxSampler>(device_type_);
     return error::Success();
