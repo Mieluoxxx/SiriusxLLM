@@ -2,6 +2,7 @@
 #include <glog/logging.h>
 
 #include <filesystem>
+#include <iostream>
 
 #include "base/base.h"
 #include "model/llama2.h"
@@ -75,53 +76,116 @@ int32_t generate(const model::LLama2Model& model, const std::string& sentence,
     return std::min(pos, total_steps);
 }
 
+// 去掉字符串开头和结尾的双引号
+std::string strip_quotes(const std::string& str) {
+    if (str.size() >= 2 && str.front() == '"' && str.back() == '"') {
+        return str.substr(1, str.size() - 2);
+    }
+    return str;
+}
+
+// 打印帮助信息
+void print_help(const std::string& program_name) {
+    std::cout
+        << "Usage: " << program_name << " [OPTIONS]\n"
+        << "Options:\n"
+        << "  --checkpoint_path PATH    Path to the model checkpoint "
+           "(required)\n"
+        << "  --tokenizer_path PATH     Path to the tokenizer (required)\n"
+        << "  --quantized BOOL          Whether the model is quantized "
+           "(true/false, default: false)\n"
+        << "  --prompt TEXT            Prompt text for generation (default: "
+           "'long long ago,')\n"
+#ifdef USE_CUDA
+        << "  --use_cuda BOOL           Whether to use CUDA (true/false, "
+           "default: false)\n"
+#endif
+        << "  --help                   Show this help message\n";
+}
+
+// 解析命令行参数
+bool parse_args(int argc, char* argv[], std::string& checkpoint_path,
+                std::string& tokenizer_path, bool& is_quantized,
+                std::string& prompt, bool& use_cuda) {
+    for (int i = 1; i < argc; ++i) {
+        std::string arg = argv[i];
+        if (arg == "--checkpoint_path" && i + 1 < argc) {
+            checkpoint_path = strip_quotes(argv[++i]);
+        } else if (arg == "--tokenizer_path" && i + 1 < argc) {
+            tokenizer_path = strip_quotes(argv[++i]);
+        } else if (arg == "--quantized" && i + 1 < argc) {
+            std::string quantized_str = strip_quotes(argv[++i]);
+            is_quantized = (quantized_str == "true");
+        } else if (arg == "--prompt" && i + 1 < argc) {
+            prompt = strip_quotes(argv[++i]);
+#ifdef USE_CUDA
+        } else if (arg == "--use_cuda" && i + 1 < argc) {
+            std::string use_cuda_str = strip_quotes(argv[++i]);
+            use_cuda = (use_cuda_str == "true");
+#endif
+        } else if (arg == "--help") {
+            print_help(argv[0]);
+            return false;
+        } else {
+            std::cerr << "Unknown argument or missing value: " << arg << "\n";
+            print_help(argv[0]);
+            return false;
+        }
+    }
+
+    // 检查必填参数
+    if (checkpoint_path.empty() || tokenizer_path.empty()) {
+        std::cerr
+            << "Error: --checkpoint_path and --tokenizer_path are required.\n";
+        print_help(argv[0]);
+        return false;
+    }
+
+    return true;
+}
+
 int main(int argc, char* argv[]) {
     google::InitGoogleLogging("SiriusX");
-    // 日志目录路径
     std::string log_dir = "./log/";
 
-    // 检查日志目录是否存在，如果不存在则创建
     if (!std::filesystem::exists(log_dir)) {
         std::filesystem::create_directory(log_dir);
     }
 
-    // 设置日志目录
     FLAGS_log_dir = log_dir;
     FLAGS_alsologtostderr = true;
 
     LOG(INFO) << "Start Test...\n";
 
-    printf("number of argc: %d\n", argc);
-    if (argc != 3 and argc != 4) {
-        LOG(INFO) << "Usage: ./demo checkpoint_path tokenizer_path";
+    // 解析命令行参数
+    std::string checkpoint_path, tokenizer_path, prompt = "long long ago,";
+    bool is_quantized = false;
+    bool use_cuda = false;
+
+    if (!parse_args(argc, argv, checkpoint_path, tokenizer_path, is_quantized,
+                    prompt, use_cuda)) {
         return -1;
     }
-    const char* checkpoint_path = argv[1];  // e.g. out/model.bin
-    const char* tokenizer_path = argv[2];
 
-    model::LLama2Model model(base::TokenizerType::EncodeSpe, tokenizer_path, checkpoint_path, false);
-    /*
-     * 初始化模型状态
-     * 使用mmap加载模型权重
-     * 分配内存，初始化权重
-     * 加载采样器
-     */
-    auto init_status = model.init(base::DeviceType::CPU);
+    // 初始化模型
+    model::LLama2Model model(base::TokenizerType::EncodeSpe, tokenizer_path,
+                             checkpoint_path, is_quantized);
+    auto init_status =
+        model.init(use_cuda ? base::DeviceType::CUDA : base::DeviceType::CPU);
     if (!init_status) {
         LOG(FATAL) << "The model init failed, the error code is: "
                    << init_status.get_err_msg();
     }
 
-    // 用户级prompt
-    const std::string& sentence = (argc == 3) ? "long long ago," : argv[3];
+    // 生成文本
     auto start = std::chrono::steady_clock::now();
     printf("Generating...\n");
     fflush(stdout);
-    // total_steps: 生成步数
-    int steps = generate(model, sentence, 256, true);
+    int steps = generate(model, prompt, 256, true);
     auto end = std::chrono::steady_clock::now();
     auto duration = std::chrono::duration<double>(end - start).count();
     printf("\nsteps/s:%lf\n", static_cast<double>(steps) / duration);
     fflush(stdout);
+
     return 0;
 }

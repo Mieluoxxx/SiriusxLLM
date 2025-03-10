@@ -32,7 +32,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # 设置项目名称和语言
-project(siriusx-infer LANGUAGES CXX)
+project(SiriusxLLM LANGUAGES CXX)
 
 if(USE_CUDA)
     enable_language(CUDA)

@@ -1,12 +1,16 @@
 #include <gtest/gtest.h>
 
-#include "base/alloc.h"
-#include "cuda_runtime_api.h"
-#include "driver_types.h"
-#include "tensor/tensor.h"
-#include "../src/op/kernels/interface.h"
 #include <armadillo>
 #include <random>
+
+#include "../src/op/kernels/interface.h"
+#include "base/alloc.h"
+#include "tensor/tensor.h"
+
+#ifdef USE_CUDA
+#include <cuda_runtime_api.h>
+#include <driver_types.h>
+#endif
 
 using namespace kernel;
 
@@ -30,7 +34,8 @@ TEST(test_rmsnorm, test_cpu) {
         weight.index<float>(i) = weight_data[i];
     }
 
-    kernel::get_rmsnorm_kernel(base::DeviceType::CPU)(input, weight, output, nullptr);
+    kernel::get_rmsnorm_kernel(base::DeviceType::CPU)(input, weight, output,
+                                                      nullptr);
 
     // 手动计算预期结果
     const float eps = 1e-5f;
@@ -65,7 +70,7 @@ TEST(test_rmsnorm, nostream) {
     std::mt19937 mt(rd());
     std::uniform_real_distribution<float> dist(0.f, 1.f);
 
-    for(int i = 0; i < size; i++) {
+    for (int i = 0; i < size; i++) {
         in_cpu.index<float>(i) = dist(mt);
         wei_cpu.index<float>(i) = dist(mt);
     }
@@ -78,11 +83,13 @@ TEST(test_rmsnorm, nostream) {
     wei_cuda.to_cuda(nullptr);
     out_cuda.to_cuda(nullptr);
 
-    kernel::get_rmsnorm_kernel(base::DeviceType::CUDA)(in_cuda, wei_cuda, out_cuda, nullptr);
+    kernel::get_rmsnorm_kernel(base::DeviceType::CUDA)(in_cuda, wei_cuda,
+                                                       out_cuda, nullptr);
     out_cuda.to_cpu();
-    kernel::get_rmsnorm_kernel(base::DeviceType::CPU)(in_cpu, wei_cpu, out_cpu, nullptr);
+    kernel::get_rmsnorm_kernel(base::DeviceType::CPU)(in_cpu, wei_cpu, out_cpu,
+                                                      nullptr);
 
-    for(int i = 0; i < size; i++) {
+    for (int i = 0; i < size; i++) {
         ASSERT_NEAR(out_cuda.index<float>(i), out_cpu.index<float>(i), 1e-5f);
     }
 }
@@ -100,7 +107,7 @@ TEST(test_rmsnorm, stream) {
     std::random_device rd;
     std::mt19937 mt(rd());
     std::uniform_real_distribution<float> dist(0.f, 1.f);
-    for(int i = 0; i < size; i++) {
+    for (int i = 0; i < size; i++) {
         in_cpu.index<float>(i) = dist(mt);
         wei_cpu.index<float>(i) = dist(mt);
     }
@@ -115,11 +122,13 @@ TEST(test_rmsnorm, stream) {
     cudaStream_t stream;
     cudaStreamCreate(&stream);
 
-    kernel::get_rmsnorm_kernel(base::DeviceType::CUDA)(in_cuda, wei_cuda, out_cuda, stream);
+    kernel::get_rmsnorm_kernel(base::DeviceType::CUDA)(in_cuda, wei_cuda,
+                                                       out_cuda, stream);
     out_cuda.to_cpu();
-    kernel::get_rmsnorm_kernel(base::DeviceType::CPU)(in_cpu, wei_cpu, out_cpu, nullptr);
+    kernel::get_rmsnorm_kernel(base::DeviceType::CPU)(in_cpu, wei_cpu, out_cpu,
+                                                      nullptr);
 
-    for(int i = 0; i < size; i++) {
+    for (int i = 0; i < size; i++) {
         ASSERT_NEAR(out_cuda.index<float>(i), out_cpu.index<float>(i), 1e-5f);
     }
     cudaStreamDestroy(stream);

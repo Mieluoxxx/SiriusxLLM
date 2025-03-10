@@ -2,7 +2,7 @@
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-01-31 03:08:29
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-02-17 21:14:32
+ * @LastEditTime: 2025-03-09 17:29:10
  * @FilePath: /siriusx-infer/siriusx/src/op/kernels/interface.cpp
  * @Description:
  */
@@ -63,6 +63,7 @@ MatmulKernel get_matmul_kernel(base::DeviceType device_type) {
     }
 }
 
+#ifdef USE_CUDA
 MatmulKernelQuant get_matmul_quant_kernel(base::DeviceType device_type) {
     if (device_type == base::DeviceType::CUDA) {
         return matmul_kernel_cuda_qint8;
@@ -71,6 +72,7 @@ MatmulKernelQuant get_matmul_quant_kernel(base::DeviceType device_type) {
         return nullptr;
     }
 }
+#endif
 
 RMSNormKernel get_rmsnorm_kernel(base::DeviceType device_type) {
     if (device_type == base::DeviceType::CPU) {

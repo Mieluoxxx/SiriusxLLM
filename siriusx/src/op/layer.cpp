@@ -278,13 +278,13 @@ base::Status LayerParam::set_weight(int32_t idx,
     }
     if (!is_quant_layer_) {
         tensor::Tensor weight(base::DataType::FP32, dims);
-        weight.set_device_type(device_type_);
+        weight.set_device_type(device_type);
         CHECK(weight.assign(buffer));
         weights_.at(idx) = weight;
     } else {
         // is quant layer
         tensor::Tensor weight(base::DataType::Int8, dims);
-        weight.set_device_type(device_type_);
+        weight.set_device_type(device_type);
         CHECK(weight.assign(buffer));
         weights_.at(idx) = weight;
 

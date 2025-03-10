@@ -67,9 +67,13 @@ base::Status MatmulLayer::forward() {
     if (!status) return status;
     if (device_type_ == base::DeviceType::CUDA) CHECK(cuda_config_ != nullptr);
     if (is_quant_layer_)
+#ifdef USE_CUDA
         kernel::get_matmul_quant_kernel(device_type_)(
             get_input(0), get_weight(0), get_output(0), group_size_, scales_,
             cuda_config_ ? cuda_config_.get() : nullptr);
+#else  // TODO: CPU INT8
+        LOG(ERROR) << "INT8 matmul only support CUDA now.";
+#endif
     else
         kernel::get_matmul_kernel(device_type_)(
             get_input(0), get_weight(0), get_output(0), 1.f,
