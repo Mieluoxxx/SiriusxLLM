@@ -3,15 +3,17 @@
  * @Date: 2025-01-23 17:46:57
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-01-24 19:37:42
- * @FilePath: /SiriusX-infer/siriusx/src/op/layer.cpp
+ * @FilePath: /SiriusxLLM/siriusx/src/op/layer.cpp
  * @Description:
  */
 #include "op/layer.h"
 
+#include <cstdarg>
 #include <cstddef>
 #include <numeric>
-#include <cstdarg>
+
 #include "base/base.h"
+#include "base/cuda_config.h"
 
 namespace op {
 BaseLayer::BaseLayer(base::DeviceType device_type, LayerType layer_type,
@@ -108,7 +110,7 @@ base::Status Layer::check_tensor_with_dim(const tensor::Tensor& tensor,
 void Layer::set_input(int32_t idx, const tensor::Tensor& input) {
     CHECK_GE(idx, 0);
     CHECK_LT(idx, inputs_.size());
-    this->outputs_.at(idx) = input;
+    this->inputs_.at(idx) = input;
 }
 
 void Layer::set_output(int32_t idx, const tensor::Tensor& output) {
@@ -149,6 +151,24 @@ const tensor::Tensor& Layer::get_output(int32_t idx) const {
 void Layer::reset_input_size(size_t size) { inputs_.resize(size); }
 
 void Layer::reset_output_size(size_t size) { outputs_.resize(size); }
+
+void Layer::to_cuda() {
+    for (auto& input : inputs_)
+        if (!input.is_empty())
+            input.to_cuda(cuda_config_ ? cuda_config_->stream : nullptr);
+    for (auto& output : outputs_)
+        if (!output.is_empty())
+            output.to_cuda(cuda_config_ ? cuda_config_->stream : nullptr);
+}
+
+void Layer::set_cuda_config(std::shared_ptr<kernel::CudaConfig> config) {
+    if (!config) return;
+    this->cuda_config_ = config;
+}
+
+std::shared_ptr<kernel::CudaConfig> Layer::cuda_config() const {
+    return this->cuda_config_;
+}
 
 size_t Layer::input_size() const { return inputs_.size(); }
 
@@ -231,6 +251,16 @@ const tensor::Tensor& LayerParam::get_weight(int32_t idx) const {
     return weights_.at(idx);
 }
 
+void LayerParam::to_cuda(){
+    Layer::to_cuda();
+    for (auto& weight : weights_) {
+        weight.to_cuda(cuda_config_ ? cuda_config_->stream : nullptr);
+    }
+    if (!scales_.is_empty()) {
+        scales_.to_cuda(cuda_config_ ? cuda_config_->stream : nullptr);
+    }
+}
+
 base::Status LayerParam::set_weight(int32_t idx,
                                     const std::vector<int32_t>& dims,
                                     const void* weight_ptr,
@@ -248,13 +278,13 @@ base::Status LayerParam::set_weight(int32_t idx,
     }
     if (!is_quant_layer_) {
         tensor::Tensor weight(base::DataType::FP32, dims);
-        weight.set_device_type(device_type_);
+        weight.set_device_type(device_type);
         CHECK(weight.assign(buffer));
         weights_.at(idx) = weight;
     } else {
         // is quant layer
         tensor::Tensor weight(base::DataType::Int8, dims);
-        weight.set_device_type(device_type_);
+        weight.set_device_type(device_type);
         CHECK(weight.assign(buffer));
         weights_.at(idx) = weight;
 

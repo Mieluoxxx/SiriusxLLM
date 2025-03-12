@@ -3,7 +3,7 @@
  * @Date: 2025-01-26 15:38:07
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-01-26 15:38:11
- * @FilePath: /SiriusX-infer/siriusx/src/op/kernels/cpu/add_kernel.cpp
+ * @FilePath: /SiriusxLLM/siriusx/src/op/kernels/cpu/add_kernel.cpp
  * @Description:
  */
 #include "add_kernel.h"

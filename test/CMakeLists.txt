@@ -7,6 +7,7 @@ aux_source_directory(../test DIR_TEST)
 aux_source_directory(../test/test_example DIR_TEST_EXAMPLE)
 aux_source_directory(../test/test_tensor DIR_TEST_TENSOR)
 aux_source_directory(../test/test_op DIR_TEST_OP)
+aux_source_directory(../test/test_model DIR_TEST_MODEL)
 
 # 添加可执行目标
 add_executable(my_test
@@ -14,6 +15,7 @@ add_executable(my_test
     ${DIR_TEST_EXAMPLE}
     ${DIR_TEST_TENSOR}
     ${DIR_TEST_OP}
+    ${DIR_TEST_MODEL}
 )
 
 # 设置目标链接库

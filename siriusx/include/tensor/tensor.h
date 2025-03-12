@@ -3,7 +3,7 @@
  * @Date: 2025-01-15 21:35:50
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-01-15 22:12:47
- * @FilePath: /SiriusX-infer/siriusx/include/tensor/tensor.h
+ * @FilePath: /SiriusxLLM/siriusx/include/tensor/tensor.h
  * @Description:
  */
 #ifndef TENSOR_H
@@ -35,7 +35,7 @@ class Tensor {
 
     // 张量操作
     void to_cpu();
-    void to_cuda(cudaStream_t stream = 0);
+    void to_cuda(cudaStream_t stream = nullptr);
     bool is_empty() const;
     void reshape(const std::vector<int32_t>& dims);
     tensor::Tensor clone() const;
@@ -47,7 +47,9 @@ class Tensor {
                   bool need_realloc = false);
     bool assign(std::shared_ptr<base::Buffer> buffer);
 
-    // 数据访问
+    // ptr方法用于获取Tensor内部数据的指针
+    // 支持获取整个数据区域的指针或指定偏移量处的指针。
+    // 非常方便内存拷贝
     template <typename T>
     T* ptr();
     template <typename T>
@@ -56,6 +58,10 @@ class Tensor {
     T* ptr(int64_t index);
     template <typename T>
     const T* ptr(int64_t index) const;
+    
+    // index方法用于通过偏移量（offset）访问Tensor中的单个元素
+    // 并返回该元素的引用或常量引用。
+    // 非常方便检查单个元素的值
     template <typename T>
     T& index(int64_t offset);
     template <typename T>
@@ -68,6 +74,8 @@ class Tensor {
     base::DataType data_type() const;
     int32_t get_dim(int32_t idx) const;
     const std::vector<int32_t>& dims() const;
+    // strides方法用于获取Tensor的步长（strides），即每个维度上的元素间隔。
+    // 例如{1,2,3,4,5}: strides() = {120, 60, 20, 5, 1}
     std::vector<size_t> strides() const;
     std::shared_ptr<base::Buffer> get_buffer() const;
     base::DeviceType device_type() const;

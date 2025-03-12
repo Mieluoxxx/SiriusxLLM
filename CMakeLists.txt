@@ -12,8 +12,6 @@ set(CMAKE_BUILD_TYPE "Debug")
 # 添加 USE_CUDA 选项，默认值为 ON
 option(USE_CUDA "Enable CUDA support" OFF)
 
-set(CMAKE_TOOLCHAIN_FILE $ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
-
 if(USE_CUDA)
     if(MSVC)
         # Setting this to true brakes Visual Studio builds.
@@ -22,7 +20,6 @@ if(USE_CUDA)
     # 符合我设备的 CUDA 版本制定编译期
     set(CMAKE_CUDA_COMPILER nvcc)
     # 设置 CUDA 标准
-    set(ENV{CXX} g++-13)
     set(CMAKE_CUDA_STANDARD 17)
     set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} --expt-relaxed-constexpr --expt-extended-lambda -ccbin ${CMAKE_CXX_COMPILER}")
     if(NOT DEFINED CMAKE_CUDA_ARCHITECTURES AND CMAKE_VERSION VERSION_GREATER_EQUAL 3.24)
@@ -35,7 +32,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # 设置项目名称和语言
-project(siriusx-infer LANGUAGES CXX)
+project(SiriusxLLM LANGUAGES CXX)
 
 if(USE_CUDA)
     enable_language(CUDA)
@@ -53,12 +50,20 @@ aux_source_directory(siriusx/src/tensor/ DIR_TENSOR)
 aux_source_directory(siriusx/src/op/ DIR_OP)
 aux_source_directory(siriusx/src/op/kernels/ DIR_KERNELS)
 aux_source_directory(siriusx/src/op/kernels/cpu/ DIR_KERNELS_CPU)
+aux_source_directory(siriusx/src/op/kernels/cuda/ DIR_KERNELS_CUDA)
+aux_source_directory(siriusx/src/sampler DIR_SMAPLER)
+aux_source_directory(siriusx/src/model DIR_MODEL)
 
 # 设置输出目录
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 
 # 添加库目标
-add_library(llama STATIC ${DIR_BASE} ${DIR_TENSOR} ${DIR_OP} ${DIR_KERNELS} ${DIR_KERNELS_CPU})
+if(USE_CUDA)
+add_library(llama STATIC ${DIR_BASE} ${DIR_TENSOR} ${DIR_OP} ${DIR_KERNELS} ${DIR_SMAPLER} ${DIR_MODEL} ${DIR_KERNELS_CPU} ${DIR_KERNELS_CUDA})
+else()
+add_library(llama STATIC ${DIR_BASE} ${DIR_TENSOR} ${DIR_OP} ${DIR_KERNELS} ${DIR_SMAPLER} ${DIR_MODEL} ${DIR_KERNELS_CPU})
+endif()
+
 
 # 设置库的链接依赖
 target_link_libraries(llama PUBLIC
@@ -67,6 +72,7 @@ target_link_libraries(llama PUBLIC
     glog::glog
     armadillo
     pthread
+    sentencepiece
 )
 
 if(USE_CUDA)
@@ -82,6 +88,7 @@ target_include_directories(llama PUBLIC
     ${glog_INCLUDE_DIR}
     ${PROJECT_SOURCE_DIR}/siriusx/include
     ${Armadillo_INCLUDE_DIR}
+    ${sentencepiece_INCLUDE_DIRS}/src
 )
 
 if(USE_CUDA)
@@ -91,3 +98,4 @@ endif()
 
 # 添加子目录（例如测试目录）
 add_subdirectory(test)
+add_subdirectory(demo)

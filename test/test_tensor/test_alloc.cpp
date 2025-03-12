@@ -3,7 +3,7 @@
  * @Date: 2025-02-08 01:42:19
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-02-08 08:19:43
- * @FilePath: /siriusx-infer/test/test_tensor/test_alloc.cpp
+ * @FilePath: /SiriusxLLM/test/test_tensor/test_alloc.cpp
  * @Description:
  */
 #include <gtest/gtest.h>

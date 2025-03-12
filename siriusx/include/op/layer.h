@@ -3,7 +3,7 @@
  * @Date: 2025-01-15 21:14:01
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-01-24 19:11:26
- * @FilePath: /SiriusX-infer/siriusx/include/op/layer.h
+ * @FilePath: /SiriusxLLM/siriusx/include/op/layer.h
  * @Description:
  */
 #ifndef OP_LAYER_H
@@ -14,19 +14,27 @@
 #include <vector>
 
 #include "base/base.h"
+#include "base/cuda_config.h"
 #include "tensor/tensor.h"
 
 namespace op {
 enum LayerType : uint8_t {
     Unknown = 0,
     LayerAdd = 1,
+    LayerMatmul = 2,
+    LayerRMSNorm = 3,
+    LayerEmbedding = 4,
+    LayerSwiGLU = 5,
+    LayerRoPE = 6,
+    LayerMHA = 7,
+    LayerEncode = 8,
 };
 
+// clang-format off
 class BaseLayer {
    public:
     // 构造函数，初始化BaseLayer对象
-    explicit BaseLayer(base::DeviceType device_type, LayerType layer_type,
-                       base::DataType data_type, std::string layer_name = "");
+    explicit BaseLayer(base::DeviceType device_type, LayerType layer_type, base::DataType data_type, std::string layer_name = "");
 
     // 获取数据类型
     base::DataType data_type() const;
@@ -39,26 +47,15 @@ class BaseLayer {
 
     // 前向传播函数，纯虚函数，需要在子类中实现
     virtual base::Status forward() = 0;
-    virtual base::Status forward(const tensor::Tensor& in1,
+    virtual base::Status forward(const tensor::Tensor& in1, const tensor::Tensor& out) = 0;
+    virtual base::Status forward(const tensor::Tensor& in1, const tensor::Tensor& in2,
                                  const tensor::Tensor& out) = 0;
-    virtual base::Status forward(const tensor::Tensor& in1,
-                                 const tensor::Tensor& in2,
+    virtual base::Status forward(const tensor::Tensor& in1, const tensor::Tensor& in2, const tensor::Tensor& in3,
                                  const tensor::Tensor& out) = 0;
-    virtual base::Status forward(const tensor::Tensor& in1,
-                                 const tensor::Tensor& in2,
-                                 const tensor::Tensor& in3,
-                                 const tensor::Tensor& out) = 0;
-    virtual base::Status forward(const tensor::Tensor& in1,
-                                 const tensor::Tensor& in2,
-                                 const tensor::Tensor& in3,
-                                 const tensor::Tensor& in4,
-                                 const tensor::Tensor& out) = 0;
-    virtual base::Status forward(const tensor::Tensor& in1,
-                                 const tensor::Tensor& in2,
-                                 const tensor::Tensor& in3,
-                                 const tensor::Tensor& in4,
-                                 const tensor::Tensor& in5,
-                                 const tensor::Tensor& out) = 0;
+    virtual base::Status forward(const tensor::Tensor& in1, const tensor::Tensor& in2, const tensor::Tensor& in3,
+                                 const tensor::Tensor& in4, const tensor::Tensor& out) = 0;
+    virtual base::Status forward(const tensor::Tensor& in1, const tensor::Tensor& in2, const tensor::Tensor& in3,
+                                 const tensor::Tensor& in4, const tensor::Tensor& in5, const tensor::Tensor& out) = 0;
 
     // 设置输入
     virtual void set_input(int32_t idx, const tensor::Tensor& in) = 0;
@@ -117,13 +114,11 @@ class Layer : public BaseLayer {
     base::Status init() override;
 
     // 检查tensor是否合法
-    base::Status check_tensor(const tensor::Tensor& tensor,
-                              base::DeviceType device_type,
+    base::Status check_tensor(const tensor::Tensor& tensor, base::DeviceType device_type,
                               base::DataType data_type) const;
 
     // 检查tensor是否合法，并传入可变参数
-    base::Status check_tensor_with_dim(const tensor::Tensor& tensor,
-                                       base::DeviceType device_type,
+    base::Status check_tensor_with_dim(const tensor::Tensor& tensor, base::DeviceType device_type,
                                        base::DataType data_type, ...) const;
 
     // 检查Layer对象是否合法
@@ -167,9 +162,14 @@ class Layer : public BaseLayer {
     void reset_input_size(size_t size);
     void reset_output_size(size_t size);
 
+    virtual void to_cuda();
+    void set_cuda_config(std::shared_ptr<kernel::CudaConfig> config);
+    std::shared_ptr<kernel::CudaConfig> cuda_config() const;
+
    protected:
     std::vector<tensor::Tensor> inputs_;
     std::vector<tensor::Tensor> outputs_;
+    std::shared_ptr<kernel::CudaConfig> cuda_config_;
 };
 
 class LayerParam : public Layer {
@@ -190,6 +190,8 @@ class LayerParam : public Layer {
 
     // 获取指定索引的权重（常量）
     const tensor::Tensor& get_weight(int32_t idx) const;
+
+    void to_cuda() override;
 
     // 设置指定索引的权重
     base::Status set_weight(int32_t idx, const tensor::Tensor& weight) override;

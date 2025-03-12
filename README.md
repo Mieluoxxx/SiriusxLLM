@@ -2,10 +2,16 @@
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-01-02 16:44:41
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-01-17 19:01:57
- * @FilePath: /SiriusX-infer/README.md
+ * @LastEditTime: 2025-03-12 10:32:57
+ * @FilePath: /SiriusxLLM/README.md
  * @Description: 
 -->
+## 项目效果
+CPU演示
+![CPU](./img/cpu.png)
+CUDA演示
+![CUDA](./img/cuda.png)
+
 ## 前置要求
 cmake(v3.20)、vcpkg、g++/clang++(支持C++17)、ninja
 
@@ -61,8 +67,43 @@ sudo systemctl restart docker
 
 # cuda版本小于等于自己的驱动版本
 docker pull nvidia/cuda:12.3.2-cudnn9-devel-ubuntu22.04
-docker run --gpus all -t -i --name kuiperllama 5d846bce3f98 /bin/bash 
+docker run --gpus all -t -i --name kuiperllama -v "/home/moguw/workspace/kuiperllama:/kuiperllama" nvidia/cuda:12.3.2-cudnn9-devel-ubuntu22.04 /bin/bash
+sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.list
 
 apt update
-apt install -y vim net-tools openssh-server libopenblas-dev liblapack-dev libarpack2-dev libsuperlu-dev wget cmake git gdb rsync
+apt install -y build-essential wget cmake git gdb clangd clang-format
+apt install -y libopenblas-dev liblapack-dev libarpack2-dev libsuperlu-dev
+
+
+wget https://sourceforge.net/projects/arma/files/armadillo-14.4.0.tar.xz
+tar -xvf armadillo-14.4.0.tar.xz
+cd armadillo-14.4.0
+mkdir build && cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make -j8
+make install
+
+
+git clone https://github.com/google/googletest.git
+cd googletest
+mkdir build && cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make -j8
+make install
+
+
+git clone https://github.com/google/glog.git
+cd glog
+mkdir build && cd build
+cmake -DCMAKE_BUILD_TYPE=Release -DWITH_GFLAGS=OFF -DWITH_GTEST=OFF ..
+make -j8
+make install
+
+
+git clone https://github.com/google/sentencepiece.git
+cd sentencepiece
+mkdir build && cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make -j8
+make install
 ```

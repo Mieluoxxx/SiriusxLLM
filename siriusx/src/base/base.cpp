@@ -3,7 +3,7 @@
  * @Date: 2025-01-02 17:26:29
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-01-26 12:56:05
- * @FilePath: /SiriusX-infer/siriusx/src/base/base.cpp
+ * @FilePath: /SiriusxLLM/siriusx/src/base/base.cpp
  * @Description:
  */
 #include "base/base.h"
@@ -55,6 +55,22 @@ Status FunctionNotImplemented(const std::string& err_msg) {
 
 Status InvalidArgument(const std::string& err_msg) {
     return Status{StatusCode::InvalidArgument, err_msg};
+}
+
+Status KeyHasExits(const std::string& err_msg) {
+    return Status{StatusCode::KeyValueHasExist, err_msg};
+}
+
+Status PathNotValid(const std::string& err_msg) {
+    return Status{StatusCode::PathNotValid, err_msg};
+}
+
+Status ModelParseError(const std::string& err_msg) {
+    return Status{StatusCode::ModelParseError, err_msg};
+}
+
+Status InternalError(const std::string& err_msg) {
+    return Status{StatusCode::InternalError, err_msg};
 }
 }  // namespace error
 }  // namespace base

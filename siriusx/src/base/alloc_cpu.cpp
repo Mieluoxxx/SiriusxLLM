@@ -1,10 +1,10 @@
-/***
+/*
  * @Author: Morgan Woods weiyiding0@gmail.com
- * @Date: 2025-01-04 17:05:31
+ * @Date: 2025-01-31 03:08:29
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-01-15 20:45:11
- * @FilePath: /SiriusX-infer/siriusx/src/base/alloc_cpu.cpp
- * @Description:
+ * @LastEditTime: 2025-02-28 21:50:10
+ * @FilePath: /SiriusxLLM/siriusx/src/base/alloc_cpu.cpp
+ * @Description: 
  */
 #include <glog/logging.h>
 
@@ -21,8 +21,8 @@ CPUDeviceAllocator::CPUDeviceAllocator() : DeviceAllocator(DeviceType::CPU) {}
 void* CPUDeviceAllocator::allocate(size_t byte_size) const {
     if (!byte_size) return nullptr;
 #ifdef SIRIUSX_HAVE_POSIX_MEMALIGN
-    const size_t alignment =
-        (byte_size >= size_t(1024)) ? size_t(32) : size_t(16);
+    void* data = nullptr;
+    const size_t alignment = (byte_size >= size_t(1024)) ? size_t(32) : size_t(16);
     int status = posix_memalign(
         (void**)&data,
         ((alignment >= sizeof(void*)) ? alignment : sizeof(void*)), byte_size);

@@ -3,7 +3,7 @@
  * @Date: 2025-01-02 17:34:31
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
  * @LastEditTime: 2025-01-18 23:08:24
- * @FilePath: /SiriusX-infer/siriusx/include/base/alloc.h
+ * @FilePath: /SiriusxLLM/siriusx/include/base/alloc.h
  * @Description:
  */
 
@@ -15,7 +15,7 @@
 #include <map>
 #include <memory>
 
-#include "base.h"
+#include "base/base.h"
 
 namespace base {
 enum class MemcpyKind {
@@ -55,7 +55,7 @@ class DeviceAllocator {
      */
     // const表示函数不会修改成员变量
     // 虚函数被声明为const时，任何派生类的实现也必须遵守这个约定。
-    virtual void memcpy(const void* stc_ptr, void* dest_ptr, size_t byte_size,
+    virtual void memcpy(const void* src_ptr, void* dest_ptr, size_t byte_size,
                         MemcpyKind memcpy_kind = MemcpyKind::CPU2CPU,
                         void* stream = nullptr, bool need_sync = false) const;
 
