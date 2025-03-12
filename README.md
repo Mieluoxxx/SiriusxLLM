@@ -2,10 +2,16 @@
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-01-02 16:44:41
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-03-10 09:19:18
+ * @LastEditTime: 2025-03-12 10:32:57
  * @FilePath: /SiriusxLLM/README.md
  * @Description: 
 -->
+## 项目效果
+CPU演示
+![CPU](./img/cpu.png)
+CUDA演示
+![CUDA](./img/cuda.png)
+
 ## 前置要求
 cmake(v3.20)、vcpkg、g++/clang++(支持C++17)、ninja
 

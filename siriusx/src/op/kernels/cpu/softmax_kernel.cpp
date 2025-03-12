@@ -3,8 +3,6 @@
 #include <algorithm>
 #include <armadillo>
 
-#include "../interface.h"
-
 namespace kernel {
 void softmax_inplace_cpu(const tensor::Tensor& input, void* stream) {
     int32_t size = static_cast<int32_t>(input.size());
