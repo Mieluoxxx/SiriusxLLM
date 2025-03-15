@@ -12,5 +12,6 @@
       "--checkpoint_path /home/moguw/workspace/SiriusxLLM/tmp/stories42M.bin",
       "--tokenizer_path /home/moguw/workspace/SiriusxLLM/tmp/tokenizer.model",
     ]
-}
+},
+"Codegeex.RepoIndex": true
 }
