@@ -8,10 +8,10 @@
             "name": "运行和调试",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/demo/llama2",
+            "program": "${workspaceFolder}/bin/raw",
             "args": [
-                "/home/moguw/workspace/SiriusxLLM/tmp/stories42M.bin",
-                "/home/moguw/workspace/SiriusxLLM/tmp/tokenizer.model"
+                "/SiriusxLLM/tmp/stories42M.bin",
+                "/SiriusxLLM/tmp/tinyllma.model",
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

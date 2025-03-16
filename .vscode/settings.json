@@ -7,8 +7,8 @@
   "cmake.generator": "Ninja",
   "cmake.debugConfig": {
     "args": [
-      "--checkpoint_path /home/moguw/workspace/SiriusxLLM/tmp/stories42M.bin",
-      "--tokenizer_path /home/moguw/workspace/SiriusxLLM/tmp/tokenizer.model",
+      "--checkpoint_path /SiriusxLLM/tmp/stories42M.bin",
+      "--tokenizer_path /SiriusxLLM/tmp/tinyllma.model",
     ]
 },
 "Codegeex.RepoIndex": true
