@@ -2,8 +2,6 @@
   "C_Cpp.default.cppStandard": "c++17",
   "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
   "cmake.configureArgs": [
-    "-DCMAKE_TOOLCHAIN_FILE=/home/moguw/.vcpkg/scripts/buildsystems/vcpkg.cmake",
-    "-DVCPKG_INSTALLED_DIR=/home/moguw/workspace/SiriusxLLM/vcpkg_installed",
     "-DUSE_CUDA=ON"
   ],
   "cmake.generator": "Ninja",

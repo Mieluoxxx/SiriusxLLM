@@ -12,48 +12,8 @@ CPU演示
 CUDA演示
 ![CUDA](./img/cuda.png)
 
-## 前置要求
-cmake(v3.20)、vcpkg、g++/clang++(支持C++17)、ninja
 
-## 启动命令
-
-```bash
-# 选择CUDA对应的gcc版本
-export CXX=/usr/bin/g++-13
-
-vcpkg new --application
-vcpkg add port xxx
-vcpkg x-update-baseline --add-initial-baseline 
-```
-
-
-## 好用的插件
-`C++ TestMate`、`koroFileHeader`
-```bash
-# macos
-ctrl+cmd+i 快速生成头部注释
-ctrl+cmd+t 快速生成函数注释
-# windows
-ctrl+alt+i 快速生成头部注释
-ctrl+alt+t 快速生成函数注释
-```
-`Todo Tree`
-
-
-## 注意事项
-CMakeLists.txt中需要添加`set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")`
-
-vcpkg x-update-baseline --add-initial-baseline 
-
-CUDA需要对应的gcc版本（ArchLinux需要注意）
-
-
-## 碎碎念
-`include/base/alloc.h`中蕴含的设计模式思想值得学习
-`vcpkg`的glog默认是**静态库**，
-
-
-## NVIDIA-Docker
+## NVIDIA-Docker 环境配置
 ```bash
 curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
   && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
@@ -71,7 +31,7 @@ docker run --gpus all -t -i --name kuiperllama -v "/home/moguw/workspace/kuiperl
 sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.list
 
 apt update
-apt install -y build-essential wget cmake git gdb clangd clang-format
+apt install -y build-essential wget cmake git gdb clangd clang-format ninja-build
 apt install -y libopenblas-dev liblapack-dev libarpack2-dev libsuperlu-dev
 
 
@@ -107,3 +67,15 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 make -j8
 make install
 ```
+
+## 好用的插件
+`C++ TestMate`、`koroFileHeader`
+```bash
+# macos
+ctrl+cmd+i 快速生成头部注释
+ctrl+cmd+t 快速生成函数注释
+# windows
+ctrl+alt+i 快速生成头部注释
+ctrl+alt+t 快速生成函数注释
+```
+`Todo Tree` 用于记录开发时的TODO事项

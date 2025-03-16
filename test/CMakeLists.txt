@@ -1,6 +1,6 @@
 # 查找依赖包
-find_package(GTest CONFIG REQUIRED)
-find_package(glog CONFIG REQUIRED)
+find_package(GTest REQUIRED)
+find_package(glog REQUIRED)
 
 # 收集测试源代码文件
 aux_source_directory(../test DIR_TEST)

@@ -40,9 +40,9 @@ if(USE_CUDA)
 endif()
 
 # 查找依赖包
-find_package(GTest CONFIG REQUIRED)
-find_package(glog CONFIG REQUIRED)
-find_package(Armadillo CONFIG REQUIRED)
+find_package(GTest REQUIRED)
+find_package(glog REQUIRED)
+find_package(Armadillo REQUIRED)
 
 # 收集源代码文件
 aux_source_directory(siriusx/src/base/ DIR_BASE)
