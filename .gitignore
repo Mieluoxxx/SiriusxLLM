@@ -7,3 +7,4 @@ lib/
 tmp/
 vcpkg_installed/
 archive/
+bin/

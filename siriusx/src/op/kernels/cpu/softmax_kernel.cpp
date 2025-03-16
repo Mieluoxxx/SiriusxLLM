@@ -1,7 +1,8 @@
 #include "softmax_kernel.h"
 
-#include <algorithm>
 #include <armadillo>
+
+#include "../interface.h"
 
 namespace kernel {
 void softmax_inplace_cpu(const tensor::Tensor& input, void* stream) {

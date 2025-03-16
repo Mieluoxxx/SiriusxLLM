@@ -8,9 +8,9 @@
  # @Description: 
 ###
 
-/home/moguw/workspace/SiriusxLLM/build/demo/llama2 \
---checkpoint_path /home/moguw/workspace/SiriusxLLM/tmp/chat_q8.bin \
---tokenizer_path /home/moguw/workspace/SiriusxLLM/tmp/llama2.model \
---quantized true \
---prompt "How many pandas in the world" \
---use_cuda true # 如果没有CUDA就注释了
+/home/moguw/workspace/SiriusxLLM/bin/llama2 \
+--checkpoint_path /home/moguw/workspace/SiriusxLLM/tmp/stories42M.bin \
+--tokenizer_path /home/moguw/workspace/SiriusxLLM/tmp/tinyllama.model \
+--quantized false \
+--prompt "One day, Lily met Tom" \
+--use_cuda false # 如果没有CUDA就注释了
