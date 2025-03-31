@@ -6,20 +6,20 @@
  * @FilePath: /SiriusxLLM/siriusx/src/model/model.cpp
  * @Description: 审查完成 0228
  */
- #include "model/model.h"
+#include "model/model.h"
 
- #include <fcntl.h>
- #include <sys/mman.h>
- #include <sys/stat.h>
- #include <unistd.h>
- 
- #include <memory>
- 
- #include "base/base.h"
- #include "base/buffer.h"
- #include "op/encode.h"
- 
- // clang-format off
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
+#include <memory>
+
+#include "base/base.h"
+#include "base/buffer.h"
+#include "op/encode.h"
+
+// clang-format off
  namespace model {
  // 构造函数，用于初始化Model对象
  Model::Model(base::TokenizerType tokenizer_type, base::ModelType model_type,
@@ -203,6 +203,13 @@
      // 如果tokenizer_type_为EncodeSpe，则创建SpeEncodeLayer
      if(tokenizer_type_ == TokenizerType::EncodeSpe) {
          encode_layer_ = std::make_unique<op::SpeEncodeLayer>(this->token_path_, true, false);
+     } else {
+#ifdef LLAMA3_SUPPORT
+        encode_layer_ = std::make_unique<op::BpeEncodeLayer>(this->token_path_, true, false);
+#endif
+#ifdef QWEN2_SUPPORT
+        encode_layer_ = std::make_unique<op::QwenEncodeLayer>(this->token_path_, false, false);
+#endif
      }
  
      // 如果encode_layer_为空，则返回错误

@@ -98,6 +98,26 @@ if(USE_CUDA)
     add_definitions(-DUSE_CUDA)
 endif()
 
+if (LLAMA3_SUPPORT OR QWEN2_SUPPORT)
+    message(STATUS "LINK LLAMA3 SUPPORT")
+    find_package(absl CONFIG REQUIRED)
+    find_package(re2 CONFIG REQUIRED)
+    find_package(nlohmann_json CONFIG REQUIRED)
+    target_link_libraries(llama PUBLIC absl::base re2::re2 nlohmann_json::nlohmann_json)
+endif ()
+
+option(LLAMA3_SUPPORT OFF)
+if (LLAMA3_SUPPORT)
+  message(STATUS "LLAMA3 SUPPORT")
+  add_definitions(-DLLAMA3_SUPPORT)
+endif()
+
+option(QWEN2_SUPPORT OFF)
+if (QWEN2_SUPPORT)
+  message(STATUS "QWEN2 SUPPORT")
+  add_definitions(-DQWEN2_SUPPORT)
+endif()
+
 # 添加子目录（例如测试目录）
 add_subdirectory(test)
 add_subdirectory(demo)

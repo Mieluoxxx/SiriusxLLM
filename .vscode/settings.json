@@ -4,14 +4,18 @@
   "cmake.configureArgs": [
     "-DCMAKE_TOOLCHAIN_FILE=/home/moguw/.vcpkg/scripts/buildsystems/vcpkg.cmake",
     "-DVCPKG_INSTALLED_DIR=/home/moguw/workspace/SiriusxLLM/vcpkg_installed",
-    "-DUSE_CUDA=ON"
+    "-DUSE_CUDA=ON",
+    "-DLLAMA3_SUPPORT=ON",
+    // "-DQWEN2_SUPPORT=ON"
   ],
   "cmake.generator": "Ninja",
+  // 仅用于raw文件的测试
   "cmake.debugConfig": {
     "args": [
       "--checkpoint_path /home/moguw/workspace/SiriusxLLM/tmp/stories42M.bin",
       "--tokenizer_path /home/moguw/workspace/SiriusxLLM/tmp/tokenizer.model",
-    ]
-},
-"Codegeex.RepoIndex": true
+    ],
+  },
+  "testMate.cpp.test.advancedExecutables": [{"pattern":"./bin/my_test"}],
+  "Codegeex.RepoIndex": true
 }

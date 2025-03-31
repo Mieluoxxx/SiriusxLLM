@@ -3,6 +3,9 @@
         "armadillo",
         "glog",
         "gtest",
-        "sentencepiece"
+        "sentencepiece",
+        "abseil",
+        "re2",
+        "nlohmann-json"
     ]
 }

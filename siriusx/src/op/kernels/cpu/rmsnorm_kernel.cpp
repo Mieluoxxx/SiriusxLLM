@@ -1,3 +1,11 @@
+/*** 
+ * @Author: Morgan Woods weiyiding0@gmail.com
+ * @Date: 2025-03-16 13:29:53
+ * @LastEditors: Morgan Woods weiyiding0@gmail.com
+ * @LastEditTime: 2025-03-18 14:30:03
+ * @FilePath: /SiriusxLLM/siriusx/src/op/kernels/cpu/rmsnorm_kernel.cpp
+ * @Description: 
+ */
 #include "rmsnorm_kernel.h"
 
 #include <armadillo>
