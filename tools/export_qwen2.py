@@ -224,6 +224,71 @@ def hf_export(llama_model, filepath, group_size=64, dtype=torch.float32):
     torch.save(hf_state_dict, os.path.join(filepath, "pytorch_model.bin"))
     config.save_pretrained(filepath)
 
+# 添加加载ModelScope模型的函数
+def load_ms_model(model_path):
+    try:
+        from modelscope import AutoModelForCausalLM
+    except ImportError:
+        print("Error: modelscope package is required to load ModelScope models")
+        print("Please run `pip install modelscope` to install it")
+        return None
+
+    # 加载ModelScope模型
+    ms_model = AutoModelForCausalLM.from_pretrained(model_path)
+    ms_dict = ms_model.state_dict()
+
+    # 转换配置为ModelArgs
+    config = ModelArgs()
+    # 尝试从配置文件读取参数
+    config_path = os.path.join(model_path, 'configuration.json')
+    if os.path.exists(config_path):
+        with open(config_path, 'r') as f:
+            config_json = json.load(f)
+        config.dim = config_json.get("hidden_size", 4096)
+        config.n_layers = config_json.get("num_hidden_layers", 32)
+        config.n_heads = config_json.get("num_attention_heads", 32)
+        config.n_kv_heads = config_json.get("num_key_value_heads", config.n_heads)
+        config.vocab_size = config_json.get("vocab_size", 32000)
+        config.hidden_dim = config_json.get("intermediate_size", 11008)
+        config.norm_eps = config_json.get("rms_norm_eps", 1e-6)
+        config.max_seq_len = config_json.get("max_position_embeddings", 2048)
+    else:
+        # 从模型实例中直接获取参数
+        config.dim = ms_model.config.hidden_size
+        config.n_layers = ms_model.config.num_hidden_layers
+        config.n_heads = ms_model.config.num_attention_heads
+        config.n_kv_heads = getattr(ms_model.config, "num_key_value_heads", config.n_heads)
+        config.vocab_size = ms_model.config.vocab_size
+        config.hidden_dim = ms_model.config.intermediate_size
+        config.norm_eps = ms_model.config.rms_norm_eps
+        config.max_seq_len = ms_model.config.max_position_embeddings
+
+    # 创建新的Transformer对象并设置权重
+    model = Transformer(config)
+
+    # 权重名称映射（假设与HuggingFace相同）
+    model.tok_embeddings.weight = nn.Parameter(ms_dict['model.embed_tokens.weight'])
+    model.norm.weight = nn.Parameter(ms_dict['model.norm.weight'])
+
+    # 设置每一层的权重
+    for layer in model.layers:
+        i = layer.layer_id
+        layer.attention_norm.weight = nn.Parameter(ms_dict[f'model.layers.{i}.input_layernorm.weight'])
+        layer.attention.wq.weight = nn.Parameter(ms_dict[f'model.layers.{i}.self_attn.q_proj.weight'])
+        layer.attention.wk.weight = nn.Parameter(ms_dict[f'model.layers.{i}.self_attn.k_proj.weight'])
+        layer.attention.wv.weight = nn.Parameter(ms_dict[f'model.layers.{i}.self_attn.v_proj.weight'])
+        layer.attention.wo.weight = nn.Parameter(ms_dict[f'model.layers.{i}.self_attn.o_proj.weight'])
+        layer.ffn_norm.weight = nn.Parameter(ms_dict[f'model.layers.{i}.post_attention_layernorm.weight'])
+        layer.feed_forward.w1.weight = nn.Parameter(ms_dict[f'model.layers.{i}.mlp.gate_proj.weight'])
+        layer.feed_forward.w2.weight = nn.Parameter(ms_dict[f'model.layers.{i}.mlp.down_proj.weight'])
+        layer.feed_forward.w3.weight = nn.Parameter(ms_dict[f'model.layers.{i}.mlp.up_proj.weight'])
+
+    # 最终分类器
+    model.output.weight = nn.Parameter(ms_dict['lm_head.weight'])
+    model.eval()
+    return model
+
+
 # 重写导出函数，使用Qwen2特定的处理
 def legacy_export(model, filepath):
     base_legacy_export(model, filepath)
@@ -303,6 +368,7 @@ if __name__ == "__main__":
     group.add_argument("--checkpoint", type=str, help="model checkpoint, .pt file")
     group.add_argument("--meta-llama", type=str, help="meta llama model path")
     group.add_argument("--hf", type=str, help="huggingface model path")
+    group.add_argument("--ms", type=str, help="modelscope model path")  # 新增参数
     args = parser.parse_args()
     dtype = {"fp16": torch.float16, "fp32": torch.float32}[args.dtype]
 
@@ -312,6 +378,8 @@ if __name__ == "__main__":
         model = load_meta_model(args.meta_llama)
     elif args.hf:
         model = load_hf_model(args.hf)
+    elif args.ms:  # 新增加载逻辑
+        model = load_ms_model(args.ms)
 
     if model is None:
         parser.error("Can't load input model!")

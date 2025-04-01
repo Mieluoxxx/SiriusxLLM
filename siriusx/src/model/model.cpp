@@ -2,7 +2,7 @@
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-02-24 15:24:33
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-02-28 21:58:10
+ * @LastEditTime: 2025-04-01 13:12:31
  * @FilePath: /SiriusxLLM/siriusx/src/model/model.cpp
  * @Description: 审查完成 0228
  */
@@ -285,7 +285,7 @@ base::Status Model::gen_model_from_file() {
  }
  
  // 根据给定的token索引解码模型
- std::string Model::decode(std::vector<int32_t> token_idxs) const {
+std::string Model::decode(std::vector<int32_t> token_idxs) const {
      // 检查编码层是否为空
      CHECK(this->encode_layer_ != nullptr);
      // 调用编码层的解码函数

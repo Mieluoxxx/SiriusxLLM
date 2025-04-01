@@ -2,7 +2,7 @@
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-02-07 20:21:35
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-03-31 16:33:08
+ * @LastEditTime: 2025-04-01 14:17:56
  * @FilePath: /kuiperllama/demo/main_qwen.cpp
  * @Description: 
  */
@@ -70,12 +70,12 @@
    if (!init_status) {
      LOG(FATAL) << "The model init failed, the error code is: " << init_status.get_err_code();
    }
-   const std::string& sentence = "你好";
+   const std::string& sentence = "system: 你是一个有用的AI助手。回答要简洁、专业、有帮助。\nuser: hello\nassistant: 您好！有什么我可以帮您的吗？\nuser: 帮我写一段关于'智慧'的故事吧。\nassistant: ";
  
    auto start = std::chrono::steady_clock::now();
    printf("Generating...\n");
    fflush(stdout);
-   int steps = generate(model, sentence, 128, true);
+   int steps = generate(model, sentence, 1024, true);
    auto end = std::chrono::steady_clock::now();
    auto duration = std::chrono::duration<double>(end - start).count();
    printf("\nsteps:%d\n", steps);

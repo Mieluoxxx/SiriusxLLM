@@ -3,15 +3,15 @@ from modelscope import AutoModelForCausalLM, AutoTokenizer
 # Initialize model and tokenizer
 device = "cuda"  # the device to load the model onto
 model = AutoModelForCausalLM.from_pretrained(
-    "Qwen/Qwen1.5-0.5B-Chat",
+    "Qwen/Qwen2.5-0.5B",
     torch_dtype="auto",
     device_map="auto"
 )
-tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen1.5-0.5B-Chat")
+tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen2.5-0.5B")
 
 # Initialize conversation history
 conversation_history = [
-    {"role": "system", "content": "You are a helpful assistant."}
+    {"role": "system", "content": "你是一个有用的AI助手。回答要简洁、专业、有帮助。"}
 ]
 
 def apply_chat_template(conversation, tokenize=False, add_generation_prompt=False):

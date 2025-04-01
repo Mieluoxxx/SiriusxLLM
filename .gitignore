@@ -14,6 +14,9 @@ bin/
 Qwen/
 meta-llama/
 jncraton/
+TinyLlama/
+okwinds/
 
 # other
 archive/
+taronklm/
