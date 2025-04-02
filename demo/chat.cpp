@@ -1,8 +1,8 @@
 /*
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-03-31 22:56:57
- * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-04-01 21:43:23
+ * @LastEditors: error: error: git config user.name & please set dead value or install git && error: git config user.email & please set dead value or install git & please set dead value or install git
+ * @LastEditTime: 2025-04-02 14:23:43
  * @FilePath: /SiriusxLLM/demo/chat.cpp
  * @Description: 基于Qwen2模型实现的ChatML格式聊天功能
  */
@@ -25,7 +25,7 @@ struct ChatMessage {
 
 // 生成配置结构体
 struct GenerationConfig {
-    int max_length = 256;         // 最大生成长度
+    int max_length = 1024;         // 最大生成长度
     int max_context_length = 20480; // 最大上下文长度
 };
 
@@ -42,7 +42,7 @@ public:
                 base::TokenizerType::EncodeBpe, 
                 tokenizer_path_,
                 model_path_, 
-                true);
+                false);
                 
             auto init_status = model_->init(base::DeviceType::CUDA);
             if (!init_status) {
@@ -218,7 +218,7 @@ int main(int argc, char* argv[]) {
         std::getline(std::cin, user_input);
         
         // 检查是否退出
-        if (user_input == "退出") {
+        if (user_input == "quit") {
             break;
         }
         
