@@ -1,3 +1,11 @@
+'''
+Author: Morgan Woods weiyiding0@gmail.com
+Date: 2025-03-31 13:53:19
+LastEditors: Morgan Woods weiyiding0@gmail.com
+LastEditTime: 2025-04-02 18:32:23
+FilePath: /SiriusxLLM/python/qwen2.py
+Description: 
+'''
 # 此文件主要用来比对 c++/cuda 推理的正确性
 from modelscope import AutoModelForCausalLM, AutoTokenizer
 

@@ -1,3 +1,11 @@
+'''
+Author: Morgan Woods weiyiding0@gmail.com
+Date: 2025-03-31 13:39:34
+LastEditors: Morgan Woods weiyiding0@gmail.com
+LastEditTime: 2025-04-02 18:32:32
+FilePath: /SiriusxLLM/python/chat.py
+Description: 
+'''
 from modelscope import AutoModelForCausalLM, AutoTokenizer
 
 # Initialize model and tokenizer

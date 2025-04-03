@@ -7,10 +7,10 @@
  * @Description: 
 -->
 ## 项目效果
-CPU演示
-![CPU](./img/cpu.png)
-CUDA演示
-![CUDA](./img/cuda.png)
+文本补全
+![文本补全](./img/1.png)
+聊天机器人
+![聊天机器人](./img/2.png)
 
 ## 前置要求
 cmake(v3.20)、vcpkg、g++/clang++(支持C++17)、ninja
@@ -18,9 +18,6 @@ cmake(v3.20)、vcpkg、g++/clang++(支持C++17)、ninja
 ## 启动命令
 
 ```bash
-# 选择CUDA对应的gcc版本
-export CXX=/usr/bin/g++-13
-
 vcpkg new --application
 vcpkg add port xxx
 vcpkg x-update-baseline --add-initial-baseline 

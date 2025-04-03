@@ -9,6 +9,11 @@ lib/
 tmp/
 vcpkg_installed/
 bin/
+web/bin/
+web/*.json
+web/*.bin
+web/*.model
+web/__pycache__/
 
 # 模型
 Qwen/
@@ -19,4 +24,4 @@ okwinds/
 
 # other
 archive/
-taronklm/
+.gradio/

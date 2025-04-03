@@ -1,21 +1,31 @@
 {
   "C_Cpp.default.cppStandard": "c++17",
-  "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+  "C_Cpp.default.configurationProvider": "clangd",
   "cmake.configureArgs": [
     "-DCMAKE_TOOLCHAIN_FILE=/home/moguw/.vcpkg/scripts/buildsystems/vcpkg.cmake",
     "-DVCPKG_INSTALLED_DIR=/home/moguw/workspace/SiriusxLLM/vcpkg_installed",
     "-DUSE_CUDA=ON",
     // "-DLLAMA3_SUPPORT=ON",
-    "-DQWEN2_SUPPORT=ON",
+    // "-DQWEN2_SUPPORT=ON",
   ],
   "cmake.generator": "Ninja",
   // 仅用于raw文件的测试
   "cmake.debugConfig": {
-    "args": [
-      "--checkpoint_path /home/moguw/workspace/SiriusxLLM/tmp/stories42M.bin",
-      "--tokenizer_path /home/moguw/workspace/SiriusxLLM/tmp/tokenizer.model",
-    ],
+    "args": [],
   },
-  "testMate.cpp.test.advancedExecutables": [{"pattern":"./bin/my_test"}],
-  "Codegeex.RepoIndex": true
+  // testMate
+  "testMate.cpp.test.advancedExecutables": [
+    {
+      "pattern": "./bin/my_test"
+    }
+  ],
+  // korofileHeader
+  "fileheader.customMade": {
+    "Author": "git config user.name && git config user.email", // 同时获取用户名与邮箱
+    "Date": "Do not edit", // 文件创建时间(不变)
+    "LastEditors": "git config user.name && git config user.email", // 文件最后编辑者 与Author字段一致
+    "LastEditTime": "Do not edit", // 文件最后编辑时间
+    "FilePath": "Do not edit", // 文件在项目中的相对路径 自动更新
+    "Description": "", // 介绍文件的作用、文件的入参、出参。
+  },
 }
