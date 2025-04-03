@@ -102,7 +102,7 @@ base::Status MatmulLayer::set_bias(int32_t idx, int32_t& dim,
         tensor::Tensor bias(base::DataType::FP32, dim);
         bias.set_device_type(device_type);
         CHECK(bias.assign(buffer));
-        LOG(INFO) << "bias:" << bias.index<float>(0);
+        // LOG(INFO) << "bias:" << bias.index<float>(0);
         bias_.at(idx) = bias;
     } else {
         // is quant layer

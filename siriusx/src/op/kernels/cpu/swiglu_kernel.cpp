@@ -1,32 +1,28 @@
-/*
- * @Author: Morgan Woods weiyiding0@gmail.com
- * @Date: 2025-02-16 21:13:06
- * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-02-16 21:15:26
- * @FilePath: /SiriusxLLM/siriusx/src/op/kernels/cpu/swiglu_kernel.cpp
- * @Description: 
- */
 #include "swiglu_kernel.h"
-#include "tensor/tensor.h"
+
 #include <armadillo>
 
-
 namespace kernel {
-    void swiglu_kernel_cpu(const tensor::Tensor& in1, const tensor::Tensor& in2, const tensor::Tensor& out, void* stream) {
-        UNUSED(stream);
-        CHECK_EQ(in1.is_empty(), false);
-        CHECK_EQ(in2.is_empty(), false);
-        CHECK_EQ(out.is_empty(), false);
+void swiglu_kernel_cpu(const tensor::Tensor& input1,
+                       const tensor::Tensor& input2,
+                       const tensor::Tensor& output, void* stream) {
+    UNUSED(stream);
+    CHECK_EQ(input1.is_empty(), false);
+    CHECK_EQ(input2.is_empty(), false);
+    CHECK_EQ(output.is_empty(), false);
 
-        CHECK(in1.device_type() == base::DeviceType::CPU);
-        CHECK(in2.device_type() == base::DeviceType::CPU);
-        CHECK(out.device_type() == base::DeviceType::CPU);
+    CHECK(input1.device_type() == base::DeviceType::CPU);
+    CHECK(input2.device_type() == base::DeviceType::CPU);
+    CHECK(output.device_type() == base::DeviceType::CPU);
 
-        arma::fvec in1_vec(const_cast<float*>(in1.ptr<float>()), in1.size(), false, true);
-        arma::fvec in2_vec(const_cast<float*>(in2.ptr<float>()), in2.size(), false, true);
-        arma::fvec out_vec(const_cast<float*>(out.ptr<float>()), out.size(), false, true);
+    arma::fvec input1_vec(const_cast<float*>(input1.ptr<float>()),
+                          input1.size(), false, true);
+    arma::fvec input2_vec(const_cast<float*>(input2.ptr<float>()),
+                          input2.size(), false, true);
+    arma::fvec output_vec(const_cast<float*>(output.ptr<float>()),
+                          output.size(), false, true);
 
-        in1_vec %= (1.0f/ (1.0f + arma::exp(-in1_vec)));
-        out_vec = in1_vec % in2_vec;
-    }
-} // namespace kernel
+    input1_vec %= (1.0f / (1.0f + arma::exp(-input1_vec)));
+    output_vec = input1_vec % input2_vec;
+}
+}  // namespace kernel

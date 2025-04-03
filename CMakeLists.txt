@@ -56,6 +56,8 @@ aux_source_directory(siriusx/src/model DIR_MODEL)
 
 # 设置输出目录
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
 # 添加库目标
 if(USE_CUDA)
@@ -94,6 +96,26 @@ target_include_directories(llama PUBLIC
 if(USE_CUDA)
     target_include_directories(llama PUBLIC ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
     add_definitions(-DUSE_CUDA)
+endif()
+
+if (LLAMA3_SUPPORT OR QWEN2_SUPPORT)
+    message(STATUS "LINK LLAMA3 SUPPORT")
+    find_package(absl CONFIG REQUIRED)
+    find_package(re2 CONFIG REQUIRED)
+    find_package(nlohmann_json CONFIG REQUIRED)
+    target_link_libraries(llama PUBLIC absl::base re2::re2 nlohmann_json::nlohmann_json)
+endif ()
+
+option(LLAMA3_SUPPORT OFF)
+if (LLAMA3_SUPPORT)
+  message(STATUS "LLAMA3 SUPPORT")
+  add_definitions(-DLLAMA3_SUPPORT)
+endif()
+
+option(QWEN2_SUPPORT OFF)
+if (QWEN2_SUPPORT)
+  message(STATUS "QWEN2 SUPPORT")
+  add_definitions(-DQWEN2_SUPPORT)
 endif()
 
 # 添加子目录（例如测试目录）

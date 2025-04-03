@@ -2,24 +2,24 @@
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-02-24 15:24:33
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-02-28 21:58:10
+ * @LastEditTime: 2025-04-01 13:12:31
  * @FilePath: /SiriusxLLM/siriusx/src/model/model.cpp
  * @Description: 审查完成 0228
  */
- #include "model/model.h"
+#include "model/model.h"
 
- #include <fcntl.h>
- #include <sys/mman.h>
- #include <sys/stat.h>
- #include <unistd.h>
- 
- #include <memory>
- 
- #include "base/base.h"
- #include "base/buffer.h"
- #include "op/encode.h"
- 
- // clang-format off
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
+#include <memory>
+
+#include "base/base.h"
+#include "base/buffer.h"
+#include "op/encode.h"
+
+// clang-format off
  namespace model {
  // 构造函数，用于初始化Model对象
  Model::Model(base::TokenizerType tokenizer_type, base::ModelType model_type,
@@ -203,6 +203,13 @@
      // 如果tokenizer_type_为EncodeSpe，则创建SpeEncodeLayer
      if(tokenizer_type_ == TokenizerType::EncodeSpe) {
          encode_layer_ = std::make_unique<op::SpeEncodeLayer>(this->token_path_, true, false);
+     } else {
+#ifdef LLAMA3_SUPPORT
+        encode_layer_ = std::make_unique<op::BpeEncodeLayer>(this->token_path_, true, false);
+#endif
+#ifdef QWEN2_SUPPORT
+        encode_layer_ = std::make_unique<op::QwenEncodeLayer>(this->token_path_, false, false);
+#endif
      }
  
      // 如果encode_layer_为空，则返回错误
@@ -278,7 +285,7 @@ base::Status Model::gen_model_from_file() {
  }
  
  // 根据给定的token索引解码模型
- std::string Model::decode(std::vector<int32_t> token_idxs) const {
+std::string Model::decode(std::vector<int32_t> token_idxs) const {
      // 检查编码层是否为空
      CHECK(this->encode_layer_ != nullptr);
      // 调用编码层的解码函数

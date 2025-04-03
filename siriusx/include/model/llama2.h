@@ -6,7 +6,6 @@
 #include "op/embedding.h"
 #include "tensor/tensor.h"
 
-// clang-format off
 namespace model {
 struct LLama2Layers {
     std::shared_ptr<op::Layer> add_layer_;

@@ -1,9 +1,27 @@
+# MACOS
 .DS_STORE
+
+# C++
+.cache/
 build/
-vcpkg-configuration.json
 log/
 lib/
-.cache/
 tmp/
 vcpkg_installed/
+bin/
+web/bin/
+web/*.json
+web/*.bin
+web/*.model
+web/__pycache__/
+
+# 模型
+Qwen/
+meta-llama/
+jncraton/
+TinyLlama/
+okwinds/
+
+# other
 archive/
+.gradio/
