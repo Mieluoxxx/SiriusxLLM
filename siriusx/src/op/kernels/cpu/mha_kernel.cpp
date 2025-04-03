@@ -1,5 +1,7 @@
 #include "../cpu/mha_kernel.h"
 
+#include <cmath>
+
 #include "../interface.h"
 namespace kernel {
 /***

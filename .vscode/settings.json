@@ -4,7 +4,7 @@
   "cmake.configureArgs": [
     "-DCMAKE_TOOLCHAIN_FILE=/home/moguw/.vcpkg/scripts/buildsystems/vcpkg.cmake",
     "-DVCPKG_INSTALLED_DIR=/home/moguw/workspace/SiriusxLLM/vcpkg_installed",
-    "-DUSE_CUDA=ON",
+    // "-DUSE_CUDA=ON",
     // "-DLLAMA3_SUPPORT=ON",
     // "-DQWEN2_SUPPORT=ON",
   ],

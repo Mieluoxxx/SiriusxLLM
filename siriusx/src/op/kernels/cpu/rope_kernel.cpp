@@ -1,4 +1,6 @@
 #include "rope_kernel.h"
+
+#include <cmath>
 namespace kernel {
 #if defined(LLAMA3_SUPPORT)
 void sin_cos_cache_calc_cpu(int head_size, int max_seq_len, float* sin_cache,
