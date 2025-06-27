@@ -9,10 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/bin/raw",
-            "args": [
-                "/home/moguw/workspace/SiriusxLLM/tmp/stories42M.bin",
-                "/home/moguw/workspace/SiriusxLLM/tmp/tokenizer.model"
-            ],
+            "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

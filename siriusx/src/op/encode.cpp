@@ -2,8 +2,8 @@
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-02-23 22:15:07
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-02-28 22:00:07
- * @FilePath: /SiriusxLLM/siriusx/src/op/encode.cpp
+ * @LastEditTime: 2025-06-27 16:18:25
+ * @FilePath: /siriusxllm/siriusx/src/op/encode.cpp
  * @Description:
  */
 #include "op/encode.h"
@@ -62,7 +62,7 @@ int32_t SpeEncodeLayer::vocab_size() const {
     return spe_->GetPieceSize();
 }
 
-#if defined(LLAMA3_SUPPORT) || defined(QWEN2_SUPPORT)
+#if defined(QWEN2_SUPPORT)
 static const std::string PAT_STR =
     R"((?i:'s|'t|'re|'ve|'m|'ll|'d)|[^\r\n\p{L}\p{N}]?\p{L}+|\p{N}| ?[^\s\p{L}\p{N}]+[\r\n]*|\s*[\r\n]+|\s+(?:$|[^\S])|\s+)";
 

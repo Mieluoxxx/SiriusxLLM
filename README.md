@@ -2,105 +2,66 @@
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-01-02 16:44:41
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-04-01 21:06:34
- * @FilePath: /SiriusxLLM/README.md
- * @Description: 
+ * @LastEditTime: 2025-06-27 16:22:57
+ * @FilePath: /siriusxllm/README.md
+ * @Description: SiriusxLLM - 高性能大语言模型推理框架
 -->
-## 项目效果
-文本补全
-![文本补全](./img/1.png)
-聊天机器人
-![聊天机器人](./img/2.png)
+# SiriusxLLM
 
-## 前置要求
-cmake(v3.20)、vcpkg、g++/clang++(支持C++17)、ninja
+SiriusxLLM 是一个高性能的大语言模型推理框架，支持多种模型并提供 CPU 和 CUDA 加速。
 
-## 启动命令
+## 功能特点
 
+- 支持 QWEN2.5 等主流大语言模型
+- 提供 CPU 和 CUDA 双重加速支持
+- 高效的内存分配器设计
+- 完整的单元测试覆盖
+
+## 系统要求
+
+- cmake (>= v3.20)
+- g++/clang++ (支持C++17)
+- ninja (可选，推荐)
+- CUDA (可选)
+
+## 快速开始
+
+### 克隆项目
 ```bash
-vcpkg new --application
-vcpkg add port xxx
-vcpkg x-update-baseline --add-initial-baseline 
+# 克隆项目及其所有子模块
+git clone --recursive https://github.com/your-repository/siriusxllm.git
+
+# 如果已经克隆但没有子模块，执行：
+git submodule update --init --recursive
 ```
 
-
-## 好用的插件
-`C++ TestMate`、`koroFileHeader`
+### 构建项目
 ```bash
-# macos
-ctrl+cmd+i 快速生成头部注释
-ctrl+cmd+t 快速生成函数注释
-# windows
-ctrl+alt+i 快速生成头部注释
-ctrl+alt+t 快速生成函数注释
-```
-`Todo Tree`
+# 创建并进入构建目录
+mkdir build && cd build
 
+# 配置项目（使用Ninja构建系统，推荐）
+cmake -GNinja -DUSE_CUDA=ON -DQWEN2_SUPPORT=ON ..
+ninja
+
+# 或使用Make构建系统
+cmake -DUSE_CUDA=ON -DQWEN2_SUPPORT=ON ..
+make -j$(nproc)
+```
+
+## 项目结构
+```
+siriusxllm/
+├── demo/          # 示例代码
+├── siriusx/       # 核心库代码
+├── test/          # 测试代码
+├── tools/         # 工具和脚本
+└── third_party/   # 第三方依赖
+```
 
 ## 注意事项
-CMakeLists.txt中需要添加`set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")`
 
-vcpkg x-update-baseline --add-initial-baseline 
-
-CUDA需要对应的gcc版本（ArchLinux需要注意）
-
-
-## 碎碎念
-`include/base/alloc.h`中蕴含的设计模式思想值得学习
-`vcpkg`的glog默认是**静态库**，
-
-
-## NVIDIA-Docker
-```bash
-curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
-  && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
-    sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
-    sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
-    
-sudo apt-get update
-sudo apt-get install -y nvidia-container-toolkit
-sudo nvidia-ctk runtime configure --runtime=docker
-sudo systemctl restart docker
-
-# cuda版本小于等于自己的驱动版本
-docker pull nvidia/cuda:12.3.2-cudnn9-devel-ubuntu22.04
-docker run --gpus all -t -i --name kuiperllama -v "/home/moguw/workspace/kuiperllama:/kuiperllama" nvidia/cuda:12.3.2-cudnn9-devel-ubuntu22.04 /bin/bash
-sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.list
-
-apt update
-apt install -y build-essential wget cmake git gdb clangd clang-format
-apt install -y libopenblas-dev liblapack-dev libarpack2-dev libsuperlu-dev
-
-
-wget https://sourceforge.net/projects/arma/files/armadillo-14.4.0.tar.xz
-tar -xvf armadillo-14.4.0.tar.xz
-cd armadillo-14.4.0
-mkdir build && cd build
-cmake -DCMAKE_BUILD_TYPE=Release ..
-make -j8
-make install
-
-
-git clone https://github.com/google/googletest.git
-cd googletest
-mkdir build && cd build
-cmake -DCMAKE_BUILD_TYPE=Release ..
-make -j8
-make install
-
-
-git clone https://github.com/google/glog.git
-cd glog
-mkdir build && cd build
-cmake -DCMAKE_BUILD_TYPE=Release -DWITH_GFLAGS=OFF -DWITH_GTEST=OFF ..
-make -j8
-make install
-
-
-git clone https://github.com/google/sentencepiece.git
-cd sentencepiece
-mkdir build && cd build
-cmake -DCMAKE_BUILD_TYPE=Release ..
-make -j8
-make install
-```
+- 确保编译器支持 C++17
+- 使用 CUDA 时，请确保 GCC 版本与 CUDA 兼容
+- 项目使用 git submodules 管理依赖，克隆时需包含 `--recursive` 参数
+- 项目量化部分尚未完成

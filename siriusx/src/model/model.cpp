@@ -204,9 +204,6 @@
      if(tokenizer_type_ == TokenizerType::EncodeSpe) {
          encode_layer_ = std::make_unique<op::SpeEncodeLayer>(this->token_path_, true, false);
      } else {
-#ifdef LLAMA3_SUPPORT
-        encode_layer_ = std::make_unique<op::BpeEncodeLayer>(this->token_path_, true, false);
-#endif
 #ifdef QWEN2_SUPPORT
         encode_layer_ = std::make_unique<op::QwenEncodeLayer>(this->token_path_, false, false);
 #endif

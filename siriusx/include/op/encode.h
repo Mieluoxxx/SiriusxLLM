@@ -2,14 +2,14 @@
  * @Author: Morgan Woods weiyiding0@gmail.com
  * @Date: 2025-02-23 21:29:07
  * @LastEditors: Morgan Woods weiyiding0@gmail.com
- * @LastEditTime: 2025-02-27 19:55:05
- * @FilePath: /SiriusxLLM/siriusx/include/op/encode.h
+ * @LastEditTime: 2025-06-27 15:55:15
+ * @FilePath: /siriusxllm/siriusx/include/op/encode.h
  * @Description:
  */
 #ifndef ENCODE_H
 #define ENCODE_H
 
-#if defined(LLAMA3_SUPPORT) || defined(QWEN2_SUPPORT)
+#if defined(QWEN2_SUPPORT)
 #include <absl/strings/str_join.h>
 #include <absl/strings/str_replace.h>
 #include <absl/strings/str_split.h>
@@ -59,7 +59,7 @@ class SpeEncodeLayer : public EncodeLayerBase {
     std::unique_ptr<sentencepiece::SentencePieceProcessor> spe_;
 };
 
-#if defined(LLAMA3_SUPPORT) || defined(QWEN2_SUPPORT)
+#if defined(QWEN2_SUPPORT)
 class BpeEncodeLayer : public EncodeLayerBase {
    public:
     explicit BpeEncodeLayer(std::string token_model_path, bool has_bos,

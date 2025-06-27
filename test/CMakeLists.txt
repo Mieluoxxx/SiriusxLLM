@@ -1,7 +1,3 @@
-# 查找依赖包
-find_package(GTest CONFIG REQUIRED)
-find_package(glog CONFIG REQUIRED)
-
 # 收集测试源代码文件
 aux_source_directory(../test DIR_TEST)
 aux_source_directory(../test/test_example DIR_TEST_EXAMPLE)
@@ -20,15 +16,15 @@ add_executable(my_test
 
 # 设置目标链接库
 target_link_libraries(my_test PUBLIC
-    GTest::gtest_main
-    GTest::gtest
-    glog::glog
+    gtest_main
+    gtest
+    glog
     llama
 )
 
 # 设置目标包含目录
 target_include_directories(my_test PUBLIC
-    ${glog_INCLUDE_DIR}
-    ${GTest_INCLUDE_DIR}
+    ${PROJECT_SOURCE_DIR}/third_party/glog/src
+    ${PROJECT_SOURCE_DIR}/third_party/googletest/googletest/include
     ${PROJECT_SOURCE_DIR}/siriusx/include
 )
