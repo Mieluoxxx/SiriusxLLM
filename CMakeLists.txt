@@ -9,8 +9,11 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 # 设置构建类型
 set(CMAKE_BUILD_TYPE "Debug")
 
-# 添加 USE_CUDA 选项，默认值为 ON
+# 添加 USE_CUDA 选项，默认值为 OFF
 option(USE_CUDA "Enable CUDA support" OFF)
+
+# 添加 QWEN2_SUPPORT 选项，默认值为 OFF
+option(QWEN2_SUPPORT "Enable Qwen2 support" OFF)
 
 if(USE_CUDA)
     if(MSVC)
@@ -21,15 +24,25 @@ if(USE_CUDA)
     set(CMAKE_CUDA_COMPILER nvcc)
     # 设置 CUDA 标准
     set(CMAKE_CUDA_STANDARD 17)
-    set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} --expt-relaxed-constexpr --expt-extended-lambda -ccbin ${CMAKE_CXX_COMPILER}")
-    if(NOT DEFINED CMAKE_CUDA_ARCHITECTURES AND CMAKE_VERSION VERSION_GREATER_EQUAL 3.24)
-        set(CMAKE_CUDA_ARCHITECTURES native)
-    endif()
+    set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+    set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} --expt-relaxed-constexpr --expt-extended-lambda")
+    
+    # 设置支持的CUDA架构
+    # 这里设置了较新的架构版本，如果需要支持更老的GPU，可以添加相应的架构
+    set(CMAKE_CUDA_ARCHITECTURES 75 80 86)
+    message(STATUS "CUDA architectures: ${CMAKE_CUDA_ARCHITECTURES}")
+    
+    add_definitions(-DUSE_CUDA)
 endif()
 
 # 设置 C++ 标准
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# 添加编译器标志
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -fopenmp")
+endif()
 
 # 设置项目名称和语言
 project(SiriusxLLM LANGUAGES CXX)
@@ -39,10 +52,15 @@ if(USE_CUDA)
     list(APPEND CMAKE_PROJECT_LANGUAGES CUDA)
 endif()
 
-# 查找依赖包
-find_package(GTest CONFIG REQUIRED)
-find_package(glog CONFIG REQUIRED)
-find_package(Armadillo CONFIG REQUIRED)
+# 添加第三方依赖
+add_subdirectory(third_party/gflags)
+add_subdirectory(third_party/googletest)
+add_subdirectory(third_party/glog)
+add_subdirectory(third_party/re2)
+add_subdirectory(third_party/abseil-cpp)
+add_subdirectory(third_party/json)
+add_subdirectory(third_party/sentencepiece)
+add_subdirectory(third_party/armadillo)
 
 # 收集源代码文件
 aux_source_directory(siriusx/src/base/ DIR_BASE)
@@ -61,17 +79,16 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
 # 添加库目标
 if(USE_CUDA)
-add_library(llama STATIC ${DIR_BASE} ${DIR_TENSOR} ${DIR_OP} ${DIR_KERNELS} ${DIR_SMAPLER} ${DIR_MODEL} ${DIR_KERNELS_CPU} ${DIR_KERNELS_CUDA})
+    add_library(llama STATIC ${DIR_BASE} ${DIR_TENSOR} ${DIR_OP} ${DIR_KERNELS} ${DIR_SMAPLER} ${DIR_MODEL} ${DIR_KERNELS_CPU} ${DIR_KERNELS_CUDA})
 else()
-add_library(llama STATIC ${DIR_BASE} ${DIR_TENSOR} ${DIR_OP} ${DIR_KERNELS} ${DIR_SMAPLER} ${DIR_MODEL} ${DIR_KERNELS_CPU})
+    add_library(llama STATIC ${DIR_BASE} ${DIR_TENSOR} ${DIR_OP} ${DIR_KERNELS} ${DIR_SMAPLER} ${DIR_MODEL} ${DIR_KERNELS_CPU})
 endif()
-
 
 # 设置库的链接依赖
 target_link_libraries(llama PUBLIC
-    GTest::gtest_main
-    GTest::gtest
-    glog::glog
+    gtest_main
+    gtest
+    glog
     armadillo
     pthread
     sentencepiece
@@ -87,10 +104,11 @@ endif()
 
 # 设置库的包含目录
 target_include_directories(llama PUBLIC
-    ${glog_INCLUDE_DIR}
+    ${PROJECT_SOURCE_DIR}/third_party/glog/src
     ${PROJECT_SOURCE_DIR}/siriusx/include
-    ${Armadillo_INCLUDE_DIR}
-    ${sentencepiece_INCLUDE_DIRS}/src
+    ${PROJECT_SOURCE_DIR}/third_party/armadillo/include
+    ${PROJECT_SOURCE_DIR}/third_party/sentencepiece/src
+    ${PROJECT_SOURCE_DIR}/siriusx/src
 )
 
 if(USE_CUDA)
@@ -98,24 +116,15 @@ if(USE_CUDA)
     add_definitions(-DUSE_CUDA)
 endif()
 
-if (LLAMA3_SUPPORT OR QWEN2_SUPPORT)
-    message(STATUS "LINK LLAMA3 SUPPORT")
-    find_package(absl CONFIG REQUIRED)
-    find_package(re2 CONFIG REQUIRED)
-    find_package(nlohmann_json CONFIG REQUIRED)
-    target_link_libraries(llama PUBLIC absl::base re2::re2 nlohmann_json::nlohmann_json)
-endif ()
-
-option(LLAMA3_SUPPORT OFF)
-if (LLAMA3_SUPPORT)
-  message(STATUS "LLAMA3 SUPPORT")
-  add_definitions(-DLLAMA3_SUPPORT)
-endif()
-
-option(QWEN2_SUPPORT OFF)
 if (QWEN2_SUPPORT)
-  message(STATUS "QWEN2 SUPPORT")
-  add_definitions(-DQWEN2_SUPPORT)
+    message(STATUS "QWEN2 SUPPORT")
+    target_link_libraries(llama PUBLIC 
+        absl::base 
+        absl::strings
+        re2::re2 
+        nlohmann_json::nlohmann_json
+    )
+    add_definitions(-DQWEN2_SUPPORT)
 endif()
 
 # 添加子目录（例如测试目录）
